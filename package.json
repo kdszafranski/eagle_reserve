@@ -1,0 +1,19 @@
+{
+  "name": "eagle_reserve",
+  "version": "1.0.0",
+  "description": "Eagle Reserve is a responsive, full stack web application that is designed to improve Apple Valley High School’s current system by which teachers make reservations to use computer carts, labs, study spaces, and other equipment. Currently, their process uses Google Forms to request a reservation and one person processes every request into Google Calendar. This strategy has become messy, confusing, and frustrating for both teachers and the admin processing the requests. Our application will display reservations in a user-friendly, clear manner while eliminating the ability for teachers to overwrite reservations. The application will also allow the admins to oversee the reservation process rather than spending large amounts of time managing reservation issues.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.6.1",
+    "angular-route": "^1.6.1",
+    "bootstrap": "^3.3.7",
+    "express": "^4.14.1",
+    "mongoose": "^4.8.1"
+  }
+}
