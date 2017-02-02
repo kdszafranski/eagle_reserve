@@ -7,6 +7,11 @@ var mongoose = require ('mongoose');
 var bodyParser = require ('body-parser');
 var passport = require('./strategies/userStrategy');
 
+//Require custom app modules
+var configs = require('./config/auth');
+var passport = require('../config/passport');
+//TODO: left off at isLoggedIn
+
 //****REQUIRE ROUTERS****//
 
 
