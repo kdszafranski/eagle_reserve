@@ -9,7 +9,7 @@ var passport = require('./strategies/userStrategy');
 
 //Require custom app modules
 var configs = require('./config/auth');
-var passport = require('../config/passport');
+var passport = require('./config/passport');
 //TODO: left off at isLoggedIn
 
 //****REQUIRE ROUTERS****//

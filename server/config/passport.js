@@ -10,7 +10,8 @@ var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 //Require custom app modules
-var configs = require('auth');
+//TODO: fix file path
+var configs = require('../config/auth');
 
 //all db queries moved to a service layer, necessary for proper unit testing
 var UserStrategy = require('../strategies/UserStrategy');
