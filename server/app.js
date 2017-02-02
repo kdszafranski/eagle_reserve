@@ -4,7 +4,7 @@ var app = express ();
 var path = require ('path');
 var session = require ('express-session');
 var mongoose = require ('mongoose');
-var bodyParser = require ('body-parser')
+var bodyParser = require ('body-parser');
 var passport = require('./strategies/userStrategy');
 
 //****REQUIRE ROUTERS****//
@@ -24,8 +24,8 @@ app.listen(PORT, function() {
 }); // end listen
 
 //****BASE URL****//
-// var index = require('../routers/indexRouter');
-// app.use('/', index);
+var indexRoute = require('./routes/indexRoute');
+app.use('/', indexRoute);
 
 //****MONGO DB CONNECTION****//
 var mongoURI = "mongodb://localhost:27017/eagleReserveDatabase";
