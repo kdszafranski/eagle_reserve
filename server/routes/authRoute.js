@@ -4,6 +4,12 @@ var express = require('express');
 var router = express.Router();
 var passport = require('../config/passport');
 
+router.get('/google', passport.authenticate('google', {
+    scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar'],
+    prompt: 'select_account',
+  }) // end authenticate
+); // end get
+
 router.get('/google/callback', passport.authenticate('google', {
     successRedirect: '/private', // take them to their private data
     failureRedirect: '/',
