@@ -14,6 +14,9 @@ var mongoose = require ('mongoose');
 var connection = require('./config/connection.js');
 mongoose.connect(connection);
 
+//Require route
+var newItem = require('./routes/private/itemsRoute');
+
 /**Session and Create Storage
  * Creates session that will be stored in memory
  * TODO: Before deploying to production,
@@ -48,5 +51,6 @@ app.listen(PORT, function() {
 //****BASE URL****//
 var indexRoute = require('./routes/indexRoute');
 app.use('/', indexRoute);
+app.use('/newItem', newItem);
 
 module.exports = app;

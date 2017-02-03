@@ -15,7 +15,10 @@ myApp.controller( 'ItemsController', [ '$scope', '$http', '$window', function( $
     }, function errorCallback( error ){
       console.log( 'error occured' );
     });
-  }; // end addItem 
+    $scope.newItem = '';
+    $scope.categorySelect = '';
+
+  }; // end addItem
 
 
 }]); // end ItemsController
