@@ -17,18 +17,19 @@ var UserService = {
       if (err) {
         return callback(err, null);
       } // end if
-      console.log('google user-->', user, id);
       return callback(null, user);
     }); // end findOne
   }, // end findUderByGoogleId
 
   //Create a User that will be authenticated by Google
   createGoogleUser: function(id, token, name, email, callback) {
+
     var user = new User();
+
     user.googleId = id;
     user.googleToken = token;
-    user.googleName = name;
-    user.googleEmail = email;
+    user.name = name;
+    user.email = email;
     user.admin = false;
     user.teacher = true;
 
@@ -36,7 +37,6 @@ var UserService = {
       if (err) {
         return callback (err, null);
       } // end if
-      console.log('in createGoogleUser-->',user);
       return callback(null, user);
     }); // end save
   } // end createGoogleUser

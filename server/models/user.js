@@ -1,11 +1,14 @@
 var mongoose = require('mongoose');
 
-// schema to add a new User to the database
 var UserSchema = mongoose.Schema({
-  name: String,
-  email: String,
-  teacher: Boolean,
-  admin: Boolean
-});
+  googleId: { type: String, required: true },
+  googleToken: { type: String, required: true },
+  email: { type: String, required: true },
+  name: { type: String },
+  //app administrator will need to manually set users to admin status
+  //as all users created will be set to false (in userStrategy)
+  admin: {type: Boolean, required: true},
+  teacher: {type: Boolean, required: true}
+}); // end adminSchema
 
 module.exports = mongoose.model('User', UserSchema);
