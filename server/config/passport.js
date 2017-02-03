@@ -10,11 +10,10 @@ var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 //Require custom app modules
-//TODO: fix file path
 var configs = require('../config/auth');
 
 //all db queries moved to a service layer, necessary for proper unit testing
-var UserStrategy = require('../strategies/UserStrategy');
+var UserStrategy = require('../strategies/userStrategy');
 
 //Passport Session Serialization
 //Serialize the user onto the session
@@ -39,6 +38,7 @@ passport.use('google', new GoogleStrategy({
   clientSecret: configs.googleAuth.clientSecret,
   callbackURL: configs.googleAuth.callbackUrl,
 }, function (token, refreshToken, profile, done) {
+  console.log('post googleSTl;aksjdf');
   // Google has responded
   // does this user exist in our database already?
   UserStrategy.findUserByGoogleId(profile.id, function (err, user) {
@@ -56,8 +56,8 @@ passport.use('google', new GoogleStrategy({
             return done(err);
           }
           return done(null, user);
-        }); // end createGoogleAdmin
-    }); // end findAdminByGoogleId
+        }); // end createGoogleUser
+    }); // end findUserByGoogleId
 })); // end use
 
 module.exports = passport;
