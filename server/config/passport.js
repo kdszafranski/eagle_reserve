@@ -38,7 +38,6 @@ passport.use('google', new GoogleStrategy({
   clientSecret: configs.googleAuth.clientSecret,
   callbackURL: configs.googleAuth.callbackUrl,
 }, function (token, refreshToken, profile, done) {
-  console.log('post googleSTl;aksjdf');
   // Google has responded
   // does this user exist in our database already?
   UserStrategy.findUserByGoogleId(profile.id, function (err, user) {
