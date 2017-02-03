@@ -14,16 +14,31 @@ var mongoose = require ('mongoose');
 var connection = require('./config/connection.js');
 mongoose.connect(connection);
 
-//****REQUIRE ROUTERS****//
-
+/**Session and Create Storage
+ * Creates session that will be stored in memory
+ * TODO: Before deploying to production,
+ * configure session store to save to DB instead of memory (default);
+*/
+app.use(session({
+  secret: configs.sessionVars.secret,
+  key: 'user',
+  resave: 'true',
+  saveUninitialized: false,
+  cookie: { maxage: 60000, secure: false },
+})); // end session Create
 
 //****MIDDLEWARE****//
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended:true}));
+//Passport
+app.use(passport.initialize()); // kickstart passport
+app.use(passport.session()); //Alter request objec to include user object
 
 //****ROUTERS****//
-
+var auth = require('./routes/authRoute');
+app.use('/auth', auth);
+app.use('/private', isLoggedIn, private);
 
 //****SPIN UP SERVER****//
 app.listen(PORT, function() {
