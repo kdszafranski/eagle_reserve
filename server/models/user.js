@@ -1,3 +1,7 @@
+/**
+ * Deines User Schema
+ * @module models/user
+ */
 var mongoose = require('mongoose');
 
 var UserSchema = mongoose.Schema({

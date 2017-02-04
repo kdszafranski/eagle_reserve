@@ -1,10 +1,12 @@
 <!-- Consider this the  main view -->
 
 <h1>Login</h1>
+  <!-- Shown for users that are NOT logged in -->
+  <div ng-hide="loggedIn">
+    <a href="/auth/google"><img src="/images/btn_google_signin.png" alt="sign in with google button"></a>
+  </div>
 
-<!-- Shown for users that are NOT logged in -->
-<div ng-hide="loggedIn">
-  <a href="/auth/google"><img src="/images/btn_google_signin.png" alt="sign in with google button"></a>
-</div>
-
-<!-- Shown for users that are logged in -->
+  <!-- Shown for users that are logged in -->
+  <div ng-show="loggedIn">
+    <p>You are logged in!</p>
+  </div>
