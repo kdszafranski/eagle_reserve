@@ -9,6 +9,6 @@ var UserSchema = mongoose.Schema({
   //as all users created will be set to false (in userStrategy)
   admin: {type: Boolean, required: true},
   teacher: {type: Boolean, required: true}
-}); // end adminSchema
+}); // end userSchema
 
 module.exports = mongoose.model('User', UserSchema);

@@ -1,11 +1,15 @@
-//Handles all authentication requests including login and logout
-
+/**
+ * Handles all authentication requests including login and logout
+ * @module routes/authRoute
+ */
 var express = require('express');
 var router = express.Router();
 var passport = require('../config/passport');
 
 router.get('/google', passport.authenticate('google', {
-    scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar'],
+    //Read more about the scope value here:
+    //https://developers.google.com/identity/protocols/OpenIDConnect#scope-param
+    scope: ['openid', 'email'],
     prompt: 'select_account',
   }) // end authenticate
 ); // end get

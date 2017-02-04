@@ -1,3 +1,7 @@
+/**
+* A strategy layer that makes all of our Admin database queries.
+* @module strategies/userStrategy
+*/
 var User = require('../models/user');
 
 var UserService = {

@@ -1,4 +1,7 @@
-//Middleware that checks if a user is authenticated
+/**
+* Middleware that checks if a user is authenticated
+* @module utilities/isLoggedIn
+*/
 module.exports = function(req,res,next) {
   //if user is authenticated in the session, complete the request
   //TODO: add admin status here
