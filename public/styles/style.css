@@ -17,6 +17,11 @@ html, body {
 .navbar-collapse[aria-expanded="true"] {
   border-top: 1px solid #eee;
 }
+  /* Dropdown menu */
+  .dropdown-menu>li>a, .dropdown-menu>li>a:hover {
+    color: #337ab7;
+    text-align: right;
+  }
 
 /* -- Media Queries -- */
 
@@ -25,6 +30,10 @@ html, body {
   /* -- Navbar -- */
   .navbar .navbar-nav {
       float: right !important;
+  }
+  /* Dropdown menu */
+  .dropdown-menu>li>a, .dropdown-menu>li>a:hover {
+    text-align: left;
   }
 }
 

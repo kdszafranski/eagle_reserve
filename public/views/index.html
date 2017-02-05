@@ -37,12 +37,17 @@
         </div>
         <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
           <ul class="nav navbar-nav">
-             <li><a ng-click="collapseNav()" href="#!/home">Home Daily View</a></li>
-             <li><a ng-click="collapseNav()" href="#!/reserve">Make a Reservation</a></li>
-             <li><a ng-click="collapseNav()" href="#!/manage">Manage My Reservations</a></li>
-             <li><a ng-click="collapseNav()" href="#!/items">Manage Items</a></li>
-             <li><a ng-click="collapseNav()" href="#!/users">Manage Users</a></li>
-             <li ng-show="displayLogout" ng-click="logout()"><a href="#">Log out</a></li>
+            <li><a ng-click="collapseNav()" href="#!/home">Home</a></li>
+            <li><a ng-click="collapseNav()" href="#!/reserve">Reserve</a></li>
+            <li uib-dropdown>
+              <a href="#" uib-dropdown-toggle>Manage <b class="caret"></b></a>
+                <ul uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                  <li role="menuitem"><a ng-click="collapseNav()" href="#!/manage">Reservations</a></li>
+                  <li role="menuitem"><a ng-click="collapseNav()" href="#!/items">Items</a></li>
+                  <li role="menuitem"><a ng-click="collapseNav()" href="#!/users">Users</a></li>
+                </ul>
+              </li>
+            <li ng-show="displayLogout" ng-click="logout()"><a href="#">Log out</a></li>
            </ul>
          </div>
       </div>
