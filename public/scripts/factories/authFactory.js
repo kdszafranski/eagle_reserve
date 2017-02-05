@@ -22,7 +22,6 @@ myApp.factory('AuthFactory', function ($http) {
     },
 
     logout: function () {
-      Status.loggedIn = false;
       return $http.get('/auth/logout');
     },
   };

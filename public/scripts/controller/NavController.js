@@ -40,9 +40,11 @@ myApp.controller('NavController', ['AuthFactory', '$window', '$scope', function(
     $scope.logout = function() {
       authFactory.logout()
         .then(function(response) { // success
+          console.log('user has been logged out.');
           authFactory.setLoggedIn(false);
           $scope.username = '';
-          $window.location.href = '/'; // forces a page reload which updates NavController
+          //Hide logout button
+          $scope.displayLogout = false;
         }, // end then
       function(response) { // error
         //TODO: add better error handling here
