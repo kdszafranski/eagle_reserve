@@ -1,3 +1,38 @@
+/* -- Globals -- */
 html, body {
-  margin-top: 50px;
+  margin-top: 35px;
 }
+
+/* -- Navbar -- */
+.navbar  {
+  background-color: #fff;
+  box-shadow: 0 3px 6px -6px #222;
+}
+.navbar-toggle .icon-bar {
+  background-color: #337ab7;
+}
+.nav > li {
+  text-align: right;
+}
+.navbar-collapse[aria-expanded="true"] {
+  border-top: 1px solid #eee;
+}
+
+/* -- Media Queries -- */
+
+/* Small devices (tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  /* -- Navbar -- */
+  .navbar .navbar-nav {
+      float: right !important;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media only screen and (min-width: 992px) {}
+
+/* Large devices (large desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {}
+
+/* Xtra Large devices (Xlarge desktops, 1500px and up) */
+@media only screen and (min-width: 1500px) {}
