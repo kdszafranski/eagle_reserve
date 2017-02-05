@@ -1,6 +1,6 @@
 myApp.factory('AuthFactory', function ($http) {
   console.log('in auth factory');
-  
+
   var Status = {
     loggedIn: false,
   };
@@ -22,6 +22,7 @@ myApp.factory('AuthFactory', function ($http) {
     },
 
     logout: function () {
+      Status.loggedIn = false;
       return $http.get('/auth/logout');
     },
   };
