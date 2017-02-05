@@ -3,6 +3,7 @@ myApp.factory('AuthFactory', function ($http) {
 
   var Status = {
     loggedIn: false,
+    admin: false
   };
 
   // the public API
@@ -11,6 +12,14 @@ myApp.factory('AuthFactory', function ($http) {
 
     checkLoggedIn: function () {
       return Status.loggedIn;
+    },
+
+    checkAdmin: function() {
+      return Status.admin;
+    },
+
+    setAdmin: function(value) {
+      Status.admin = value;
     },
 
     isLoggedIn: function () {

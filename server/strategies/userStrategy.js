@@ -35,7 +35,6 @@ var UserService = {
     user.name = name;
     user.email = email;
     user.admin = false;
-    user.teacher = true;
 
     user.save(function(err) {
       if (err) {

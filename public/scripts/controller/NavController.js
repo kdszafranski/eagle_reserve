@@ -26,6 +26,10 @@ myApp.controller('NavController', ['AuthFactory', '$window', '$scope', function(
         $scope.displayLogout = true;
         authFactory.setLoggedIn(true);
         $scope.username = response.data.name;
+        //Scope the admin status
+        $scope.isAdmin = response.data.admin;
+        //Set admin status in authFactory
+        authFactory.setAdmin($scope.isAdmin);
       } else { // is not logged in on server
         $scope.displayLogout = false;
         authFactory.setLoggedIn(false);
