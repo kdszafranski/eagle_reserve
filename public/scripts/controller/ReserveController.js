@@ -46,8 +46,8 @@ function( $scope, $http, $location, AuthFactory ){
 
     $http ({
       method: 'POST',
-      url: '/private/reservations'
-      data: $scope.newReservation
+      url: '/private/reservations',
+      data: $scope.newReservation,
     }).then(function(response) {
             console.log('response ->', response);
     });
