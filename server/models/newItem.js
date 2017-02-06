@@ -6,4 +6,5 @@ var ItemSchema = mongoose.Schema({
   category: String
 });
 
-module.exports = mongoose.model('newItem', ItemSchema);
+var Item = mongoose.model('items', ItemSchema);
+module.exports = Item;

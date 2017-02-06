@@ -21,22 +21,30 @@ function( $scope, $http, $location, AuthFactory ){
     $location.path("/home");
   } // end if
 
+  //Initialize scope variables
+  //as child scopes (because they are within ng-if)
+  $scope.newItem = {
+    name: '',
+    category: ''
+  }; // end $scope.newItem
+
   $scope.addItem = function(){
-    var newItem = {
-      newItem: $scope.newItem,
-      category: $scope.categorySelect
-    };
+    var itemToSend = {
+      newItem: $scope.newItem.name,
+      category: $scope.newItem.category
+    }; // end itemToSend
     $http({
       method: 'POST',
-      url: '/newItem',
-      data: newItem
+      url: '/private/items',
+      data: itemToSend
     }).then(function successCallback( response ){
       console.log( 'response in newItem', response );
+      //reset scope variables
+      $scope.newItem.name = '';
+      $scope.newItem.category = '';
     }, function errorCallback( error ){
       console.log( 'error occured' );
     });
-    $scope.newItem = '';
-    $scope.categorySelect = '';
 
   }; // end addItem
 
