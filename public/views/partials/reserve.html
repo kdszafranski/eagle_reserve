@@ -3,7 +3,7 @@
   <h1 class="text-center">Make a Reservation</h1>
 
   <div class="category">
-      <select ng-model="reservation.categorySelect">
+      <select ng-model="newReservation.categoryIn">
         <option value="">Select by Category</option>
         <option value="carts">Carts</option>
         <option value="labs">Labs</option>
@@ -12,7 +12,7 @@
     </div>
 
     <div class="reservableItem">
-      <select ng-model="itemSelect">
+      <select ng-model="newReservation.itemIn">
         <option value="">Select a Reservable Item</option>
         <option value="cart1">Cart 1</option>
         <option value="cart2">Cart 2</option>
@@ -26,21 +26,19 @@
 
     <div class="date">
       <form>
-        <input type="date" ng-model = 'dateIn'>
+        <input type="date" ng-model = 'newReservation.dateIn'>
       </form>
     </div>
     <div class="period">
-      <select ng-model = 'periodIn'>
-        <input type="checkbox" value="bs">Before School<br>
-        <input type="checkbox" value="one">1<br>
-        <input type="checkbox" value="two">2<br>
-        <input type="checkbox" value="three">3<br>
-        <input type="checkbox" value="four">4<br>
-        <input type="checkbox" value="five">5<br>
-        <input type="checkbox" value="six">6<br>
-        <input type="checkbox" value="seven">7<br>
-        <input type="checkbox" value="as">After School<br>
-      </select>
+      <label ng-repeat="periodName in periodArray">
+        <input
+      type="checkbox"
+      name="selectedPeriods[]"
+      value="{{periodName}}"
+      ng-checked= "selection.indexOf(periodName) > -1"
+      ng-click="toggleSelection(periodName)"
+      > {{periodName}}
+    </label>
 
     </div>
     <button type="button" ng-click = 'makeReservation()'>Make Reservation</button>
