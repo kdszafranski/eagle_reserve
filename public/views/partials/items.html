@@ -14,5 +14,8 @@
     </select>
     <button type="button" ng-click="addItem();">Add</button>
   </div>
-
+  <div class="postItem" ng-repeat="item in allItems">
+    {{ item.newItem }}
+    {{ item.category }}
+  </div>
 </div>
