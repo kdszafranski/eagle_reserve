@@ -44,6 +44,13 @@ function( $scope, $http, $location, AuthFactory ){
   $scope.makeReservation = function (){
     console.log('In Make Reservation');
 
+    $http ({
+      method: 'POST',
+      url: '/private/reservations'
+      data: $scope.newReservation
+    }).then(function(response) {
+            console.log('response ->', response);
+    });
 
 
 
