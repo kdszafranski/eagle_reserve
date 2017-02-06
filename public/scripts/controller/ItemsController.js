@@ -15,6 +15,11 @@ function( $scope, $http, $location, AuthFactory ){
     //Reroute them to the login page
     $location.path("/#!/login");
   } // end if
+  //If user is not an admin, reroute them to the home page
+  if (!$scope.isAdmin) {
+    //Reroute them to the home page
+    $location.path("/home");
+  } // end if
 
   $scope.addItem = function(){
     var newItem = {

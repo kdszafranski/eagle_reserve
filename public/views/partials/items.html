@@ -1,5 +1,6 @@
 <!-- Manage Items View -->
-<div ng-if="loggedIn">
+<!-- Shown only for Admin users -->
+<div ng-if="loggedIn && isAdmin">
 
   <h1 class="text-center">Manage Items</h1>
   <div class="newItem">
