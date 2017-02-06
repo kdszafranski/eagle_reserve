@@ -3,7 +3,7 @@ var router = express.Router();
 var Item = require('../../models/newItem');
 
 router.post('/', function(req, res, next){
-  console.log( 'in newItem POST' );
+  console.log( 'in newItem POST', req.body );
   var newItem = {
     newItem: req.body.newItem,
     category: req.body.category
