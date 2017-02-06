@@ -16,4 +16,9 @@ function( $scope, $http, $location, AuthFactory ){
     $location.path("/#!/login");
   } // end if
 
+  $http({
+    method: 'POST',
+    url: ''
+  })
+
 }]); // end ReserveController
