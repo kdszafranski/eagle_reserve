@@ -17,4 +17,16 @@ router.post('/', function(req, res, next){
   });// end Item.create
 });// end post call
 
+router.get( '/', function( req, res ){
+  console.log( 'in router.get' );
+  Item.find({}, function( err, results){
+    if( err ){
+      console.log( err );
+      res.sendStatus(500);
+    } else {
+      res.send({ results });
+    } // end else
+  }); // end find
+}); // end get
+
 module.exports = router;

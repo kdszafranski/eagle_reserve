@@ -16,4 +16,47 @@ function( $scope, $http, $location, AuthFactory ){
     $location.path("/#!/login");
   } // end if
 
+  $scope.periodArray = ['BS', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'AS'];
+  $scope.selection = [];
+
+
+  $scope.newReservation = {
+      categoryIn: '',
+      itemIn: '',
+      dateIn: '',
+      periodIn: $scope.selection
+    }
+
+    $scope.toggleSelection = function toggleSelection(periodName) {
+    var idx = $scope.selection.indexOf(periodName);
+
+    // Is currently selected
+    if (idx > -1) {
+      $scope.selection.splice(idx, 1);
+    }
+
+    // Is newly selected
+    else {
+      $scope.selection.push(periodName);
+    }
+  };
+
+  $scope.makeReservation = function (){
+    console.log('In Make Reservation');
+
+    $http ({
+      method: 'POST',
+      url: '/private/reservations',
+      data: $scope.newReservation,
+    }).then(function(response) {
+            console.log('response ->', response);
+    });
+
+
+
+
+  };//end make Reservation
+
+
+
 }]); // end ReserveController
