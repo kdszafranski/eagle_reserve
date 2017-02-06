@@ -2,20 +2,66 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>index</title>
+    <title>Eagle Reserve</title>
+    <!-- Angular and Vendor Libraries -->
     <script src="../vendors/angular.min.js" charset="utf-8"></script>
     <script src="../vendors/angular-route.min.js" charset="utf-8"></script>
+    <script src="../vendors/angular-animate.min.js" charset="utf-8"></script>
+    <script src="../vendors/ui-bootstrap.js" charset="utf-8"></script>
+    <script src="../vendors/ui-bootstrap-tpls.js" charset="utf-8"></script>
+    <!-- Custom Scripts -->
     <script src="../scripts/client.js" charset="utf-8"></script>
+    <script src="../scripts/factories/authFactory.js" charset="utf-8"></script>
     <script src="../scripts/controller/AuthController.js" charset="utf-8"></script>
+    <script src="../scripts/controller/NavController.js" charset="utf-8"></script>
     <script src="../scripts/controller/HomeController.js" charset="utf-8"></script>
     <script src="../scripts/controller/ItemsController.js" charset="utf-8"></script>
     <script src="../scripts/controller/ManageController.js" charset="utf-8"></script>
     <script src="../scripts/controller/ReserveController.js" charset="utf-8"></script>
     <script src="../scripts/controller/UsersController.js" charset="utf-8"></script>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../vendors/bootstrap.min.css">
     <link rel="stylesheet" href="../styles/style.css">
   </head>
   <body ng-app="myApp">
-    <h1>home</h1>
-    <main ng-view></main>
+    <!-- Navbar -->
+    <nav ng-controller="NavController" class="navbar navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button ng-click="isNavCollapsed = !isNavCollapsed" type="button" class="navbar-toggle collapsed" data-toggle="collapse" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar top-bar"></span>
+              <span class="icon-bar middle-bar"></span>
+              <span class="icon-bar bottom-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
+          <ul class="nav navbar-nav">
+            <li><a ng-click="collapseNav()" href="#!/home">Home</a></li>
+            <li><a ng-click="collapseNav()" href="#!/reserve">Reserve</a></li>
+            <li uib-dropdown>
+              <a href="#" uib-dropdown-toggle>Manage <b class="caret"></b></a>
+              <ul uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                <li role="menuitem"><a ng-click="collapseNav()" href="#!/manage">Reservations</a></li>
+                <li role="menuitem"><a ng-click="collapseNav()" href="#!/items">Items</a></li>
+                <li role="menuitem"><a ng-click="collapseNav()" href="#!/users">Users</a></li>
+              </ul>
+            </li>
+            <li ng-show="displayLogout" ng-click="logout()"><a href="#">Log out</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav> <!-- End Navbar -->
+
+    <!-- Show a helpful message when there is an error in NavController -->
+    <section id="message" class="nav.message.type" ng-show="nav.message.text">
+      {{nav.message.text}}
+    </section>
+
+    <!-- Partial Views -->
+    <div class="container">
+      <main ng-view></main>
+    </div>
+
   </body>
 </html>

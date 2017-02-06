@@ -1,0 +1,21 @@
+<!-- Make a Reservation View -->
+<div ng-if="loggedIn">
+  <h1 class="text-center">Make a Reservation</h1>
+  <div class="category" ng-controller="ReserveController">
+      <select id="categorySelect" ng-model="categorySelect">
+        <option value="">Select by Category</option>
+        <option value="carts">Carts</option>
+        <option value="labs">Labs</option>
+        <option value="equipment">Equipment</option>
+      </select>
+    </div>
+
+    <div class="reservableItem" ng-controller="ReserveController">
+      <select id="itemSelect" ng-model="itemSelect">
+        <option value="">Select a Reservable Item</option>
+        <option value="cart1">Cart 1</option>
+        <option value="cart2">Cart 2</option>
+        <option value="cart3">Cart 3</option>
+      </select>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<!-- Login View -->
+
+<h1 class="text-center">Login</h1>
+
+  <!-- Shown for users that are NOT logged in -->
+  <div ng-hide="loggedIn" class="text-center">
+    <a href="/auth/google"><img src="/images/btn_google_signin.png" alt="sign in with google button"></a>
+  </div>
+
+  <!-- Shown for users that are logged in -->
+  <div ng-if="loggedIn">
+    <p class="text-center">You are logged in!</p>
+  </div>
