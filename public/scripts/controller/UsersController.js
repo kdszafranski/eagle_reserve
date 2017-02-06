@@ -10,14 +10,51 @@ function( $scope, $http, $location, AuthFactory ){
   //check permissions
   $scope.isAdmin = authFactory.checkAdmin();
   console.log('UC. Admin:', $scope.isAdmin);
-  //If user is not logged in
-  if(!$scope.loggedIn) {
-    //Reroute them to the login page
-    $location.path("/#!/login");
-  } // end if
-  if (!$scope.isAdmin) {
-    //Reroute them to the home page
-    $location.path("/home");
-  } // end if
+
+  var getUsers = function() {
+    console.log('in getUsers');
+    //GET all users
+    $http({
+      method: 'GET',
+      url: '/private/users'
+    }).then(function(response) {
+      $scope.allUsers = response.data.users;
+    }).catch(function(err) {
+      //TODO: add better error handling here
+      console.log(err);
+    }); // end $http
+  }; // end getUsers
+
+  var init = function() {
+    //If user is not logged in
+    if(!$scope.loggedIn) {
+      //Reroute them to the login page
+      $location.path("/#!/login");
+    } // end if
+    if (!$scope.isAdmin) {
+      //Reroute them to the home page
+      $location.path("/home");
+    } else {
+      //If they are an admin, get User data
+      getUsers();
+    } // end else
+  }; // end init
+
+  $scope.updateUserStatus = function(user) {
+    console.log('in updateUserStatus', user);
+    //Update the permissions status of the user
+    $http({
+      method: 'PUT',
+      url: '/private/users',
+      data: user
+    }).then(function(response) {
+      console.log(response);
+    }).catch(function(err) {
+      //TODO: add better error handling here
+      console.log(err);
+    }); // end $http
+  }; // end updateUserStatus
+
+  init();
 
 }]); // end UsersController

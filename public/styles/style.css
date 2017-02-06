@@ -23,6 +23,12 @@ html, body {
     text-align: right;
   }
 
+/* -- Forms -- */
+.short-inline-select {
+  max-width: 50%;
+  display: inline;
+}
+
 /* -- Media Queries -- */
 
 /* Small devices (tablets, 768px and up) */

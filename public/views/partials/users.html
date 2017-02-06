@@ -2,4 +2,48 @@
 <!-- Shown only for Admin users -->
 <div ng-if="loggedIn && isAdmin">
   <h1 class="text-center">Manage Users</h1>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email </th>
+          <th>Status</th>
+          <th>Edit Permissions</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in allUsers">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <!-- Status Fields -->
+          <td ng-show="user.admin">Admin</td>
+          <td ng-show="!user.admin">Teacher</td>
+          <!-- Edit Permissions Fields -->
+          <td>
+            <select class="form-control short-inline-select">
+              <!-- Options if user is an Admin -->
+              <option ng-if="user.admin" value="Admin" selected>Admin</option>
+              <option ng-if="user.admin" value="Teacher">Teacher</option>
+              <!-- Options if user is a Teacher -->
+              <option ng-if="!user.admin" value="Teacher" selected>Teacher</option>
+              <option ng-if="!user.admin" value="Admin">Admin</option>
+            </select>
+            <button ng-click="updateUserStatus(user)" class="btn btn-sm btn-success">
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            </button>
+          </td>
+          <!-- Delete User -->
+          <td>
+            <!-- TODO: this should open an 'are you sure?' modal -->
+            <button class="btn btn-sm btn-danger">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
