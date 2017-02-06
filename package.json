@@ -12,11 +12,17 @@
   "license": "ISC",
   "dependencies": {
     "angular": "^1.6.1",
+    "angular-animate": "^1.6.1",
     "angular-route": "^1.6.1",
+    "angular-ui-bootstrap": "^2.5.0",
     "body-parser": "^1.16.0",
     "bootstrap": "^3.3.7",
     "express": "^4.14.1",
     "express-session": "^1.15.0",
-    "mongoose": "^4.8.1"
+    "mongoose": "^4.8.1",
+    "passport": "^0.3.2",
+    "passport-google": "^0.3.0",
+    "passport-google-oauth": "^1.0.0",
+    "passport-google-oauth2": "^0.1.6"
   }
 }
