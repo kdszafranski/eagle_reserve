@@ -48,5 +48,15 @@ function( $scope, $http, $location, AuthFactory ){
 
   }; // end addItem
 
-
+  // GET to display on DOM
+  $scope.displayItem = function(){
+    console.log( 'in displayItem' );
+    $http.get( '/private/items' )
+    .then(function( response ){
+      console.log( response.data.results );
+      $scope.allItems = response.data.results;
+      console.log($scope.allItems);
+    });
+  };
+  $scope.displayItem();
 }]); // end ItemsController
