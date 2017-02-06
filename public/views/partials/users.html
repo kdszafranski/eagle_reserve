@@ -23,15 +23,12 @@
           <td ng-show="!user.admin">Teacher</td>
           <!-- Edit Permissions Fields -->
           <td>
-            <select class="form-control short-inline-select">
+            <select class="form-control short-inline-select" ng-model="permissions">
               <!-- Options if user is an Admin -->
-              <option ng-if="user.admin" value="Admin" selected>Admin</option>
-              <option ng-if="user.admin" value="Teacher">Teacher</option>
-              <!-- Options if user is a Teacher -->
-              <option ng-if="!user.admin" value="Teacher" selected>Teacher</option>
-              <option ng-if="!user.admin" value="Admin">Admin</option>
+              <option value="true" selected>Admin</option>
+              <option value="false">Teacher</option>
             </select>
-            <button ng-click="updateUserStatus(user)" class="btn btn-sm btn-success">
+            <button ng-click="updateUserStatus(user._id, permissions)" class="btn btn-sm btn-success">
               <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
             </button>
           </td>

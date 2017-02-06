@@ -40,15 +40,22 @@ function( $scope, $http, $location, AuthFactory ){
     } // end else
   }; // end init
 
-  $scope.updateUserStatus = function(user) {
-    console.log('in updateUserStatus', user);
+  $scope.updateUserStatus = function(userId, permissions) {
+    console.log('in updateUserStatus', userId, permissions);
+    //assemble object to send
+    var objectToSend = {
+      id: userId,
+      permissions: permissions
+    }; // end objectToSend
     //Update the permissions status of the user
     $http({
       method: 'PUT',
       url: '/private/users',
-      data: user
+      data: objectToSend
     }).then(function(response) {
       console.log(response);
+      //update users on the DOM
+      getUsers();
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);

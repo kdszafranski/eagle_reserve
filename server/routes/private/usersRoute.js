@@ -17,7 +17,18 @@ router.get('/', function(req,res) {
 //UPDATE user permissions
 router.put('/', function(req,res) {
   console.log('user put route hit', req.body);
-  res.sendStatus(200);
+  //marshall variables
+  var userId = req.body.id;
+  var newAdminStatus = req.body.permissions;
+  User.update({'_id': userId },{ $set:{ 'admin' : newAdminStatus } }, function(err, results) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    } else {
+      console.log('updated-->', userId, results);
+      res.sendStatus(201);
+    } // end else
+  }); // end update
 }); // end put
 
 module.exports = router;
