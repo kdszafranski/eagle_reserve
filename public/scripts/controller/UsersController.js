@@ -31,12 +31,23 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       //Reroute them to the login page
       $location.path("/#!/login");
     } // end if
+    //If user is not an Admin
     if (!$scope.isAdmin) {
       //Reroute them to the home page
       $location.path("/home");
     } else {
       //If they are an admin, get User data
       getUsers();
+      //set select values
+      //set filter defaults
+      $scope.statusArray = [
+        {value: true,
+        display: 'Admin'},
+        {value: false,
+        display: 'Teacher'}
+      ]; // end statusArray
+      //Initiate all filters to 'off'
+      $scope.statusSelected = { value: undefined };
     } // end else
   }; // end init
 

@@ -1,5 +1,5 @@
 //Declare app
-var myApp = angular.module('myApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap']);
+var myApp = angular.module('myApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.select','ngSanitize']);
 
 //Config
 myApp.config(['$routeProvider', function($routeProvider) {
