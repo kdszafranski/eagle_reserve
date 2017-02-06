@@ -15,5 +15,9 @@ function( $scope, $http, $location, AuthFactory ){
     //Reroute them to the login page
     $location.path("/#!/login");
   } // end if
+  if (!$scope.isAdmin) {
+    //Reroute them to the home page
+    $location.path("/home");
+  } // end if
 
 }]); // end UsersController

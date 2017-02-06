@@ -1,4 +1,5 @@
 <!-- Manage Users View -->
-<div ng-if="loggedIn">
+<!-- Shown only for Admin users -->
+<div ng-if="loggedIn && isAdmin">
   <h1 class="text-center">Manage Users</h1>
 </div>
