@@ -16,7 +16,6 @@ router.get('/', function(req,res) {
 
 //UPDATE user permissions
 router.put('/', function(req,res) {
-  console.log('user put route hit', req.body);
   //marshall variables
   var userId = req.body.id;
   var newAdminStatus = req.body.permissions;
@@ -30,5 +29,18 @@ router.put('/', function(req,res) {
     } // end else
   }); // end update
 }); // end put
+
+//DELETE user by ID value
+router.delete('/:id', function(req, res) {
+  var userId = req.params.id;
+  User.remove( { '_id': userId }, function(err) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    } else {
+      res.sendStatus(204);
+    } // end else
+  }); // end remove
+}); // end delete
 
 module.exports = router;

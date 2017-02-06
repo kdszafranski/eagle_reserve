@@ -24,7 +24,6 @@
           <!-- Edit Permissions Fields -->
           <td>
             <select class="form-control short-inline-select" ng-model="permissions">
-              <!-- Options if user is an Admin -->
               <option value="true" selected>Admin</option>
               <option value="false">Teacher</option>
             </select>
@@ -32,15 +31,36 @@
               <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
             </button>
           </td>
-          <!-- Delete User -->
+          <!-- Delete User Buttons -->
           <td>
-            <!-- TODO: this should open an 'are you sure?' modal -->
-            <button class="btn btn-sm btn-danger">
+            <button ng-click="open('md', user._id)" class="btn btn-sm btn-danger">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             </button>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <!-- Modal -->
+    <div class="modal fade">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <script type="text/ng-template" id="deleteConfirmModal.html">
+            <div class="modal-header">
+              <h5 class="modal-title">Delete User</h5>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you want to delete this user?</p>
+            </div>
+            <div class="modal-footer">
+              <button ng-click="deleteUser()" type="button" class="btn btn-success">Yes</button>
+              <button ng-click="close()" type="button" class="btn btn-danger">No</button>
+            </div>
+          </script>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </div>

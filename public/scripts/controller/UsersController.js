@@ -1,5 +1,5 @@
-myApp.controller( 'UsersController', [ '$scope', '$http', '$location', 'AuthFactory',
-function( $scope, $http, $location, AuthFactory ){
+myApp.controller( 'UsersController', [ '$scope', '$http', '$location', 'AuthFactory', '$uibModal',
+function( $scope, $http, $location, AuthFactory, $uibModal ){
   console.log( 'in UsersController' );
 
   //Declare authFactory
@@ -62,6 +62,64 @@ function( $scope, $http, $location, AuthFactory ){
     }); // end $http
   }; // end updateUserStatus
 
+  //open the modal (returns a modal instance)
+  $scope.open = function (size, userId) {
+    //open the modal
+    console.log('Open User delete Confirm modal');
+    //set the modalInstance
+    var modalInstance = $uibModal.open({
+      templateUrl: 'deleteConfirmModal.html',
+      controller: 'DeleteUserModalController',
+      size: size,
+      //pass the userId to DeleteUserModalController
+      resolve: {
+        deleteId: function () {
+          return userId;
+        } // end userId
+      } // end resolve
+    }); // end modalInstance
+
+    //Update the users when the modal has been closed
+    modalInstance.closed.then(function () {
+      getUsers();
+    }); // end modalInstance closed
+
+  }; // end open
+
   init();
 
 }]); // end UsersController
+
+/* DeleteUserModalController is passed $modalInstance
+ * which is the instance of modal returned by the open() function.
+ * This instance needs to be passed because dismiss is the property of
+ * this instance object which is used to close the modal. */
+
+//DeleteUserModalController
+myApp.controller('DeleteUserModalController', ['$scope', '$http', '$uibModalInstance', 'deleteId',
+function ($scope, $http, $uibModalInstance, deleteId) {
+    console.log('in DeleteUserModalController');
+
+    //close the  modal
+    $scope.close = function () {
+      $uibModalInstance.dismiss('cancel');
+    }; // end close
+
+    $scope.deleteUser = function(userId) {
+      console.log('in deleteUser', deleteId);
+      //Delete user with this ID
+      $http({
+        method: 'DELETE',
+        url: '/private/users/' + deleteId
+      }).then(function(response) {
+        console.log(response);
+        //close the modal
+        $uibModalInstance.close();
+      }).catch(function(err) {
+        //TODO: add better error handling here
+        console.log(err);
+      }); // end $http
+    }; // end deleteUser
+
+  } // end controller callback
+]); // end ModalInstanceController
