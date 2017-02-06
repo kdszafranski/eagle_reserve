@@ -1,8 +1,9 @@
 <!-- Make a Reservation View -->
 <div ng-if="loggedIn">
   <h1 class="text-center">Make a Reservation</h1>
-  <div class="category" ng-controller="ReserveController">
-      <select id="categorySelect" ng-model="categorySelect">
+
+  <div class="category">
+      <select ng-model="reservation.categorySelect">
         <option value="">Select by Category</option>
         <option value="carts">Carts</option>
         <option value="labs">Labs</option>
@@ -10,8 +11,8 @@
       </select>
     </div>
 
-    <div class="reservableItem" ng-controller="ReserveController">
-      <select id="itemSelect" ng-model="itemSelect">
+    <div class="reservableItem">
+      <select ng-model="itemSelect">
         <option value="">Select a Reservable Item</option>
         <option value="cart1">Cart 1</option>
         <option value="cart2">Cart 2</option>
@@ -27,6 +28,20 @@
       <form>
         <input type="date" ng-model = 'dateIn'>
       </form>
+    </div>
+    <div class="period">
+      <select ng-model = 'periodIn'>
+        <input type="checkbox" value="bs">Before School<br>
+        <input type="checkbox" value="one">1<br>
+        <input type="checkbox" value="two">2<br>
+        <input type="checkbox" value="three">3<br>
+        <input type="checkbox" value="four">4<br>
+        <input type="checkbox" value="five">5<br>
+        <input type="checkbox" value="six">6<br>
+        <input type="checkbox" value="seven">7<br>
+        <input type="checkbox" value="as">After School<br>
+      </select>
 
     </div>
+    <button type="button" ng-click = 'makeReservation()'>Make Reservation</button>
 </div>

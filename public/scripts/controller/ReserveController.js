@@ -16,9 +16,19 @@ function( $scope, $http, $location, AuthFactory ){
     $location.path("/#!/login");
   } // end if
 
-  $http({
-    method: 'POST',
-    url: ''
-  })
+  $scope.makeReservation = function (){
+    console.log('In Make Reservation');
+
+  $scope.reservation = {
+      category: $scope.reservation.categorySelect
+    }
+    console.log('res ->', reservation );
+
+
+
+
+  };//end make Reservation
+
+
 
 }]); // end ReserveController
