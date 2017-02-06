@@ -20,9 +20,11 @@ function( $scope, $http, $location, AuthFactory ){
     console.log('In Make Reservation');
 
   $scope.reservation = {
-      category: $scope.reservation.categorySelect
+      categorySelect: ''
     }
-    console.log('res ->', reservation );
+
+
+    console.log('res category ->', $scope.reservation.categorySelect);
 
 
 
