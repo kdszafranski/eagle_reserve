@@ -30,6 +30,21 @@ router.put('/', function(req,res) {
   }); // end update
 }); // end put
 
+//UPDATE user name
+router.put('/name', function(req,res) {
+  //Marshall variables
+  var userId = req.body.id;
+  var newName = req.body.name;
+  User.update({'_id': userId },{ $set:{ 'name' : newName } }, function( err, results ) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    } else {
+      res.sendStatus(200);
+    } // end else
+  }); // end update
+}); // end put
+
 //DELETE user by ID value
 router.delete('/:id', function(req, res) {
   var userId = req.params.id;
