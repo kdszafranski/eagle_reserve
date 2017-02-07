@@ -14,12 +14,19 @@ function( $scope, $http, $location, AuthFactory){
   $scope.clear = function() {
     //Clear the datepicker
     $scope.date = null;
-  };
+  }; // end clear
 
   $scope.openDatepick = function() {
     //Open the datepicker popup
     $scope.popup.opened = true;
-  };
+  }; // end openDatepick
+
+  var disabled = function(data) {
+    // Disable weekend selection
+    var date = data.date,
+      mode = data.mode;
+    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+  }; // end disabled
 
   var init = function() {
     console.log('in init');
@@ -45,12 +52,23 @@ function( $scope, $http, $location, AuthFactory){
     $scope.today();
     $scope.popup = {
       opened: false
-    };
+    }; // end popup
+
+    //Set datepicker options
+    $scope.dateOptions = {
+      dateDisabled: disabled,
+      formatYear: 'yy',
+      minDate: new Date(),
+      startingDay: 1,
+      showWeeks: false
+    }; // end dateOptions
+
   }; // end init
 
+  //Set datepicker default day to today
   $scope.today = function() {
     $scope.date = new Date();
-  };
+  }; // end today();
 
   //If user is not logged in
   if(!$scope.loggedIn) {
