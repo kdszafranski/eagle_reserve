@@ -36,7 +36,7 @@
       <tbody>
         <!-- View if user is NOT an Admin -->
         <tr ng-if="!isAdmin" ng-repeat="item in allItems">
-          <td>{{item.name}}</td>
+          <td>{{item.newItem}}</td>
           <td></td>
           <td></td>
           <td></td>
@@ -49,7 +49,7 @@
         </tr>
         <!-- View if user is an Admin -->
         <tr ng-if="isAdmin" ng-repeat="item in allItems">
-          <td><a>{{item.name}}</a></td>
+          <td><a>{{item.newItem}}</a></td>
           <td></td>
           <td></td>
           <td></td>
@@ -63,6 +63,8 @@
       </tbody>
     </table>
   </div>
+
+  {{ allItems }}
 
   <!-- Modal -->
   <div class="modal fade">

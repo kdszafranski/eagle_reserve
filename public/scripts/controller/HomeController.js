@@ -14,12 +14,27 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   var username = authFactory.username;
   console.log('Username-->', username);
 
+  $scope.allItems = [];
+
   var disabled = function(data) {
     // Disable weekend selection on daypicker
     var date = data.date,
       mode = data.mode;
     return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
   }; // end disabled
+
+  var getAllItems = function() {
+    $http({
+      method: 'GET',
+      url: '/private/items'
+    }).then(function(response) {
+      //scope all items as allItems for table repeat
+      $scope.allItems = response.data.results;
+    }).catch(function(err) {
+      //TODO: add better error handling here
+      console.log(err);
+    }); // end $http
+  }; // end getAllItems
 
   var getReservationsByDate = function(date) {
     console.log('in getReservationsByDate');
@@ -31,6 +46,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       url: 'private/reservations/date/' + date,
     }).then(function(response) {
       console.log('getReservationsByDate response-->',response.data.results);
+      var reservationArray = response.data.results;
+      //TODO: consolidate allItems with this
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
@@ -43,23 +60,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     //Get all reservations for today
     getReservationsByDate(new Date());
 
-    //TODO: get all items from the database to replace this
-    $scope.allItems = [
-      {name: 'Chrome1'},
-      {name: 'Chrome2'},
-      {name: 'Chrome3'},
-      {name: 'Chrome4'},
-      {name: 'Chrome5'},
-      {name: 'MMS Mac Cart'},
-      {name: 'Lab1'},
-      {name: 'Lab2'},
-      {name: 'Lab116'},
-      {name: 'Media Center'},
-      {name: 'Mezzanine'},
-      {name: 'MMS'},
-      {name: 'Greek Theater'},
-      {name: 'Pit'}
-    ]; // end allItems
+    getAllItems();
 
     //Initialize datepicker default to today
     $scope.today();
