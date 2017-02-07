@@ -1,5 +1,5 @@
-myApp.controller( 'HomeController', [ '$scope', '$http', '$location', 'AuthFactory',
-function( $scope, $http, $location, AuthFactory){
+myApp.controller( 'HomeController', [ '$scope', '$http', '$location', 'AuthFactory', '$uibModal',
+function( $scope, $http, $location, AuthFactory, $uibModal){
   console.log( 'in HomeController' );
 
   //Declare authFactory
@@ -10,6 +10,8 @@ function( $scope, $http, $location, AuthFactory){
   //check permissions
   $scope.isAdmin = authFactory.checkAdmin();
   console.log('HC. Admin:', $scope.isAdmin);
+
+  var username = '';
 
   var disabled = function(data) {
     // Disable weekend selection on daypicker
@@ -22,14 +24,12 @@ function( $scope, $http, $location, AuthFactory){
     console.log('in getReservationsByDate');
     //convert date to ISO String format
     date = date.toISOString();
-    console.log('date-->', date);
-
-
+    //Get all reservations for selected date
     $http({
       method: 'GET',
       url: 'private/reservations/date/' + date,
     }).then(function(response) {
-      console.log('getReservationsByDate response-->',response);
+      console.log('getReservationsByDate response-->',response.data.results);
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
@@ -76,12 +76,34 @@ function( $scope, $http, $location, AuthFactory){
       showWeeks: false
     }; // end dateOptions
 
+    //If the username is blank, open modal
+    //Require user to add their name within the modal
+    //Run only after the entire view has been loaded
+    angular.element(document).ready(function() {
+      if (username.length < 1) {
+        console.log('USERNAME NEEDED');
+        openUsernameModal('md');
+      } // end if
+    }); // end doc ready function
+
   }; // end init
 
   $scope.openDatepick = function() {
     //Open the datepicker popup
     $scope.popup.opened = true;
   }; // end openDatepick
+
+  //open username modal (returns a modal instance)
+  openUsernameModal = function (size) {
+    //open the modal
+    console.log('Open Username Modal');
+    //set the modalInstance
+    var modalInstance = $uibModal.open({
+      templateUrl: 'updateUsernameModal.html',
+      controller: 'UpdateUsernameModalController',
+      size: size
+    }); // end modalInstance
+  }; // end openUsernameModal
 
   $scope.today = function() {
     //Set datepicker default day to today
@@ -98,3 +120,20 @@ function( $scope, $http, $location, AuthFactory){
   } // end else
 
 }]); // end HomeController
+
+//UpdateUsernameModalController
+myApp.controller('UpdateUsernameModalController', ['$scope', '$http', '$uibModalInstance',
+function ($scope, $http, $uibModalInstance) {
+    console.log('in UpdateUsernameModalController');
+
+    //close the  modal
+    $scope.saveUsername = function (firstName, lastName) {
+      console.log('in saveUsername', firstName, lastName);
+      //Close the modal
+      $uibModalInstance.dismiss('cancel');
+    }; // end saveUsername
+
+    //TODO: update username for this user
+
+  } // end controller callback
+]); // end ModalInstanceController
