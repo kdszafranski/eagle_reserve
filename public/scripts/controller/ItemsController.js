@@ -39,6 +39,7 @@ function( $scope, $http, $location, AuthFactory ){
       data: itemToSend
     }).then(function successCallback( response ){
       console.log( 'response in newItem', response );
+      $scope.displayItem();
       //reset scope variables
       $scope.newItem.name = '';
       $scope.newItem.category = '';
@@ -53,10 +54,20 @@ function( $scope, $http, $location, AuthFactory ){
     console.log( 'in displayItem' );
     $http.get( '/private/items' )
     .then(function( response ){
-      console.log( response.data.results );
       $scope.allItems = response.data.results;
-      console.log($scope.allItems);
     });
   };
   $scope.displayItem();
+
+// delete item
+  $scope.deleteItem = function( indexIn ){
+    $http.delete( '/private/items/' + $scope.allItems[ indexIn ]._id )
+    .then(function( response ){
+      console.log( 'delete hit', response );
+      $scope.displayItem();
+    });
+  };
+
+
+
 }]); // end ItemsController

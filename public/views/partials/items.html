@@ -17,5 +17,6 @@
   <div class="postItem" ng-repeat="item in allItems">
     {{ item.newItem }}
     {{ item.category }}
+    <button type="button" ng-click="deleteItem( $index )">Delete</button>
   </div>
 </div>
