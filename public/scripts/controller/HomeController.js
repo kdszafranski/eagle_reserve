@@ -12,7 +12,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   console.log('HC. Admin:', $scope.isAdmin);
 
   var username = authFactory.username;
-  console.log('username-->', username);
+  console.log('Username-->', username);
 
   var disabled = function(data) {
     // Disable weekend selection on daypicker
@@ -122,18 +122,55 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 }]); // end HomeController
 
 //UpdateUsernameModalController
-myApp.controller('UpdateUsernameModalController', ['$scope', '$http', '$uibModalInstance',
-function ($scope, $http, $uibModalInstance) {
+myApp.controller('UpdateUsernameModalController', ['$scope', '$http', '$uibModalInstance', 'AuthFactory',
+function ($scope, $http, $uibModalInstance, AuthFactory) {
     console.log('in UpdateUsernameModalController');
+
+    //Declare auth factory
+    var authFactory = AuthFactory;
+    //Get current user's ID
+    var currentUserId = authFactory.currentUserId;
+
+    //close the modal
+    var close = function() {
+      //Close the modal
+      $uibModalInstance.dismiss('cancel');
+    }; // end close
 
     //close the  modal
     $scope.saveUsername = function (firstName, lastName) {
-      console.log('in saveUsername', firstName, lastName);
-      //Close the modal
-      $uibModalInstance.dismiss('cancel');
-    }; // end saveUsername
+      //If the names they entered are not blank...
+      if (firstName && lastName) {
+        //Format name variables
+        firstName = firstName.trim();
+        lastName = lastName.trim();
+        var fullName = firstName + ' ' + lastName;
+        console.log('full name-->', fullName);
+        //assemble object to send
+        var userInfoToSend = {
+          name: fullName,
+          id: currentUserId
+        }; // end userInfoToSend
+        //Update the users's name with name entered
+        $http({
+          method: 'PUT',
+          url: '/private/users/name',
+          data: userInfoToSend
+        }).then(function(response) {
+          console.log(response);
+          //Close the modal
+          close();
+        }).catch(function(err) {
+          //TODO: add better error handling here
+          console.log(err);
+        }); // end $http
+      //If they entered blank names
+      } else {
+        //TODO: add better error handling here
+        console.warn('name is required');
+      } // end else
 
-    //TODO: update username for this user
+    }; // end saveUsername
 
   } // end controller callback
 ]); // end ModalInstanceController
