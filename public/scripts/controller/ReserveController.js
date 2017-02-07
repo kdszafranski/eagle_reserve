@@ -19,12 +19,15 @@ function( $scope, $http, $location, AuthFactory ){
   $scope.periodArray = ['BS', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'AS'];
   $scope.selection = [];
 
+  var username = authFactory.username
+
 
   $scope.newReservation = {
       categoryIn: '',
       itemIn: '',
       dateIn: '',
-      periodIn: $scope.selection
+      periodIn: $scope.selection,
+      username: username
     }
 
     $scope.toggleSelection = function toggleSelection(periodName) {

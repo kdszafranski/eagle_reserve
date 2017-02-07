@@ -28,6 +28,7 @@ myApp.controller('NavController', ['AuthFactory', '$window', '$scope', function(
         //Set Username Variable
         console.log('username-->',response.data.name);
         $scope.username = response.data.name;
+        authFactory.username = response.data.name;
         //Scope the admin status
         $scope.isAdmin = response.data.admin;
         //Set admin status in authFactory

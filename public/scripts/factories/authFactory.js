@@ -35,4 +35,9 @@ myApp.factory('AuthFactory', function ($http) {
     },
   };
 
+  var factory = {};
+    factory.username;
+
+  return factory
+
 });
