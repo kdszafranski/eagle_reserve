@@ -33,5 +33,12 @@ router.get( '/', function( req, res ){
   }); // end find
 }); // end get
 
+router.delete( '/:id', function( req, res ){
+  Reservation.findByIdAndRemove(req.params.id).then(function( err ){
+    console.log( 'err:', err );
+  });
+  res.send( 200 );
+});
+
 
 module.exports = router;
