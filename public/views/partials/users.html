@@ -53,7 +53,8 @@
           <!-- Edit Permissions Fields -->
           <td>
             <select class="form-control short-inline-select" ng-model="permissions">
-              <option value="true" selected>Admin</option>
+              <option value="" selected></option>
+              <option value="true">Admin</option>
               <option value="false">Teacher</option>
             </select>
             <button ng-click="updateUserStatus(user._id, permissions)" class="btn btn-sm btn-success">
