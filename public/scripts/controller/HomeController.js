@@ -11,25 +11,37 @@ function( $scope, $http, $location, AuthFactory){
   $scope.isAdmin = authFactory.checkAdmin();
   console.log('HC. Admin:', $scope.isAdmin);
 
-  $scope.clear = function() {
-    //Clear the datepicker
-    $scope.date = null;
-  }; // end clear
-
-  $scope.openDatepick = function() {
-    //Open the datepicker popup
-    $scope.popup.opened = true;
-  }; // end openDatepick
-
   var disabled = function(data) {
-    // Disable weekend selection
+    // Disable weekend selection on daypicker
     var date = data.date,
       mode = data.mode;
     return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
   }; // end disabled
 
+  var getReservationsByDate = function(date) {
+    console.log('in getReservationsByDate');
+    //convert date to ISO String format
+    date = date.toISOString();
+    console.log('date-->', date);
+
+
+    $http({
+      method: 'GET',
+      url: 'private/reservations/date/' + date,
+    }).then(function(response) {
+      console.log('getReservationsByDate response-->',response);
+    }).catch(function(err) {
+      //TODO: add better error handling here
+      console.log(err);
+    }); // end $http
+  }; // end getAll
+
   var init = function() {
     console.log('in init');
+
+    //Get all reservations for today
+    getReservationsByDate(new Date());
+
     //TODO: get all items from the database to replace this
     $scope.allItems = [
       {name: 'Chrome1'},
@@ -50,6 +62,7 @@ function( $scope, $http, $location, AuthFactory){
 
     //Initialize datepicker default to today
     $scope.today();
+    //Initialize datepicker popup to closed
     $scope.popup = {
       opened: false
     }; // end popup
@@ -65,8 +78,13 @@ function( $scope, $http, $location, AuthFactory){
 
   }; // end init
 
-  //Set datepicker default day to today
+  $scope.openDatepick = function() {
+    //Open the datepicker popup
+    $scope.popup.opened = true;
+  }; // end openDatepick
+
   $scope.today = function() {
+    //Set datepicker default day to today
     $scope.date = new Date();
   }; // end today();
 

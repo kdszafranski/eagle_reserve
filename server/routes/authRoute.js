@@ -24,7 +24,7 @@ router.get('/', function(req,res) {
   if (req.isAuthenticated()) {
     console.log('authRoute Admin Status:-->', req.user.admin);
     //Send logged in status, user name, and admin status
-    res.json({ status: true, name:req.user.googleName, admin: req.user.admin });
+    res.json({ status: true, name:req.user.name, admin: req.user.admin });
   } else {
     console.log('AuthRoute: User is not logged in');
     res.json({ status: false });
