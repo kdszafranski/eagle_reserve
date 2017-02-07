@@ -52,10 +52,14 @@ function( $scope, $http, $location, AuthFactory ){
             console.log('response ->', response);
     });
 
+    $http({
+    method: 'GET',
+    url: '/private/reservations'
+}).then(function(response) {
+    console.log('response ->', response);
+}); //end http
 
-
-
-  };//end make Reservation
+};//end make Reservation
 
 
 
