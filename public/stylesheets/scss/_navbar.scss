@@ -1,0 +1,30 @@
+// -- NAVBAR -- //
+.navbar  {
+  background-color: $white;
+  box-shadow: 0 3px 6px -6px $boxShadowColor;
+  .navbar-toggle {
+    //Necessary to make hamburger menu visible
+    .icon-bar {
+      background-color: $linkColor;
+    }
+  }
+  .nav {
+    > li {
+      text-align: right;
+    }
+  }
+  //Collapsable nav border top
+  .navbar-collapse[aria-expanded="true"] {
+    border-top: 1px solid $collapsableNavBorderColor;
+  }
+}
+// Dropdown menu //
+.dropdown-menu {
+  > li {
+    > a,
+    > a:hover {
+      color: $linkColor;
+      text-align: right;
+    }
+  }
+}

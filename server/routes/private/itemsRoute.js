@@ -29,4 +29,12 @@ router.get( '/', function( req, res ){
   }); // end find
 }); // end get
 
+// delete item
+router.delete( '/:id', function( req, res ){
+  Item.findByIdAndRemove(req.params.id).then(function( err ){
+    console.log( 'err:', err );
+  });
+  res.send( 200 );
+});
+
 module.exports = router;

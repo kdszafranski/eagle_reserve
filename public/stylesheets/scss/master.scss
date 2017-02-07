@@ -1,0 +1,41 @@
+@import 'settings';
+
+// -- Globals -- //
+html, body {
+  margin-top: 35px;
+}
+// -- NavBar -- //
+@import 'navbar';
+
+// -- FORMS -- //
+.short-inline-select {
+  max-width: 50%;
+  display: inline;
+}
+.filters-form {
+  margin: 30px 0 30px;
+  .form-group {
+    margin-bottom: 0;
+    &:not(:last-child) {
+      margin-bottom: 10px !important;
+    }
+  }
+  .col-sm-4 {
+    padding-left: 0;
+  }
+  span.glyphicon-trash {
+    color: $bootstrapRed;
+  }
+}
+// -- TABLES -- //
+.table {
+  th {
+    text-align: center;
+  }
+  td {
+    text-align: center;
+    vertical-align: middle !important;
+  }
+}
+// -- Media Queries -- //
+@import 'responsive';

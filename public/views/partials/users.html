@@ -2,4 +2,95 @@
 <!-- Shown only for Admin users -->
 <div ng-if="loggedIn && isAdmin">
   <h1 class="text-center">Manage Users</h1>
+
+  <form class="form filters-form">
+    <fieldset>
+      <div class="form-group">
+        <!-- Filter by Status select group  -->
+          <div class="col-sm-4">
+            <div class="input-group">
+              <ui-select allow-clear ng-model="statusSelected.value" theme="bootstrap">
+                <ui-select-match placeholder="Filter By Status..." >{{$select.selected.display}}</ui-select-match>
+                <ui-select-choices repeat="status in (statusArray | filter: $select.search) track by status.display">
+                  <span ng-bind-html="status.display"></span>
+                </ui-select-choices>
+              </ui-select>
+              <span class="input-group-btn">
+                <button type="button" ng-click="statusSelected.value = undefined" class="btn btn-default">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </span>
+            </div>
+          </div>
+      </div>
+      <div class="form-group">
+        <!-- Search by name input -->
+        <div class="col-sm-4 col-sm-offset-4">
+          <input ng-model="userSearch" type="text" class="form-control" placeholder="Search by Name...">
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email </th>
+          <th>Status</th>
+          <th>Edit Permissions</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in allUsers | filter: ({ admin: statusSelected.value.value, name: userSearch })">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <!-- Status Fields -->
+          <td ng-show="user.admin">Admin</td>
+          <td ng-show="!user.admin">Teacher</td>
+          <!-- Edit Permissions Fields -->
+          <td>
+            <select class="form-control short-inline-select" ng-model="permissions">
+              <option value="" selected></option>
+              <option value="true">Admin</option>
+              <option value="false">Teacher</option>
+            </select>
+            <button ng-click="updateUserStatus(user._id, permissions)" class="btn btn-sm btn-success">
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            </button>
+          </td>
+          <!-- Delete User Buttons -->
+          <td>
+            <button ng-click="open('md', user._id)" class="btn btn-sm btn-danger">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div class="modal fade">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <script type="text/ng-template" id="deleteConfirmModal.html">
+            <div class="modal-header">
+              <h5 class="modal-title">Delete User</h5>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you want to delete this user?</p>
+            </div>
+            <div class="modal-footer">
+              <button ng-click="deleteUser()" type="button" class="btn btn-success">Yes</button>
+              <button ng-click="close()" type="button" class="btn btn-danger">No</button>
+            </div>
+          </script>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
 </div>

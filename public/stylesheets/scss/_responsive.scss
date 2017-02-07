@@ -1,0 +1,32 @@
+// -- MEDIA QUERIES -- //
+
+// Small devices (tablets, 768px and up)
+@media only screen and (min-width: 768px) {
+  // -- NAVBAR -- //
+  .navbar {
+    .navbar-nav {
+      float: right !important;
+    }
+  }
+  // Dropdown menu
+  .dropdown-menu>li>a, .dropdown-menu>li>a:hover {
+    text-align: left;
+  }
+  // -- FORMS --//
+  .filters-form {
+    .form-group {
+      &:not(:last-child) {
+        margin-bottom: 0 !important;
+      }
+    }
+  }
+}
+
+// Medium devices (desktops, 992px and up)
+@media only screen and (min-width: 992px) {}
+
+// Large devices (large desktops, 1200px and up)
+@media only screen and (min-width: 1200px) {}
+
+// Xtra Large devices (Xlarge desktops, 1500px and up)
+@media only screen and (min-width: 1500px) {}
