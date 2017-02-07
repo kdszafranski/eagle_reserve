@@ -31,14 +31,28 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       //Reroute them to the login page
       $location.path("/#!/login");
     } // end if
+    //If user is not an Admin
     if (!$scope.isAdmin) {
       //Reroute them to the home page
       $location.path("/home");
     } else {
       //If they are an admin, get User data
       getUsers();
+      initializeFilterSelect();
     } // end else
   }; // end init
+
+  var initializeFilterSelect = function() {
+    //set statusArray for status select
+    $scope.statusArray = [
+      {value: true,
+      display: 'Admin'},
+      {value: false,
+      display: 'Teacher'}
+    ]; // end statusArray
+    //Initiate status filter to 'off'
+    $scope.statusSelected = { value: undefined };
+  }; // end initializeSelects
 
   $scope.updateUserStatus = function(userId, permissions) {
     console.log('in updateUserStatus', userId, permissions);
