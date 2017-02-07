@@ -60,7 +60,15 @@ function( $scope, $http, $location, AuthFactory ){
     url: '/private/reservations'
 }).then(function(response) {
     console.log('response ->', response);
+
 }); //end http
+
+  var item = $scope.newReservation.itemIn;
+  var date = $scope.newReservation.dateIn;
+  var period = $scope.newReservation.periodIn;
+
+
+  $scope.outputDiv += '<p>' + 'You have added a reservation for ' + item + ' on ' + date + ' for period ' + period + '</p>'
 
 };//end make Reservation
 
