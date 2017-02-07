@@ -37,6 +37,7 @@ myApp.factory('AuthFactory', function ($http) {
 
   var factory = {};
     factory.username;
+    factory.currentUserId = undefined;
 
   return factory
 

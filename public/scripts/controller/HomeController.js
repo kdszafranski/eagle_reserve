@@ -11,7 +11,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   $scope.isAdmin = authFactory.checkAdmin();
   console.log('HC. Admin:', $scope.isAdmin);
 
-  var username = '';
+  var username = authFactory.username;
+  console.log('username-->', username);
 
   var disabled = function(data) {
     // Disable weekend selection on daypicker
@@ -76,12 +77,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       showWeeks: false
     }; // end dateOptions
 
-    //If the username is blank, open modal
     //Require user to add their name within the modal
     //Run only after the entire view has been loaded
     angular.element(document).ready(function() {
+      //If the username is blank, open modal
       if (username.length < 1) {
-        console.log('USERNAME NEEDED');
         openUsernameModal('md');
       } // end if
     }); // end doc ready function
