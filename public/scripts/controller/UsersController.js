@@ -38,18 +38,21 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     } else {
       //If they are an admin, get User data
       getUsers();
-      //set select values
-      //set filter defaults
-      $scope.statusArray = [
-        {value: true,
-        display: 'Admin'},
-        {value: false,
-        display: 'Teacher'}
-      ]; // end statusArray
-      //Initiate all filters to 'off'
-      $scope.statusSelected = { value: undefined };
+      initializeFilterSelect();
     } // end else
   }; // end init
+
+  var initializeFilterSelect = function() {
+    //set statusArray for status select
+    $scope.statusArray = [
+      {value: true,
+      display: 'Admin'},
+      {value: false,
+      display: 'Teacher'}
+    ]; // end statusArray
+    //Initiate status filter to 'off'
+    $scope.statusSelected = { value: undefined };
+  }; // end initializeSelects
 
   $scope.updateUserStatus = function(userId, permissions) {
     console.log('in updateUserStatus', userId, permissions);
