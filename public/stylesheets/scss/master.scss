@@ -1,0 +1,41 @@
+@import 'settings';
+
+// -- Globals -- //
+html, body {
+  margin-top: 35px;
+}
+
+@import 'navbar';
+
+// -- FORMS -- //
+.short-inline-select {
+  max-width: 50%;
+  display: inline;
+}
+
+
+
+// -- MEDIA QUERIES -- //
+
+// Small devices (tablets, 768px and up)
+@media only screen and (min-width: 768px) {
+  // -- Navbar -- //
+  .navbar {
+    .navbar-nav {
+      float: right !important;
+    }
+  }
+  // Dropdown menu
+  .dropdown-menu>li>a, .dropdown-menu>li>a:hover {
+    text-align: left;
+  }
+}
+
+// Medium devices (desktops, 992px and up)
+@media only screen and (min-width: 992px) {}
+
+// Large devices (large desktops, 1200px and up)
+@media only screen and (min-width: 1200px) {}
+
+// Xtra Large devices (Xlarge desktops, 1500px and up)
+@media only screen and (min-width: 1500px) {}
