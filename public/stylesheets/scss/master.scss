@@ -4,6 +4,31 @@
 html, body {
   margin-top: 35px;
 }
+
+// -- UIB-DAYPICKERS -- //
+.uib-daypicker {
+
+  .btn-info, .btn-info.active {
+    background-color: $bootstrapGreen;
+    .text-info {
+      color: $white;
+    }
+  }
+  .btn-default {
+    border-color: transparent;
+  }
+  .uib-day {
+    button {
+      border-color: transparent;
+    }
+  }
+}
+.form-control.date-input:focus {
+  border-color: #ccc !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
 // -- NavBar -- //
 @import 'navbar';
 

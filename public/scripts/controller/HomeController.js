@@ -12,12 +12,21 @@ function( $scope, $http, $location, AuthFactory){
   console.log('HC. Admin:', $scope.isAdmin);
 
   $scope.clear = function() {
-    $scope.dt = null;
-  };
+    //Clear the datepicker
+    $scope.date = null;
+  }; // end clear
 
-  $scope.open1 = function() {
-    $scope.popup1.opened = true;
-  };
+  $scope.openDatepick = function() {
+    //Open the datepicker popup
+    $scope.popup.opened = true;
+  }; // end openDatepick
+
+  var disabled = function(data) {
+    // Disable weekend selection
+    var date = data.date,
+      mode = data.mode;
+    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+  }; // end disabled
 
   var init = function() {
     console.log('in init');
@@ -38,20 +47,28 @@ function( $scope, $http, $location, AuthFactory){
       {name: 'Greek Theater'},
       {name: 'Pit'}
     ]; // end allItems
-    //SET DATE STUFF
 
+    //Initialize datepicker default to today
     $scope.today();
-    $scope.popup1 = {
+    $scope.popup = {
       opened: false
-    };
-    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-    $scope.format = $scope.formats[0];
-    $scope.altInputFormats = ['M!/d!/yyyy'];
+    }; // end popup
+
+    //Set datepicker options
+    $scope.dateOptions = {
+      dateDisabled: disabled,
+      formatYear: 'yy',
+      minDate: new Date(),
+      startingDay: 1,
+      showWeeks: false
+    }; // end dateOptions
+
   }; // end init
 
+  //Set datepicker default day to today
   $scope.today = function() {
-    $scope.dt = new Date();
-  };
+    $scope.date = new Date();
+  }; // end today();
 
   //If user is not logged in
   if(!$scope.loggedIn) {

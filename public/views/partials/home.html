@@ -2,12 +2,16 @@
 <div ng-if="loggedIn" class="text-center">
   <h1 class="text-center">Home view</h1>
 
+   <pre>Selected date is: <em>{{date | date:'fullDate' }}</em></pre>
+
   <div class="row">
     <div class="col-md-4">
       <p class="input-group">
-        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+        <input onkeydown="return false" type="text" class="form-control date-input" uib-datepicker-popup="MMMM dd, yyyy" ng-model="date" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false"/>
         <span class="input-group-btn">
-          <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+          <button type="button" class="btn btn-default" ng-click="openDatepick()">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </button>
         </span>
       </p>
     </div>
