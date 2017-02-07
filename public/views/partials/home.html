@@ -1,4 +1,62 @@
 <!-- Home View -->
 <div ng-if="loggedIn" class="text-center">
   <h1 class="text-center">Home view</h1>
+
+  <div class="row">
+    <div class="col-md-4">
+      <p class="input-group">
+        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th></th>
+          <th>BS</th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>6</th>
+          <th>7</th>
+          <th>AS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- View if user is NOT an Admin -->
+        <tr ng-if="!isAdmin" ng-repeat="item in allItems">
+          <td>{{item.name}}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <!-- View if user is an Admin -->
+        <tr ng-if="isAdmin" ng-repeat="item in allItems">
+          <td><a>{{item.name}}</a></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
