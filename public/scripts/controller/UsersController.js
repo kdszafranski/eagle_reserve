@@ -54,6 +54,20 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     $scope.statusSelected = { value: undefined };
   }; // end initializeSelects
 
+  $scope.controlSaveButtonDisplay = function(userId, permissions) {
+    console.log('in controlSaveButtonDisplay. Changed to:', permissions);
+    //If select value was changed to Teacher or Amin
+    if (permissions !== '') {
+      //Shows the save button
+      console.log('permissions not equal to blank');
+      $scope.changingPermission = userId;
+    //If clear value selected
+    } else {
+      //Hide the display button
+      $scope.changingPermission = '';
+    } // end else
+  }; // end updating
+
   $scope.updateUserStatus = function(userId, permissions) {
     console.log('in updateUserStatus', userId, permissions);
     //assemble object to send
@@ -70,6 +84,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       console.log(response);
       //update users on the DOM
       getUsers();
+      $scope.changingPermission = '';
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);

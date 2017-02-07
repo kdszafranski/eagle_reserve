@@ -4,6 +4,16 @@
 html, body {
   margin-top: 35px;
 }
+
+// -- UIB-DAYPICKERS -- //
+.uib-daypicker {
+  .uib-day {
+    button {
+      border-color: transparent;
+    }
+  }
+}
+
 // -- NavBar -- //
 @import 'navbar';
 

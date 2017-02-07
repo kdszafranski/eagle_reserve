@@ -12,11 +12,13 @@ function( $scope, $http, $location, AuthFactory){
   console.log('HC. Admin:', $scope.isAdmin);
 
   $scope.clear = function() {
-    $scope.dt = null;
+    //Clear the datepicker
+    $scope.date = null;
   };
 
-  $scope.open1 = function() {
-    $scope.popup1.opened = true;
+  $scope.openDatepick = function() {
+    //Open the datepicker popup
+    $scope.popup.opened = true;
   };
 
   var init = function() {
@@ -38,19 +40,16 @@ function( $scope, $http, $location, AuthFactory){
       {name: 'Greek Theater'},
       {name: 'Pit'}
     ]; // end allItems
-    //SET DATE STUFF
 
+    //Initialize datepicker default to today
     $scope.today();
-    $scope.popup1 = {
+    $scope.popup = {
       opened: false
     };
-    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-    $scope.format = $scope.formats[0];
-    $scope.altInputFormats = ['M!/d!/yyyy'];
   }; // end init
 
   $scope.today = function() {
-    $scope.dt = new Date();
+    $scope.date = new Date();
   };
 
   //If user is not logged in

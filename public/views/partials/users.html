@@ -52,12 +52,12 @@
           <td ng-show="!user.admin">Teacher</td>
           <!-- Edit Permissions Fields -->
           <td>
-            <select class="form-control short-inline-select" ng-model="permissions">
+            <select ng-change="controlSaveButtonDisplay(user._id, permissions)" class="form-control short-inline-select" ng-model="permissions">
               <option value="" selected></option>
               <option value="true">Admin</option>
               <option value="false">Teacher</option>
             </select>
-            <button ng-click="updateUserStatus(user._id, permissions)" class="btn btn-sm btn-success">
+            <button ng-show="changingPermission === user._id" ng-click="updateUserStatus(user._id, permissions)" class="btn btn-sm btn-success">
               <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
             </button>
           </td>
