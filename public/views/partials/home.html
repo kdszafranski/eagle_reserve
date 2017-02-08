@@ -37,24 +37,14 @@
         <!-- View if user is NOT an Admin -->
         <tr ng-if="!isAdmin" ng-repeat="item in allItems">
           <td>{{item.newItem}}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <!-- Repeat table data -->
+          <td ng-if="item.period" ng-repeat="value in item.period" class="{{value.class}}">{{value.teacher}}</td>
         </tr>
         <!-- View if user is an Admin -->
         <tr ng-if="isAdmin" ng-repeat="item in allItems">
           <td><a>{{item.newItem}}</a></td>
-          <!-- Repeat table data for items with reservations -->
-          <!-- TODO: add {{value.reservationData}} within below td-->
-          <td ng-if="item.period" ng-repeat="value in item.period" class="{{value.class}}"></td>
-          <!-- Repeat table data for items without reservations -->
-          <!-- <td ng-if="!item.period" ng-repeat="value in freePeriods" class="{{value.class}}"></td> -->
+          <!-- Repeat table data -->
+          <td ng-if="item.period" ng-repeat="value in item.period" class="{{value.class}}">{{value.teacher}}</td>
         </tr>
       </tbody>
     </table>

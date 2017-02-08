@@ -36,9 +36,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       for (var i = 0; i < $scope.allItems.length; i++) {
         // if reservationObject.item matches the current reservationArray.newItem property
         if (reservationObject.item === $scope.allItems[i].newItem) {
+          //save the username for reservation in teacher variable
+          var teacher = reservationObject.user;
           //split the periods property into an array
           //TODO: format the periodsReserved array to be an array of objects...
-          var periodsReserved = formatPeriodsReservedArray(reservationObject.period.split(','));
+          var periodsReserved = formatPeriodsReservedArray(reservationObject.period.split(','), teacher);
           //add period array value as a property of allItems[i] object
           $scope.allItems[i].period = periodsReserved;
         } // end if
@@ -53,7 +55,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
   }; // end disabled
 
-  var formatPeriodsReservedArray = function(periodsArray) {
+  var formatPeriodsReservedArray = function(periodsArray, teacherName) {
     //set newPeriodsArray defaults
     var newPeriodsArray = [
       { name: 'BS', reserved: false, class: 'enabled' },
@@ -75,6 +77,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
           newPeriodsArray[i].reserved = true;
           //change the class value to disabled
           newPeriodsArray[i].class = 'disabled';
+          //set the user name for the reservation
+          newPeriodsArray[i].teacher = teacherName;
         } // end if
       } // end for
     }); // end map
@@ -101,8 +105,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     console.log('in getReservationsByDate');
     //clear reservations
     console.log('all items-->', $scope.allItems);
-    //TODO: clear period property of all items
-    //$scope.allItems = clearPeriodsProperty($scope.allItems);
+    //reset period property of all items to default
     resetPeriodsProperties($scope.allItems);
     //convert date to ISO String format
     date = date.toISOString();
@@ -113,7 +116,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     }).then(function(response) {
       console.log('getReservationsByDate response-->',response.data);
       var reservationArray = response.data.results;
-      //TODO: consolidate allItems with this
+      //consolidate allItems with this
       addReservationsToAllItems(reservationArray);
     }).catch(function(err) {
       //TODO: add better error handling here
