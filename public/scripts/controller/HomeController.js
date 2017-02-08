@@ -16,6 +16,24 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   $scope.allItems = [];
 
+  var addReservationsToAllItems = function(reservationArray) {
+    console.log('in addReservationsToAllItems');
+    //For each reservation in reservationArray...
+    reservationArray.map(function(reservationObject) {
+      // loop through each item in allItems array
+      for (var i = 0; i < $scope.allItems.length; i++) {
+        // if reservationObject.item matches the current reservationArray.newItem property
+        if (reservationObject.item === $scope.allItems[i].newItem) {
+          //split the periods property into an array
+          var periodsReserved = reservationObject.period.split(',');
+          //add period array value as a property of allItems[i] object
+          $scope.allItems[i].period = periodsReserved;
+          console.log('current item in $scope.allItems -->',$scope.allItems[i]);
+        } // end if
+      } // end for
+    }); // end .map
+  }; // end addReservationsToAllItems
+
   var disabled = function(data) {
     // Disable weekend selection on daypicker
     var date = data.date,
@@ -30,13 +48,15 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     }).then(function(response) {
       //scope all items as allItems for table repeat
       $scope.allItems = response.data.results;
+      //Get all reservations for today
+      $scope.getReservationsByDate(new Date());
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
     }); // end $http
   }; // end getAllItems
 
-  var getReservationsByDate = function(date) {
+  $scope.getReservationsByDate = function(date) {
     console.log('in getReservationsByDate');
     //convert date to ISO String format
     date = date.toISOString();
@@ -45,9 +65,10 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       method: 'GET',
       url: 'private/reservations/date/' + date,
     }).then(function(response) {
-      console.log('getReservationsByDate response-->',response.data.results);
+      console.log('getReservationsByDate response-->',response.data);
       var reservationArray = response.data.results;
       //TODO: consolidate allItems with this
+      addReservationsToAllItems(reservationArray);
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
@@ -56,9 +77,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   var init = function() {
     console.log('in init');
-
-    //Get all reservations for today
-    getReservationsByDate(new Date());
 
     getAllItems();
 

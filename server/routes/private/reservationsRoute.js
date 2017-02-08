@@ -45,6 +45,7 @@ router.get( '/date/:date', function( req, res ){
   console.log( 'in router.get by date:');
   //Split the date string so it is store without time
   var date = req.params.date.split('T')[0];
+  console.log(date);
   Reservation.find({ 'dateScheduled': date  }, function( err, results){
     if( err ){
       console.log( err );
