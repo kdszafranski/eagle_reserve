@@ -32,7 +32,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     console.log('in addReservationsToAllItems');
     //For each reservation in reservationArray...
     reservationArray.map(function(reservationObject) {
-      console.log('reservationObject-->',reservationObject);
       // loop through each item in allItems array
       for (var i = 0; i < $scope.allItems.length; i++) {
         // if reservationObject.item matches the current reservationArray.newItem property
@@ -55,7 +54,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   }; // end disabled
 
   var formatPeriodsReservedArray = function(periodsArray) {
-    console.log('in formatPeriodsReservedArray', periodsArray);
+    //set newPeriodsArray defaults
     var newPeriodsArray = [
       { name: 'BS', reserved: false, class: 'enabled' },
       { name: 'One', reserved: false, class: 'enabled' },
@@ -70,7 +69,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     //Map all values in periodsArray
     periodsArray.map(function(value) {
       //If the value matches the name of a period in newPeriods array,
-
       for (var i = 0; i < newPeriodsArray.length; i++) {
         if (value === newPeriodsArray[i].name) {
           //change the reserved value to true
@@ -101,6 +99,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   $scope.getReservationsByDate = function(date) {
     console.log('in getReservationsByDate');
+    //clear reservations
+    console.log('all items-->', $scope.allItems);
+    //TODO: clear period property of all items
+    //$scope.allItems = clearPeriodsProperty($scope.allItems);
+    resetPeriodsProperties($scope.allItems);
     //convert date to ISO String format
     date = date.toISOString();
     //Get all reservations for selected date
@@ -166,6 +169,14 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       size: size
     }); // end modalInstance
   }; // end openUsernameModal
+
+  var resetPeriodsProperties = function(array) {
+    //TODO: fix this undefined value
+    console.log('in clearPeriodsProperty');
+    for (var i = 0; i < array.length; i++) {
+      array[i].period = $scope.freePeriods;
+    } // end for
+  }; //end resetPeriodsProperties
 
   $scope.today = function() {
     //Set datepicker default day to today

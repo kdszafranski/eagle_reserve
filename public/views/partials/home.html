@@ -54,7 +54,7 @@
           <!-- TODO: add {{value.reservationData}} within below td-->
           <td ng-if="item.period" ng-repeat="value in item.period" class="{{value.class}}"></td>
           <!-- Repeat table data for items without reservations -->
-          <td ng-if="!item.period" ng-repeat="value in freePeriods" class="{{value.class}}"></td>
+          <!-- <td ng-if="!item.period" ng-repeat="value in freePeriods" class="{{value.class}}"></td> -->
         </tr>
       </tbody>
     </table>
