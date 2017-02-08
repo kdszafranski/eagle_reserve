@@ -62,5 +62,15 @@ html, body {
     vertical-align: middle !important;
   }
 }
+.calendar-table {
+  //class for table data containing a reservation
+  td.disabled {
+    background-color: lighten($bootstrapRed, 10%);
+    cursor: pointer;
+  }
+  //class for table data not containing
+  // td.enabled {
+  // }
+}
 // -- Media Queries -- //
 @import 'responsive';

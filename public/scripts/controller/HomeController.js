@@ -14,6 +14,38 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   var username = authFactory.username;
   console.log('Username-->', username);
 
+  $scope.allItems = [];
+
+  $scope.freePeriods = [
+    { name: 'BS', reserved: false, class: 'enabled' },
+    { name: 'One', reserved: false, class: 'enabled' },
+    { name: 'Two', reserved: false, class: 'enabled' },
+    { name: 'Three', reserved: false, class: 'enabled' },
+    { name: 'Four', reserved: false, class: 'enabled' },
+    { name: 'Five', reserved: false, class: 'enabled' },
+    { name: 'Six', reserved: false, class: 'enabled' },
+    { name: 'Seven', reserved: false, class: 'enabled' },
+    { name: 'AS', reserved: false, class: 'enabled' },
+  ]; // end periodsArray
+
+  var addReservationsToAllItems = function(reservationArray) {
+    console.log('in addReservationsToAllItems');
+    //For each reservation in reservationArray...
+    reservationArray.map(function(reservationObject) {
+      // loop through each item in allItems array
+      for (var i = 0; i < $scope.allItems.length; i++) {
+        // if reservationObject.item matches the current reservationArray.newItem property
+        if (reservationObject.item === $scope.allItems[i].newItem) {
+          //split the periods property into an array
+          //TODO: format the periodsReserved array to be an array of objects...
+          var periodsReserved = formatPeriodsReservedArray(reservationObject.period.split(','));
+          //add period array value as a property of allItems[i] object
+          $scope.allItems[i].period = periodsReserved;
+        } // end if
+      } // end for
+    }); // end .map
+  }; // end addReservationsToAllItems
+
   var disabled = function(data) {
     // Disable weekend selection on daypicker
     var date = data.date,
@@ -21,8 +53,57 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
   }; // end disabled
 
-  var getReservationsByDate = function(date) {
+  var formatPeriodsReservedArray = function(periodsArray) {
+    //set newPeriodsArray defaults
+    var newPeriodsArray = [
+      { name: 'BS', reserved: false, class: 'enabled' },
+      { name: 'One', reserved: false, class: 'enabled' },
+      { name: 'Two', reserved: false, class: 'enabled' },
+      { name: 'Three', reserved: false, class: 'enabled' },
+      { name: 'Four', reserved: false, class: 'enabled' },
+      { name: 'Five', reserved: false, class: 'enabled' },
+      { name: 'Six', reserved: false, class: 'enabled' },
+      { name: 'Seven', reserved: false, class: 'enabled' },
+      { name: 'AS', reserved: false, class: 'enabled' },
+    ]; // end periodsArray
+    //Map all values in periodsArray
+    periodsArray.map(function(value) {
+      //If the value matches the name of a period in newPeriods array,
+      for (var i = 0; i < newPeriodsArray.length; i++) {
+        if (value === newPeriodsArray[i].name) {
+          //change the reserved value to true
+          newPeriodsArray[i].reserved = true;
+          //change the class value to disabled
+          newPeriodsArray[i].class = 'disabled';
+        } // end if
+      } // end for
+    }); // end map
+    //Return the newPeriodsArray
+    return newPeriodsArray;
+  }; // end formatPeriodsReservedArray
+
+  var getAllItems = function() {
+    $http({
+      method: 'GET',
+      url: '/private/items'
+    }).then(function(response) {
+      //scope all items as allItems for table repeat
+      $scope.allItems = response.data.results;
+      //Get all reservations for today
+      $scope.getReservationsByDate(new Date());
+    }).catch(function(err) {
+      //TODO: add better error handling here
+      console.log(err);
+    }); // end $http
+  }; // end getAllItems
+
+  $scope.getReservationsByDate = function(date) {
     console.log('in getReservationsByDate');
+    //clear reservations
+    console.log('all items-->', $scope.allItems);
+    //TODO: clear period property of all items
+    //$scope.allItems = clearPeriodsProperty($scope.allItems);
+    resetPeriodsProperties($scope.allItems);
     //convert date to ISO String format
     date = date.toISOString();
     //Get all reservations for selected date
@@ -30,7 +111,10 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       method: 'GET',
       url: 'private/reservations/date/' + date,
     }).then(function(response) {
-      console.log('getReservationsByDate response-->',response.data.results);
+      console.log('getReservationsByDate response-->',response.data);
+      var reservationArray = response.data.results;
+      //TODO: consolidate allItems with this
+      addReservationsToAllItems(reservationArray);
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
@@ -40,26 +124,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   var init = function() {
     console.log('in init');
 
-    //Get all reservations for today
-    getReservationsByDate(new Date());
-
-    //TODO: get all items from the database to replace this
-    $scope.allItems = [
-      {name: 'Chrome1'},
-      {name: 'Chrome2'},
-      {name: 'Chrome3'},
-      {name: 'Chrome4'},
-      {name: 'Chrome5'},
-      {name: 'MMS Mac Cart'},
-      {name: 'Lab1'},
-      {name: 'Lab2'},
-      {name: 'Lab116'},
-      {name: 'Media Center'},
-      {name: 'Mezzanine'},
-      {name: 'MMS'},
-      {name: 'Greek Theater'},
-      {name: 'Pit'}
-    ]; // end allItems
+    getAllItems();
 
     //Initialize datepicker default to today
     $scope.today();
@@ -104,6 +169,14 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       size: size
     }); // end modalInstance
   }; // end openUsernameModal
+
+  var resetPeriodsProperties = function(array) {
+    //TODO: fix this undefined value
+    console.log('in clearPeriodsProperty');
+    for (var i = 0; i < array.length; i++) {
+      array[i].period = $scope.freePeriods;
+    } // end for
+  }; //end resetPeriodsProperties
 
   $scope.today = function() {
     //Set datepicker default day to today
