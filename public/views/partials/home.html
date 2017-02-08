@@ -18,7 +18,7 @@
   </div>
 
   <div class="table-responsive">
-    <table class="table table-bordered">
+    <table class="table table-bordered calendar-table">
       <thead>
         <tr>
           <th></th>
@@ -51,9 +51,10 @@
         <tr ng-if="isAdmin" ng-repeat="item in allItems">
           <td><a>{{item.newItem}}</a></td>
           <!-- Repeat table data for items with reservations -->
-          <td ng-if="item.period" ng-repeat="value in item.period" class="{{value.class}}">{{value.reserved}}</td>
+          <!-- TODO: add {{value.reservationData}} within below td-->
+          <td ng-if="item.period" ng-repeat="value in item.period" class="{{value.class}}"></td>
           <!-- Repeat table data for items without reservations -->
-          <td ng-if="!item.period" ng-repeat="value in freePeriods" class="{{value.class}}">{{value.reserved}}</td>
+          <td ng-if="!item.period" ng-repeat="value in freePeriods" class="{{value.class}}"></td>
         </tr>
       </tbody>
     </table>

@@ -32,6 +32,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     console.log('in addReservationsToAllItems');
     //For each reservation in reservationArray...
     reservationArray.map(function(reservationObject) {
+      console.log('reservationObject-->',reservationObject);
       // loop through each item in allItems array
       for (var i = 0; i < $scope.allItems.length; i++) {
         // if reservationObject.item matches the current reservationArray.newItem property
