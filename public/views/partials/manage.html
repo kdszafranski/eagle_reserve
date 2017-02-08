@@ -1,6 +1,6 @@
 <!-- Manage Reservations View -->
 <div ng-if="loggedIn" class="text-center">
-  <div ng-if="!isAdmin" class="text-center">
+  <div ng-if="!isAdmin" class="text-center" ng-init='getByUsername();' >
     <h1>Manage My Reservations</h1>
     <div class="table-responsive">
       <table class="table table-bordered">
@@ -12,14 +12,13 @@
             <th>Delete</th>
           </tr>
         </thead>
-        <tbody ng-repeat=' reservation in reservations'>
+        <tbody ng-repeat=' reservation in userReservations'>
           <tr>
-            <td>{{reservation.dateScheduled}}</td>
+            <td>{{reservation.dateScheduled | date}}</td>
             <td>{{reservation.item}}</td>
             <td>{{reservation.period}}</td>
-            <td>yes</td>
             <td>
-              <button ng-click="deleteReservation( $index )" class="btn btn-sm btn-danger">
+              <button ng-click="deleteReservationUser( $index )" class="btn btn-sm btn-danger">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
               </button>
             </td>
@@ -29,13 +28,12 @@
     </div>
   </div>
 
-    <div ng-if="isAdmin" >
+    <div ng-if="isAdmin"  ng-init='displayReservation();'>
       <h1 class="text-center">Manage Reservations</h1>
       <div class='teacher'>
-        <select ng-model="teacher.teacherIn" >
-          <div ng-repeat= 'teacher in teachers'>
+        <select>
             <option value="">Select Teacher</option>
-            <option value="{{teacher}}">{{teacher}}</option>
+            <option ng-repeat=' reservation in reservations'>{{reservation.user}}</option>
           </div>
         </select>
       </div>
@@ -69,10 +67,10 @@
           </thead>
           <tbody ng-repeat=' reservation in reservations'>
             <tr>
-              <td>{{reservation.dateScheduled}}</td>
+              <td>{{reservation.dateScheduled | date}}</td>
               <td>{{reservation.item}}</td>
               <td>{{reservation.period}}</td>
-              <td>yes</td>
+              <td>{{reservation.user}}</td>
               <td>
                 <button ng-click="deleteReservation( $index )" class="btn btn-sm btn-danger">
                   <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
