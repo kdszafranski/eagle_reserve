@@ -103,8 +103,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   $scope.getReservationsByDate = function(date) {
     console.log('in getReservationsByDate');
-    //clear reservations
-    console.log('all items-->', $scope.allItems);
     //reset period property of all items to default
     resetPeriodsProperties($scope.allItems);
     //convert date to ISO String format

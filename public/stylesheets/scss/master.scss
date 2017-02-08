@@ -62,15 +62,25 @@ html, body {
     vertical-align: middle !important;
   }
 }
+
 .calendar-table {
+  >tbody>tr>td {
+    padding: 0;
+    > div {
+      padding: 16px;
+    }
+    .popover {
+      padding: 0;
+    }
+  }
   //class for table data containing a reservation
   td.disabled {
     background-color: lighten($bootstrapRed, 10%);
     cursor: pointer;
   }
   //class for table data not containing
-  // td.enabled {
-  // }
+  td.enabled {
+  }
 }
 // -- Media Queries -- //
 @import 'responsive';
