@@ -5,20 +5,12 @@
           <div class="reservations">
             <select ng-model="newReservation.categoryIn">
         <option value="">Select by Category</option>
-        <option value="carts">Carts</option>
-        <option value="labs">Labs</option>
-        <option value="equipment">Equipment</option>
+        <option ng-repeat = "category in categories" value= {{category}}>{{category}}</option>
       </select>
 
-        <select ng-model="newReservation.itemIn">
-        <option value="">Select a Reservable Item</option>
-        <option value="cart1">Cart 1</option>
-        <option value="cart2">Cart 2</option>
-        <option value="cart">Cart 3</option>
-        <option value="lab1">Lab 1</option>
-        <option value="lab2">Lab 2</option>
-        <option value="equipment1">Equipment 1</option>
-        <option value="equipment2">Equipment 2</option>
+      <select ng-model="newReservation.itemIn">
+        <option value="">Select by Item</option>
+        <option ng-repeat = 'item in itemNames' value= {{item}}>{{item}}</option>
       </select>
 
             <input type="date" ng-model='newReservation.dateIn'>

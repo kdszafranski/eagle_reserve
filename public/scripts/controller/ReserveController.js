@@ -16,6 +16,31 @@ function( $scope, $http, $location, AuthFactory ){
     $location.path("/#!/login");
   } // end if
 
+  $http({
+  method: 'GET',
+  url: '/private/items'
+  }).then(function(response) {
+  console.log('response for items ->', response);
+  var items = response.data.results;
+  $scope.itemNames = [];
+  $scope.categories = [];
+
+  console.log('items', items);
+
+  for (var i = 0; i < items.length; i++) {
+    $scope.itemNames.push(items[i].newItem)
+    if ($scope.categories.indexOf(items[i].category) === -1){
+      $scope.categories.push(items[i].category)
+    } else {
+      console.log('already exists');
+    }
+  }
+
+  console.log('item names array', $scope.itemNames);
+
+
+  }); //end http
+
   $scope.periodArray = ['BS', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'AS'];
   $scope.selection = [];
 
@@ -60,7 +85,6 @@ function( $scope, $http, $location, AuthFactory ){
     url: '/private/reservations'
 }).then(function(response) {
     console.log('response ->', response);
-
 }); //end http
 
   var item = $scope.newReservation.itemIn;
