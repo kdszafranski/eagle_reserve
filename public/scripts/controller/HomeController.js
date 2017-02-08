@@ -16,6 +16,18 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   $scope.allItems = [];
 
+  $scope.freePeriods = [
+    { name: 'BS', reserved: false, class: 'enabled' },
+    { name: 'One', reserved: false, class: 'enabled' },
+    { name: 'Two', reserved: false, class: 'enabled' },
+    { name: 'Three', reserved: false, class: 'enabled' },
+    { name: 'Four', reserved: false, class: 'enabled' },
+    { name: 'Five', reserved: false, class: 'enabled' },
+    { name: 'Six', reserved: false, class: 'enabled' },
+    { name: 'Seven', reserved: false, class: 'enabled' },
+    { name: 'AS', reserved: false, class: 'enabled' },
+  ]; // end periodsArray
+
   var addReservationsToAllItems = function(reservationArray) {
     console.log('in addReservationsToAllItems');
     //For each reservation in reservationArray...
@@ -25,10 +37,10 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
         // if reservationObject.item matches the current reservationArray.newItem property
         if (reservationObject.item === $scope.allItems[i].newItem) {
           //split the periods property into an array
-          var periodsReserved = reservationObject.period.split(',');
+          //TODO: format the periodsReserved array to be an array of objects...
+          var periodsReserved = formatPeriodsReservedArray(reservationObject.period.split(','));
           //add period array value as a property of allItems[i] object
           $scope.allItems[i].period = periodsReserved;
-          console.log('current item in $scope.allItems -->',$scope.allItems[i]);
         } // end if
       } // end for
     }); // end .map
@@ -40,6 +52,36 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       mode = data.mode;
     return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
   }; // end disabled
+
+  var formatPeriodsReservedArray = function(periodsArray) {
+    console.log('in formatPeriodsReservedArray', periodsArray);
+    var newPeriodsArray = [
+      { name: 'BS', reserved: false, class: 'enabled' },
+      { name: 'One', reserved: false, class: 'enabled' },
+      { name: 'Two', reserved: false, class: 'enabled' },
+      { name: 'Three', reserved: false, class: 'enabled' },
+      { name: 'Four', reserved: false, class: 'enabled' },
+      { name: 'Five', reserved: false, class: 'enabled' },
+      { name: 'Six', reserved: false, class: 'enabled' },
+      { name: 'Seven', reserved: false, class: 'enabled' },
+      { name: 'AS', reserved: false, class: 'enabled' },
+    ]; // end periodsArray
+    //Map all values in periodsArray
+    periodsArray.map(function(value) {
+      //If the value matches the name of a period in newPeriods array,
+
+      for (var i = 0; i < newPeriodsArray.length; i++) {
+        if (value === newPeriodsArray[i].name) {
+          //change the reserved value to true
+          newPeriodsArray[i].reserved = true;
+          //change the class value to disabled
+          newPeriodsArray[i].class = 'disabled';
+        } // end if
+      } // end for
+    }); // end map
+    //Return the newPeriodsArray
+    return newPeriodsArray;
+  }; // end formatPeriodsReservedArray
 
   var getAllItems = function() {
     $http({
