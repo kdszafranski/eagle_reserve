@@ -9,7 +9,7 @@ var passport = require('../config/passport');
 router.get('/google', passport.authenticate('google', {
     //Read more about the scope value here:
     //https://developers.google.com/identity/protocols/OpenIDConnect#scope-param
-    scope: ['openid', 'email'],
+    scope: ['openid', 'email', 'https://www.googleapis.com/auth/userinfo.profile'],
     prompt: 'select_account',
   }) // end authenticate
 ); // end get
