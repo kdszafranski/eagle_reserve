@@ -62,6 +62,19 @@ router.delete( '/:id', function( req, res ){
   res.send( 200 );
 });
 
+//GET only user reservations
+router.get( '/:username', function( req, res ){
+  console.log( 'in find only by username' );
+  Reservation.find({'user': req.params.username }, function( err, results){
+    if( err ){
+      console.log( err );
+      res.sendStatus(500);
+    } else {
+      res.send({ results });
+    } // end else
+  }); // end find
+}); // end get
+
 
 
 module.exports = router;

@@ -26,10 +26,8 @@ function( $scope, $http, $location, AuthFactory ){
     });// end then
   };// end displayReservation
 
-  //  Getting all reservations from the data base
-  $scope.displayReservation();
 
-// Getting all Items that are currently in database to choose from
+  // Getting all Items that are currently in database to choose from
   $scope.getItems = function(){
     console.log("In getItems");
     $http.get( '/private/items' )
@@ -39,16 +37,35 @@ function( $scope, $http, $location, AuthFactory ){
     });// end then
   };// end getItems
 
-// Getting all the Items in the database and making them selectable
+  // Getting all the Items in the database and making them selectable
   $scope.getItems();
 
-  // delete item
+  // delete a reservation
   $scope.deleteReservation = function( indexIn ){
-      $http.delete( '/private/reservations/' + $scope.reservations[ indexIn ]._id )
-      .then(function( response ){
-        console.log( 'delete hit', response );
-        $scope.displayReservation();
-      });
-    };
+    $http.delete( '/private/reservations/' + $scope.reservations[ indexIn ]._id )
+    .then(function( response ){
+      console.log( 'delete hit', response );
+      $scope.displayReservation();
+    });// end then
+  };// end deleteReservation
 
+
+  // delete a reservation
+  $scope.deleteReservationUser = function( indexIn ){
+    $http.delete( '/private/reservations/' + $scope.userReservations[ indexIn ]._id )
+    .then(function( response ){
+      console.log( 'delete hit', response );
+      $scope.getByUsername();
+    });// end then
+  };// end deleteReservation
+
+  // getting only reservations for the teacher logged in
+  $scope.getByUsername = function (){
+    console.log('User is', AuthFactory.username);
+    $http.get( '/private/reservations/' + AuthFactory.username )
+    .then(function( response ){
+      console.log('User Reservations', response);
+      $scope.userReservations = response.data.results;
+    });// end then
+  };// end getByUsername
 }]); // end ManageController
