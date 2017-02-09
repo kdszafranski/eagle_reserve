@@ -9,11 +9,13 @@ var router = express.Router();
 var reservations = require('./reservationsRoute');
 var items = require('./itemsRoute');
 var users = require('./usersRoute');
+var email = require('./emailRoute');
 
 //Subroutes
 router.use('/reservations', reservations);
 router.use('/items', items);
 router.use('/users', users);
+router.use('/email', email);
 
 //GET private.index
 router.get('/', function( req,res ) {

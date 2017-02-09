@@ -96,6 +96,33 @@ function( $scope, $http, $location, AuthFactory ){
 
 };//end make Reservation
 
+// send email
+$scope.sendEmail = function( req, res ) {
+    console.log('in sendEmail');
+    var myEmail = 'avhs.test1@apps.district196.org';
+    var yourEmail = 'avhs.test1@apps.district196.org';
+    //construct object to send
+    var objectToSend = {
+      from: myEmail,
+      to: yourEmail,
+      subject: 'Reservation Confirmation',
+      text: 'You reserved item on day during period'
+    }; // end objectToSend
+    //post info to the server
+    console.log('pre http call');
+    $http({
+      method: 'POST',
+      url: '/private/email',
+      data: objectToSend
+    }).then(function(response) {
+      console.log('EMAIL SENT');
+      console.log('send email response!!!-->',response.data);
+    }).catch(function(err) {
+      //if there was an error, log it
+      console.log(err);
+    }); // end $http
+  }; // end sendEmails
+
 
 
 }]); // end ReserveController
