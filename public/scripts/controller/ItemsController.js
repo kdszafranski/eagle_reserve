@@ -28,6 +28,15 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     category: ''
   }; // end $scope.newItem
 
+  //set statusArray for status select
+  $scope.categoryArray = [
+    {value: 'Cart'},
+    {value: 'Lab'},
+    {value: 'Equipment'}
+  ]; // end statusArray
+  //Initiate status filter to 'off'
+  $scope.categorySelected = { value: undefined };
+
   // GET all items to display on DOM
   $scope.displayItems = function(){
     console.log( 'in displayItem' );
@@ -71,6 +80,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
 }]); // end ItemsController
 
+/* AddNewItemModalController is passed $modalInstance
+ * which is the instance of modal returned by the open() function.
+ * This instance needs to be passed because dismiss is the property of
+ * this instance object which is used to close the modal. */
+
 //AddNewItemModalController
 myApp.controller('AddNewItemModalController', ['$scope', '$http', '$uibModalInstance',
 function ($scope, $http, $uibModalInstance) {
@@ -94,13 +108,9 @@ function ($scope, $http, $uibModalInstance) {
         console.log( 'response in newItem', response );
         //close the modal
         $scope.close();
-        //$scope.displayItem();
-        //reset scope variables
-        // $scope.newItem.name = '';
-        // $scope.newItem.category = '';
       }, function errorCallback( error ){
         console.log( 'error occured' );
-      });
+      }); // end errorCallback
     }; // end addItem
 
   } // end controller callback

@@ -4,28 +4,41 @@
 
   <h1 class="text-center">Manage Items</h1>
 
-  <!-- <form class="form-inline">
-    <div class="form-group">
-      <label>Add New Reservable Item:</label>
-      <input type="text" ng-model="newItem.name" class="form-control" placeholder="Item Name Here">
-    </div>
-    <div class="form-group">
-      <select id="categorySelect" ng-model="newItem.category" class="form-control">
-        <option value="" selected disabled>Select Category</option>
-        <option value="carts">Carts</option>
-        <option value="labs">Labs</option>
-        <option value="equipment">Equipment</option>
-      </select>
-    </div>
-    <button type="button" ng-click="addItem();" class="btn btn-success">Add</button>
-  </form> -->
-
   <!-- Add item button -->
   <div class="clearfix">
     <button ng-click="openAddItemModal('md')" class="btn btn-success pull-right">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     </button>
   </div>
+
+  <form class="form filters-form">
+    <fieldset>
+      <div class="form-group">
+        <!-- Filter by Status select group  -->
+          <div class="col-sm-4">
+            <div class="input-group">
+              <ui-select allow-clear ng-model="categorySelected.value" theme="bootstrap">
+                <ui-select-match placeholder="Filter By Category..." >{{$select.selected.value}}</ui-select-match>
+                <ui-select-choices repeat="status in (categoryArray | filter: $select.search) track by status.value">
+                  <span ng-bind-html="status.value"></span>
+                </ui-select-choices>
+              </ui-select>
+              <span class="input-group-btn">
+                <button type="button" ng-click="categorySelected.value = undefined" class="btn btn-default">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </span>
+            </div>
+          </div>
+      </div>
+      <div class="form-group">
+        <!-- Search by name input -->
+        <div class="col-sm-4 col-sm-offset-4">
+          <input ng-model="itemSearch" type="text" class="form-control" placeholder="Search by Name...">
+        </div>
+      </div>
+    </fieldset>
+  </form>
 
   <!-- Items Table -->
   <div class="table-responsive">
@@ -34,17 +47,14 @@
         <tr>
           <th>Item Name</th>
           <th>Category</th>
-          <th>Edit/Delete</th>
+          <th>Remove Item</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in allItems">
+        <tr ng-repeat="item in allItems| filter: ({ newItem: itemSearch, category: categorySelected.value.value })">
           <td>{{ item.newItem }}</td>
           <td>{{ item.category }}</td>
           <td>
-            <button class="btn btn-sm btn-warning">
-              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-            </button>
             <button ng-click="deleteItem( $index )" class="btn btn-sm btn-danger">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             </button>
