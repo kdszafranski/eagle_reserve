@@ -30,45 +30,85 @@
 
     <div ng-if="isAdmin"  ng-init='displayReservation();'>
       <h1 class="text-center">Manage Reservations</h1>
-      <div class='teacher'>
-        <select>
-            <option value="">Select Teacher</option>
-            <option ng-repeat=' reservation in reservations'>{{reservation.user}}</option>
+      <form class="form filters-form">
+        <fieldset>
+          <div class="form-group">
+            <!-- Filter by Status select group  -->
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <ui-select allow-clear ng-model="teacherSelected.name" theme="bootstrap">
+                    <ui-select-match placeholder="Filter By Teacher..." >{{$select.selected.name}}</ui-select-match>
+                    <ui-select-choices repeat="status in (teachers | filter: $select.search) track by status.name">
+                      <span ng-bind-html="status.name"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                  <span class="input-group-btn">
+                    <button type="button" ng-click="teacherSelected.name = undefined" class="btn btn-default">
+                      <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                  </span>
+                </div>
+              </div>
           </div>
-        </select>
-      </div>
+          <div class="form-group">
+            <!-- Filter by Status select group  -->
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <ui-select allow-clear ng-model="categorySelected.category" theme="bootstrap">
+                    <ui-select-match placeholder="Filter By Category..." >{{$select.selected.category}}</ui-select-match>
+                    <ui-select-choices repeat="status in (category | filter: $select.search) track by status.category">
+                      <span ng-bind-html="status.category"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                  <span class="input-group-btn">
+                    <button type="button" ng-click="categorySelected.category = undefined" class="btn btn-default">
+                      <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+          </div>
+          <div class="form-group">
+            <!-- Filter by Status select group  -->
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <ui-select allow-clear ng-model="itemSelected.newItem" theme="bootstrap">
+                    <ui-select-match placeholder="Filter By Item..." >{{$select.selected.newItem}}</ui-select-match>
+                    <ui-select-choices repeat="status in (items | filter: $select.search) track by status.newItem">
+                      <span ng-bind-html="status.newItem"></span>
+                    </ui-select-choices>
+                  </ui-select>
+                  <span class="input-group-btn">
+                    <button type="button" ng-click="itemSelected.newItem = undefined" class="btn btn-default">
+                      <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+          </div>
+        </fieldset>
+      </form>
 
-      <div class="manageCategory">
-        <select ng-model="manageCategory.categoryIn">
-          <option value="">Select by Category</option>
-          <option value="carts">Carts</option>
-          <option value="labs">Labs</option>
-          <option value="equipment">Equipment</option>
-        </select>
-      </div>
 
-      <div class='manageItems' >
-        <select>
-          <option value="">Select by Item</option>
-          <option value="{{item.newItem}}" ng-repeat= 'item in items'>{{item.newItem}}</option>
-        </select>
-      </div>
 
+{{categorySelected.category.category}}
       <div class="table-responsive">
         <table class="table table-bordered">
           <thead>
             <tr>
               <th>Date</th>
               <th>Item</th>
+              <th>Category</th>
               <th>Time Period</th>
               <th>Teacher</th>
               <th>Delete</th>
             </tr>
           </thead>
-          <tbody ng-repeat=' reservation in reservations'>
+          <tbody ng-repeat=' reservation in reservations | filter: ({user:teacherSelected.name.name, item:itemSelected.newItem.newItem, category:categorySelected.category.category})'>
             <tr>
               <td>{{reservation.dateScheduled | date}}</td>
               <td>{{reservation.item}}</td>
+              <td>{{reservation.category}}
               <td>{{reservation.period}}</td>
               <td>{{reservation.user}}</td>
               <td>

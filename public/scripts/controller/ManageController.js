@@ -68,4 +68,34 @@ function( $scope, $http, $location, AuthFactory ){
       $scope.userReservations = response.data.results;
     });// end then
   };// end getByUsername
+
+  // getting just the teachers in the database
+  $scope.getTeachers = function(){
+    console.log('In get teachers');
+    $http({
+      method: 'GET',
+      url: '/private/users'
+    }).then(function(response) {
+      console.log('Teachers ', response);
+      $scope.teachers = response.data.users;
+    }).catch(function(err) {
+      //TODO: add better error handling here
+      console.log(err);
+    }); // end $http
+  }; // end getTeachers
+
+  // getting all the teachers
+  $scope.getTeachers();
+
+  $scope.category = [
+    {category: "Lab"},
+    {category: "Cart"},
+    {category: "Equipment"}
+  ];
+
+  $scope.teacherSelected= {name: undefined};
+  $scope.itemSelected= {newItem: undefined};
+  $scope.categorySelected= {category: undefined};
+
+
 }]); // end ManageController
