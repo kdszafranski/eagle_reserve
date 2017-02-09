@@ -3,20 +3,97 @@
 <div ng-if="loggedIn && isAdmin">
 
   <h1 class="text-center">Manage Items</h1>
-  <div class="newItem">
-    <label>Add New Reservable Item</label>
-    <input type="text" ng-model="newItem.name">
-    <select id="categorySelect" ng-model="newItem.category">
-      <option value="">Select Category</option>
-      <option value="carts">Carts</option>
-      <option value="labs">Labs</option>
-      <option value="equipment">Equipment</option>
-    </select>
-    <button type="button" ng-click="addItem();">Add</button>
+
+  <!-- Add item button -->
+  <div class="clearfix">
+    <button ng-click="openAddItemModal('md')" class="btn btn-success pull-right">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    </button>
   </div>
-  <div class="postItem" ng-repeat="item in allItems">
-    {{ item.newItem }}
-    {{ item.category }}
-    <button type="button" ng-click="deleteItem( $index )">Delete</button>
+
+  <form class="form filters-form">
+    <fieldset>
+      <div class="form-group">
+        <!-- Filter by Status select group  -->
+          <div class="col-sm-4">
+            <div class="input-group">
+              <ui-select allow-clear ng-model="categorySelected.value" theme="bootstrap">
+                <ui-select-match placeholder="Filter By Category..." >{{$select.selected.value}}</ui-select-match>
+                <ui-select-choices repeat="status in (categoryArray | filter: $select.search) track by status.value">
+                  <span ng-bind-html="status.value"></span>
+                </ui-select-choices>
+              </ui-select>
+              <span class="input-group-btn">
+                <button type="button" ng-click="categorySelected.value = undefined" class="btn btn-default">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </span>
+            </div>
+          </div>
+      </div>
+      <div class="form-group">
+        <!-- Search by name input -->
+        <div class="col-sm-4 col-sm-offset-4">
+          <input ng-model="itemSearch" type="text" class="form-control" placeholder="Search by Name...">
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+  <!-- Items Table -->
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-condensed">
+      <thead>
+        <tr>
+          <th>Item Name</th>
+          <th>Category</th>
+          <th>Remove Item</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in allItems| filter: ({ newItem: itemSearch, category: categorySelected.value.value })">
+          <td>{{ item.newItem }}</td>
+          <td>{{ item.category }}</td>
+          <td>
+            <button ng-click="deleteItem( $index )" class="btn btn-sm btn-danger">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
+  <!-- Add New Item Modal -->
+  <div class="modal fade">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <script type="text/ng-template" id="addNewItemModal.html">
+          <div class="modal-header">
+            <h5 class="modal-title">Add New Item</h5>
+          </div>
+          <div class="modal-body">
+            <form class="form">
+              <div class="form-group">
+                <input type="text" ng-model="newItem.name" class="form-control" placeholder="Item Name">
+              </div>
+              <div class="form-group">
+                <select id="categorySelect" ng-model="newItem.category" class="form-control">
+                  <option value="" selected disabled>Select Category</option>
+                  <option value="Cart">Cart</option>
+                  <option value="Lab">Lab</option>
+                  <option value="Equipment">Equipment</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button ng-click="addItem()" type="button" class="btn btn-success">Save</button>
+            <button ng-click="close()" type="button" class="btn btn-danger">Cancel</button>
+          </div>
+        </script>
+      </div>
+    </div>
+  </div>
+
 </div>
