@@ -3,20 +3,87 @@
 <div ng-if="loggedIn && isAdmin">
 
   <h1 class="text-center">Manage Items</h1>
-  <div class="newItem">
-    <label>Add New Reservable Item</label>
-    <input type="text" ng-model="newItem.name">
-    <select id="categorySelect" ng-model="newItem.category">
-      <option value="">Select Category</option>
-      <option value="carts">Carts</option>
-      <option value="labs">Labs</option>
-      <option value="equipment">Equipment</option>
-    </select>
-    <button type="button" ng-click="addItem();">Add</button>
+
+  <!-- <form class="form-inline">
+    <div class="form-group">
+      <label>Add New Reservable Item:</label>
+      <input type="text" ng-model="newItem.name" class="form-control" placeholder="Item Name Here">
+    </div>
+    <div class="form-group">
+      <select id="categorySelect" ng-model="newItem.category" class="form-control">
+        <option value="" selected disabled>Select Category</option>
+        <option value="carts">Carts</option>
+        <option value="labs">Labs</option>
+        <option value="equipment">Equipment</option>
+      </select>
+    </div>
+    <button type="button" ng-click="addItem();" class="btn btn-success">Add</button>
+  </form> -->
+
+  <!-- Add item button -->
+  <div class="clearfix">
+    <button ng-click="openAddItemModal('md')" class="btn btn-success pull-right">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    </button>
   </div>
-  <div class="postItem" ng-repeat="item in allItems">
-    {{ item.newItem }}
-    {{ item.category }}
-    <button type="button" ng-click="deleteItem( $index )">Delete</button>
+
+  <!-- Items Table -->
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-condensed">
+      <thead>
+        <tr>
+          <th>Item Name</th>
+          <th>Category</th>
+          <th>Edit/Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in allItems">
+          <td>{{ item.newItem }}</td>
+          <td>{{ item.category }}</td>
+          <td>
+            <button class="btn btn-sm btn-warning">
+              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+            </button>
+            <button ng-click="deleteItem( $index )" class="btn btn-sm btn-danger">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
+  <!-- Add New Item Modal -->
+  <div class="modal fade">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <script type="text/ng-template" id="addNewItemModal.html">
+          <div class="modal-header">
+            <h5 class="modal-title">Add New Item</h5>
+          </div>
+          <div class="modal-body">
+            <form class="form">
+              <div class="form-group">
+                <input type="text" ng-model="newItem.name" class="form-control" placeholder="Item Name">
+              </div>
+              <div class="form-group">
+                <select id="categorySelect" ng-model="newItem.category" class="form-control">
+                  <option value="" selected disabled>Select Category</option>
+                  <option value="Cart">Cart</option>
+                  <option value="Lab">Lab</option>
+                  <option value="Equipment">Equipment</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button ng-click="addItem()" type="button" class="btn btn-success">Save</button>
+            <button ng-click="close()" type="button" class="btn btn-danger">Cancel</button>
+          </div>
+        </script>
+      </div>
+    </div>
+  </div>
+
 </div>
