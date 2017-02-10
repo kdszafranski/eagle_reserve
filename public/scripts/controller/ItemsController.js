@@ -46,16 +46,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     }); // end $http
   }; // end displayItems
 
-  // delete item
-  $scope.deleteItem = function( indexIn ){
-    $http.delete( '/private/items/' + $scope.allItems[ indexIn ]._id )
-    .then(function( response ){
-      console.log( 'delete hit', response );
-      $scope.displayItems();
-    }); // end $http
-  }; // end deleteItem
-
-  //open the modal (returns a modal instance)
+  //open the add new item modal (returns a modal instance)
   $scope.openAddItemModal = function (size) {
     //open the modal
     console.log('Open User delete Confirm modal');
@@ -76,11 +67,35 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   }; // end openAddItemModal
 
+  // //open the delete item confirmation modal (returns a modal instance)
+  $scope.openDeleteItemConfirmationModal = function (size, itemObject) {
+    //open the modal
+    console.log('in openDeleteItemConfirmationModal');
+    //set the modalInstance
+    var modalInstance = $uibModal.open({
+      templateUrl: 'deleteItemConfirmModal.html',
+      controller: 'DeleteItemConfirmationModalController',
+      size: size,
+      //pass the itemObject to DeleteItemConfirmationModalController
+      resolve: {
+        itemObject: function () {
+          return itemObject;
+        } // end userId
+      } // end resolve
+    }); // end modalInstance
+
+    //Update the users when the modal has been closed
+    modalInstance.closed.then(function () {
+      $scope.displayItems();
+    }); // end modalInstance closed
+
+  }; // end openDeleteItemConfirmationModal
+
   $scope.displayItems();
 
 }]); // end ItemsController
 
-/* AddNewItemModalController is passed $modalInstance
+/* Modal Controllers are passed $modalInstance
  * which is the instance of modal returned by the open() function.
  * This instance needs to be passed because dismiss is the property of
  * this instance object which is used to close the modal. */
@@ -115,3 +130,30 @@ function ($scope, $http, $uibModalInstance) {
 
   } // end controller callback
 ]); // end AddNewItemModalController
+
+
+//DeleteItemConfirmationModalController
+myApp.controller('DeleteItemConfirmationModalController', ['$scope', '$http', '$uibModalInstance', 'itemObject',
+function ($scope, $http, $uibModalInstance, itemObject) {
+    console.log('in DeleteItemConfirmationModalController', itemObject);
+    
+    //scope the item name for display within the modal
+    $scope.itemName = itemObject.newItem;
+
+    //close the  modal
+    $scope.close = function () {
+      $uibModalInstance.dismiss('cancel');
+    }; // end close
+
+    // delete item
+    $scope.deleteItem = function(){
+      $http.delete( '/private/items/' + itemObject._id )
+      .then(function( response ){
+        console.log( 'delete hit', response );
+        //close the modal
+        $scope.close();
+      }); // end $http
+    }; // end deleteItem
+
+  } // end controller callback
+]); // end DeleteItemConfirmationModalController
