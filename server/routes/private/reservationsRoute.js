@@ -30,6 +30,19 @@ router.post('/', function(req, res){
 });//end post
 
 //GET all reservations
+router.get( '/', function( req, res ){
+  console.log( 'in router.get' );
+  Reservation.find({}, function( err, results){
+    if( err ){
+      console.log( err );
+      res.sendStatus(500);
+    } else {
+      res.send({ results });
+    } // end else
+  }); // end find
+}); // end get
+
+//GET reservations by date for past dates in manageReservations view
 router.get( '/all/:date', function( req, res ){
   console.log( 'in router.get reservation by date', req.params.date);
   var date = req.params.date.split('T')[0];
@@ -43,7 +56,6 @@ router.get( '/all/:date', function( req, res ){
     } // end else
   }); // end find
 }); // end get
-
 
 //GET reservations by date
 router.get( '/date/:date', function( req, res ){
