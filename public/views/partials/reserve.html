@@ -14,9 +14,9 @@
       </select>
 
             <input type="date" ng-model='newReservation.dateIn'>
-            <input type="text" ng-if = "newReservation.categoryIn == 'labs'" placeholder="Number of Students">
-            <input type="text" ng-if = "newReservation.categoryIn == 'carts'" placeholder="Room Number">
-            <input type="text" ng-if = "newReservation.categoryIn == 'other'" placeholder="Room Number">
+            <input type="text" ng-model = 'newReservation.numberOfStudentsIn' ng-if = "newReservation.categoryIn == 'labs'" placeholder="Number of Students">
+            <input type="text" ng-model = 'newReservation.roomNumberIn' ng-if = "newReservation.categoryIn == 'carts'" placeholder="Room Number">
+            <input type="text" ng-model = 'newReservation.roomNumberIn' ng-if = "newReservation.categoryIn == 'other'" placeholder="Room Number">
             </div>
         </div>
 

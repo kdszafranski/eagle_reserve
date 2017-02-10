@@ -47,12 +47,15 @@ function( $scope, $http, $location, AuthFactory ){
   var username = authFactory.username
 
 
+
   $scope.newReservation = {
       categoryIn: '',
       itemIn: '',
       dateIn: '',
       periodIn: $scope.selection,
-      username: username
+      username: username,
+      numberOfStudents: $scope.numberOfStudentsIn,
+      roomNumber: $scope.roomNumberIn
     }
 
     $scope.toggleSelection = function toggleSelection(periodName) {
@@ -90,6 +93,9 @@ function( $scope, $http, $location, AuthFactory ){
   var item = $scope.newReservation.itemIn;
   var date = $scope.newReservation.dateIn;
   var period = $scope.newReservation.periodIn;
+  $scope.roomNumberIn = '';
+  $scope.numberOfStudentsIn = '';
+
 
 
   $scope.outputDiv += '<p>' + 'You have added a reservation for ' + item + ' on ' + date + ' for period ' + period + '</p>'

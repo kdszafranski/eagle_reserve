@@ -14,7 +14,10 @@ router.post('/', function(req, res){
     category: req.body.categoryIn,
     item: req.body.itemIn,
     period: req.body.periodIn,
-    user: req.body.username
+    user: req.body.username,
+    roomNumber: req.body.roomNumberIn,
+    numberOfStudents: req.body.numberOfStudentsIn
+
   });
   newReservation.save(function(err){
     if(err){
