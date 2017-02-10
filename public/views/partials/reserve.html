@@ -48,7 +48,7 @@
                 </div>
                 <div class="modal-body">
                     <p>In order to reserve carts or equipment, please provide your room number.</p>
-                    <input type="input"/>
+                    <input type="text" name="numberOfStudents" ng-model="numberOfStudents" required="true"/>
                 </div>
                 <div class="modal-footer">
                     <button ng-click="confirmReservation()" type="button" class="btn btn-success">Confirm</button>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="modal-body">
                     <p>In order to reserve a lab, please provide the number of students that will be using the lab.</p>
-                    <input type="input"/>
+                    <input type="text" name="roomNumber" ng-model="roomNumber" required="true"/>
                 </div>
                 <div class="modal-footer">
                     <button ng-click="confirmReservation()" type="button" class="btn btn-success">Confirm</button>

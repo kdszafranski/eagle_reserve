@@ -28,9 +28,9 @@ function( $scope, $http, $location, AuthFactory ){
   console.log('items', items);
 
   for (var i = 0; i < items.length; i++) {
-    $scope.itemNames.push(items[i].newItem)
+    $scope.itemNames.push(items[i].newItem);
     if ($scope.categories.indexOf(items[i].category) === -1){
-      $scope.categories.push(items[i].category)
+      $scope.categories.push(items[i].category);
     } else {
       console.log('already exists');
     }
@@ -44,7 +44,7 @@ function( $scope, $http, $location, AuthFactory ){
   $scope.periodArray = ['BS', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'AS'];
   $scope.selection = [];
 
-  var username = authFactory.username
+  var username = authFactory.username;
 
 
 
@@ -56,7 +56,7 @@ function( $scope, $http, $location, AuthFactory ){
       username: username,
       numberOfStudents: $scope.numberOfStudentsIn,
       roomNumber: $scope.roomNumberIn
-    }
+    };
 
     $scope.toggleSelection = function toggleSelection(periodName) {
     var idx = $scope.selection.indexOf(periodName);
@@ -98,19 +98,17 @@ function( $scope, $http, $location, AuthFactory ){
 
 
 
-  $scope.outputDiv += '<p>' + 'You have added a reservation for ' + item + ' on ' + date + ' for period ' + period + '</p>'
+  $scope.outputDiv += '<p>' + 'You have added a reservation for ' + item + ' on ' + date + ' for period ' + period + '</p>';
 
 };//end make Reservation
 
-// confirmation modal
-
 //open the modal (returns a modal instance)
-$scope.confirmModal = function (size, userId) {
+$scope.open = function (size, userId) {
   //open the modal
   console.log('Open confirm reservation modal');
   //set the modalInstance
   var modalInstance = $uibModal.open({
-    templateUrl: 'confirmReservationModal.html',
+    templateUrl: "confirmReservationModal.html",
     controller: 'ConfirmReservationModalController',
     size: size,
     //pass the userId to DeleteUserModalController
@@ -130,28 +128,23 @@ $scope.confirmModal = function (size, userId) {
 
 init();
 
-}]); // end UsersController
-
-/* DeleteUserModalController is passed $modalInstance
-* which is the instance of modal returned by the open() function.
-* This instance needs to be passed because dismiss is the property of
-* this instance object which is used to close the modal. */
-
-//DeleteUserModalController
-myApp.controller('ConfirmReservationModalController', ['$scope', '$http', '$uibModalInstance',
-function ($scope, $http, $uibModalInstance) {
-  console.log('in ConfirmReservationModalController');
-
-  //close the  modal
-  $scope.close = function () {
-    $uibModalInstance.dismiss('cancel');
-  }; // end close
-
-
-} // end controller callback
-]); // end ModalInstanceController
-
 
 
 
 }]); // end ReserveController
+
+// confirmation modal
+
+myApp.controller('ConfirmReservationModalController', ['$scope', '$http', '$uibModalInstance',
+function ($scope, $http, $uibModalInstance) {
+    console.log('in ConfirmReservationModalController');
+
+    //close the  modal
+    $scope.close = function () {
+      $uibModalInstance.dismiss('cancel');
+    }; // end close
+
+    $scope.makeReservation();
+
+
+}]); // end ConfirmReservationModalController
