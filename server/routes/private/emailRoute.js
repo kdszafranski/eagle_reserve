@@ -4,16 +4,16 @@ var Reservation = require('../../models/reservation');
 var nodemailer = require('nodemailer');
 var schedule = require('node-schedule');
 
+
 router.post('/', function( req,res){
 
 console.log( 'in email post' );
 // send confirmation email on click
 // create reusable transporter object using the default SMTP transport
-var userName = process.env.ER_MYEMAIL;
-var password = process.env.ER_MYPASSWORD;
 
-console.log('USERNAME->', userName);
-console.log('PASSWORD->', password);
+console.log( "email receiver-->", req.user.email );
+
+
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -26,9 +26,9 @@ var transporter = nodemailer.createTransport({
 // setup email data with unicode symbols
 var mailOptions = {
     from: '"Test1" <avhs.test1@apps.district196.org>', // sender address
-    to: 'avhs.test1@apps.district196.org', // list of receivers
+    to: '<'+req.user.email+'>', // list of receivers
     subject: 'Reservation Confirmation', // Subject line
-    text: 'You reserved item on day during period' // plain text body
+    text: 'You reserved ________ on ________ during _________ period' // plain text body
     // html: '<b>Hello world ?</b>' // html body
 };
 

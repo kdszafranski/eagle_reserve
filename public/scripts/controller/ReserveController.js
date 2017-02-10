@@ -99,6 +99,7 @@ function( $scope, $http, $location, AuthFactory ){
 // send email
 $scope.sendEmail = function( req, res ) {
     console.log('in sendEmail');
+    // console.log(req.user.email);
     var myEmail = 'avhs.test1@apps.district196.org';
     var yourEmail = 'avhs.test1@apps.district196.org';
     //construct object to send
