@@ -111,21 +111,26 @@ function ($scope, $http, $uibModalInstance) {
     }; // end close
 
     $scope.addItem = function(){
-      var itemToSend = {
-        newItem: $scope.newItem.name,
-        category: $scope.newItem.category
-      }; // end itemToSend
-      $http({
-        method: 'POST',
-        url: '/private/items',
-        data: itemToSend
-      }).then(function successCallback( response ){
-        console.log( 'response in newItem', response );
-        //close the modal
-        $scope.close();
-      }, function errorCallback( error ){
-        console.log( 'error occured' );
-      }); // end errorCallback
+      // If the form has been validated (all fields have been filled out),
+      // add the item
+      if ($scope.addItemForm.$valid) {
+        var itemToSend = {
+          newItem: $scope.newItem.name,
+          category: $scope.newItem.category
+        }; // end itemToSend
+        $http({
+          method: 'POST',
+          url: '/private/items',
+          data: itemToSend
+        }).then(function successCallback( response ){
+          console.log( 'response in newItem', response );
+          //close the modal
+          $scope.close();
+        }, function errorCallback( error ){
+          console.log( 'error occured' );
+        }); // end errorCallback
+			} // end if
+
     }; // end addItem
 
   } // end controller callback
@@ -135,8 +140,8 @@ function ($scope, $http, $uibModalInstance) {
 //DeleteItemConfirmationModalController
 myApp.controller('DeleteItemConfirmationModalController', ['$scope', '$http', '$uibModalInstance', 'itemObject',
 function ($scope, $http, $uibModalInstance, itemObject) {
-    console.log('in DeleteItemConfirmationModalController', itemObject);
-    
+    console.log('in DeleteItemConfirmationModalController');
+
     //scope the item name for display within the modal
     $scope.itemName = itemObject.newItem;
 

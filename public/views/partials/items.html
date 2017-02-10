@@ -73,24 +73,25 @@
             <h5 class="modal-title">Add New Item</h5>
           </div>
           <div class="modal-body">
-            <form class="form">
+            <form ng-submit="addItem()" class="form" name="addItemForm" novalidate>
               <div class="form-group">
-                <input type="text" ng-model="newItem.name" class="form-control" placeholder="Item Name">
+                <input type="text" ng-model="newItem.name" class="form-control" placeholder="Item Name" name="itemNameIn" required>
               </div>
               <div class="form-group">
-                <select id="categorySelect" ng-model="newItem.category" class="form-control">
+                <select id="categorySelect" ng-model="newItem.category" class="form-control" name="itemCategoryIn" required>
                   <option value="" selected disabled>Select Category</option>
                   <option value="Cart">Cart</option>
                   <option value="Lab">Lab</option>
                   <option value="Equipment">Equipment</option>
                 </select>
               </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button ng-click="close()" type="button" class="btn btn-danger">Cancel</button>
+              </div>
             </form>
           </div>
-          <div class="modal-footer">
-            <button ng-click="addItem()" type="button" class="btn btn-success">Save</button>
-            <button ng-click="close()" type="button" class="btn btn-danger">Cancel</button>
-          </div>
+
         </script>
       </div>
     </div>
