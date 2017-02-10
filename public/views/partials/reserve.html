@@ -1,24 +1,21 @@
 <!-- Make a Reservation View -->
 <div ng-if="loggedIn">
     <h1 class="text-center">Make a Reservation</h1>
-        <div class="row">
-          <div class="reservations">
-            <select ng-model="newReservation.categoryIn">
-        <option value="">Select by Category</option>
-        <option ng-repeat = "category in categories" value= {{category}}>{{category}}</option>
-      </select>
-
-      <select ng-model="newReservation.itemIn">
-        <option value="">Select by Item</option>
-        <option ng-repeat = 'item in itemNames' value= {{item}}>{{item}}</option>
-      </select>
+    <div class="row">
+        <div class="reservations">
+            <select ng-model="newReservation.categoryIn" ng-options='p for p in categories'>
+              <option value="">Select by Category</option>
+            </select>
+            <select ng-model="newReservation.itemIn" ng-options='c.newItem as c.newItem for c in items | filter: {category: newReservation.categoryIn}'>
+              <option value="">Select by Item</option>
+            </select>
 
             <input type="date" ng-model='newReservation.dateIn'>
-            <input type="text" ng-model = 'newReservation.numberOfStudentsIn' ng-if = "newReservation.categoryIn == 'Lab'" placeholder="Number of Students">
-            <input type="text" ng-model = 'newReservation.roomNumberIn' ng-if = "newReservation.categoryIn == 'Cart'" placeholder="Room Number">
-            <input type="text" ng-model = 'newReservation.roomNumberIn' ng-if = "newReservation.categoryIn == 'Other'" placeholder="Room Number">
-            </div>
+            <input type="text" ng-model='reservationToSend.numberOfStudentsIn' ng-if="newReservation.categoryIn == 'Lab'" placeholder="Number of Students">
+            <input type="text" ng-model='reservationToSend.roomNumberIn' ng-if="newReservation.categoryIn == 'Cart'" placeholder="Room Number">
+            <input type="text" ng-model='reservationToSend.roomNumberIn' ng-if="newReservation.categoryIn == 'Other'" placeholder="Room Number">
         </div>
+    </div>
 
     <div class="period">
         <label ng-repeat="periodName in periodArray">
@@ -32,6 +29,7 @@
     </label>
 
     </div>
+
     <button type="button" ng-click=" open('md', newReservation);">Make Reservation</button>
     <div ng-bind-html= "outputDiv">
 
@@ -59,25 +57,6 @@
     </div>
 </div>
 
-<!-- <div class="modal fade">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <script type="text/ng-template" id="confirmReservationModal.html">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirm Reservation</h5>
-                </div>
-                <div class="modal-body">
-                    <p>In order to reserve a lab, please provide the number of students that will be using the lab.</p>
-                    <input type="text" name="roomNumber" ng-model="roomNumber" required="true"/>
-                </div>
-                <div class="modal-footer">
-                    <button ng-click="confirmReservation()" type="button" class="btn btn-success">Confirm</button>
-                    <button ng-click="close()" type="button" class="btn btn-danger">Cancel</button>
-                </div>
-            </script>
-        </div>
-    </div>
-</div> -->
 
 
 
