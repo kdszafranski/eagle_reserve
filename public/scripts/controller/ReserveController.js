@@ -96,33 +96,55 @@ function( $scope, $http, $location, AuthFactory ){
 
 };//end make Reservation
 
-// send email
-$scope.sendEmail = function( req, res ) {
-    console.log('in sendEmail');
-    // console.log(req.user.email);
-    var myEmail = 'avhs.test1@apps.district196.org';
-    var yourEmail = 'avhs.test1@apps.district196.org';
-    //construct object to send
-    var objectToSend = {
-      from: myEmail,
-      to: yourEmail,
-      subject: 'Reservation Confirmation',
-      text: 'You reserved item on day during period'
-    }; // end objectToSend
-    //post info to the server
-    console.log('pre http call');
-    $http({
-      method: 'POST',
-      url: '/private/email',
-      data: objectToSend
-    }).then(function(response) {
-      console.log('EMAIL SENT');
-      console.log('send email response!!!-->',response.data);
-    }).catch(function(err) {
-      //if there was an error, log it
-      console.log(err);
-    }); // end $http
-  }; // end sendEmails
+// confirmation modal
+
+//open the modal (returns a modal instance)
+$scope.confirmModal = function (size, userId) {
+  //open the modal
+  console.log('Open confirm reservation modal');
+  //set the modalInstance
+  var modalInstance = $uibModal.open({
+    templateUrl: 'confirmReservationModal.html',
+    controller: 'ConfirmReservationModalController',
+    size: size,
+    //pass the userId to DeleteUserModalController
+    resolve: {
+      deleteId: function () {
+        return userId;
+      } // end userId
+    } // end resolve
+  }); // end modalInstance
+
+  //Update the users when the modal has been closed
+  modalInstance.closed.then(function () {
+    getUsers();
+  }); // end modalInstance closed
+
+}; // end open
+
+init();
+
+}]); // end UsersController
+
+/* DeleteUserModalController is passed $modalInstance
+* which is the instance of modal returned by the open() function.
+* This instance needs to be passed because dismiss is the property of
+* this instance object which is used to close the modal. */
+
+//DeleteUserModalController
+myApp.controller('ConfirmReservationModalController', ['$scope', '$http', '$uibModalInstance',
+function ($scope, $http, $uibModalInstance) {
+  console.log('in ConfirmReservationModalController');
+
+  //close the  modal
+  $scope.close = function () {
+    $uibModalInstance.dismiss('cancel');
+  }; // end close
+
+
+} // end controller callback
+]); // end ModalInstanceController
+
 
 
 
