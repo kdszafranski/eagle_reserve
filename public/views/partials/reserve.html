@@ -3,17 +3,17 @@
     <h1 class="text-center">Make a Reservation</h1>
     <div class="row">
         <div class="reservations">
-            <select ng-model="newReservation.categoryIn" ng-options='p for p in categories'>
+            <select ng-model="newReservation.categoryIn" ng-options="p for p in categories">
               <option value="">Select by Category</option>
             </select>
-            <select ng-model="newReservation.itemIn" ng-options='c.newItem as c.newItem for c in items | filter: {category: newReservation.categoryIn}'>
+            <select ng-model="newReservation.itemIn" ng-options="c.newItem as c.newItem for c in items | filter: {category: newReservation.categoryIn}">
               <option value="">Select by Item</option>
             </select>
 
-            <input type="date" ng-model='newReservation.dateIn'>
-            <input type="text" ng-model='reservationToSend.numberOfStudentsIn' ng-if="newReservation.categoryIn == 'Lab'" placeholder="Number of Students">
-            <input type="text" ng-model='reservationToSend.roomNumberIn' ng-if="newReservation.categoryIn == 'Cart'" placeholder="Room Number">
-            <input type="text" ng-model='reservationToSend.roomNumberIn' ng-if="newReservation.categoryIn == 'Other'" placeholder="Room Number">
+            <input type="date" ng-model="newReservation.dateIn">
+            <input type="text" ng-model="reservationToSend.numberOfStudentsIn" ng-if="newReservation.categoryIn == 'Lab'" placeholder="Number of Students">
+            <input type="text" ng-model="reservationToSend.roomNumberIn" ng-if="newReservation.categoryIn == 'Cart'" placeholder="Room Number">
+            <input type="text" ng-model="reservationToSend.roomNumberIn" ng-if="newReservation.categoryIn == 'Other'" placeholder="Room Number">
         </div>
     </div>
 
