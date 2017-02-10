@@ -39,8 +39,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
           //save the username for reservation in teacher variable
           var teacher = reservationObject.user;
           //split the periods property into an array
-          //TODO: format the periodsReserved array to be an array of objects...
-          var periodsReserved = formatPeriodsReservedArray(reservationObject.period.split(','), teacher);
+          var newPeriodsReserved = reservationObject.period.split(',');
+          //save existing periods reserved as a variable to pass to formatPeriodsReservedArray
+          var existingPeriodsReserved = $scope.allItems[i].period;
+          //Format the periodsReserved array to be an array of objects...
+          var periodsReserved = formatPeriodsReservedArray(newPeriodsReserved, existingPeriodsReserved, teacher);
           //add period array value as a property of allItems[i] object
           $scope.allItems[i].period = periodsReserved;
         } // end if
@@ -55,19 +58,9 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
   }; // end disabled
 
-  var formatPeriodsReservedArray = function(periodsArray, teacherName) {
-    //set newPeriodsArray defaults
-    var newPeriodsArray = [
-      { name: 'BS', reserved: false, class: 'enabled' },
-      { name: 'One', reserved: false, class: 'enabled' },
-      { name: 'Two', reserved: false, class: 'enabled' },
-      { name: 'Three', reserved: false, class: 'enabled' },
-      { name: 'Four', reserved: false, class: 'enabled' },
-      { name: 'Five', reserved: false, class: 'enabled' },
-      { name: 'Six', reserved: false, class: 'enabled' },
-      { name: 'Seven', reserved: false, class: 'enabled' },
-      { name: 'AS', reserved: false, class: 'enabled' },
-    ]; // end periodsArray
+  var formatPeriodsReservedArray = function(periodsArray, existingPeriodsReservedArray, teacherName) {
+    //combine with existing periods reserved
+    var newPeriodsArray = existingPeriodsReservedArray;
     //Map all values in periodsArray
     periodsArray.map(function(value) {
       //If the value matches the name of a period in newPeriods array,
@@ -175,7 +168,17 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     //TODO: fix this undefined value
     console.log('in clearPeriodsProperty');
     for (var i = 0; i < array.length; i++) {
-      array[i].period = $scope.freePeriods;
+      array[i].period = [
+        { name: 'BS', reserved: false, class: 'enabled' },
+        { name: 'One', reserved: false, class: 'enabled' },
+        { name: 'Two', reserved: false, class: 'enabled' },
+        { name: 'Three', reserved: false, class: 'enabled' },
+        { name: 'Four', reserved: false, class: 'enabled' },
+        { name: 'Five', reserved: false, class: 'enabled' },
+        { name: 'Six', reserved: false, class: 'enabled' },
+        { name: 'Seven', reserved: false, class: 'enabled' },
+        { name: 'AS', reserved: false, class: 'enabled' },
+      ]; // end periodsArray
     } // end for
   }; //end resetPeriodsProperties
 
