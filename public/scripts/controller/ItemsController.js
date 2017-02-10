@@ -129,7 +129,7 @@ function ($scope, $http, $uibModalInstance) {
         }, function errorCallback( error ){
           console.log( 'error occured' );
         }); // end errorCallback
-			} // end if
+			} //end if
 
     }; // end addItem
 
