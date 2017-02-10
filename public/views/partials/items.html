@@ -55,7 +55,7 @@
           <td>{{ item.newItem }}</td>
           <td>{{ item.category }}</td>
           <td>
-            <button ng-click="deleteItem( $index )" class="btn btn-sm btn-danger">
+            <button ng-click="openDeleteItemConfirmationModal('md', item)" class="btn btn-sm btn-danger">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             </button>
           </td>
@@ -73,23 +73,44 @@
             <h5 class="modal-title">Add New Item</h5>
           </div>
           <div class="modal-body">
-            <form class="form">
+            <form ng-submit="addItem()" class="form" name="addItemForm" novalidate>
               <div class="form-group">
-                <input type="text" ng-model="newItem.name" class="form-control" placeholder="Item Name">
+                <input type="text" ng-model="newItem.name" class="form-control" placeholder="Item Name" name="itemNameIn" required>
               </div>
               <div class="form-group">
-                <select id="categorySelect" ng-model="newItem.category" class="form-control">
+                <select id="categorySelect" ng-model="newItem.category" class="form-control" name="itemCategoryIn" required>
                   <option value="" selected disabled>Select Category</option>
                   <option value="Cart">Cart</option>
                   <option value="Lab">Lab</option>
                   <option value="Equipment">Equipment</option>
                 </select>
               </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button ng-click="close()" type="button" class="btn btn-danger">Cancel</button>
+              </div>
             </form>
           </div>
+
+        </script>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Item Confirmation Modal -->
+  <div class="modal fade">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <script type="text/ng-template" id="deleteItemConfirmModal.html">
+          <div class="modal-header">
+            <h5 class="modal-title">Delete Item</h5>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete the {{itemName}}?</p>
+          </div>
           <div class="modal-footer">
-            <button ng-click="addItem()" type="button" class="btn btn-success">Save</button>
-            <button ng-click="close()" type="button" class="btn btn-danger">Cancel</button>
+            <button ng-click="deleteItem()" type="button" class="btn btn-success">Yes</button>
+            <button ng-click="close()" type="button" class="btn btn-danger">No</button>
           </div>
         </script>
       </div>

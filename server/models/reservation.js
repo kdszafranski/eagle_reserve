@@ -7,7 +7,9 @@ var ReservationSchema = mongoose.Schema({
   item: String,
   user: String,
   period: String,
-  roomNumber: String
+  roomNumber: String,
+  numberOfStudents: Number
+
 });
 
 module.exports = mongoose.model('Reservation', ReservationSchema);

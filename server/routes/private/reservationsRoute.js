@@ -14,7 +14,10 @@ router.post('/', function(req, res){
     category: req.body.categoryIn,
     item: req.body.itemIn,
     period: req.body.periodIn,
-    user: req.body.username
+    user: req.body.username,
+    roomNumber: req.body.roomNumberIn,
+    numberOfStudents: req.body.numberOfStudentsIn
+
   });
   newReservation.save(function(err){
     if(err){
@@ -27,9 +30,11 @@ router.post('/', function(req, res){
 });//end post
 
 //GET all reservations
-router.get( '/', function( req, res ){
-  console.log( 'in router.get' );
-  Reservation.find({}, function( err, results){
+router.get( '/all/:date', function( req, res ){
+  console.log( 'in router.get reservation by date', req.params.date);
+  var date = req.params.date.split('T')[0];
+  console.log('Date', date);
+  Reservation.find({"dateScheduled": { $gte: date }}, function( err, results){
     if( err ){
       console.log( err );
       res.sendStatus(500);
@@ -64,9 +69,25 @@ router.delete( '/:id', function( req, res ){
 });
 
 //GET only user reservations
-router.get( '/:username', function( req, res ){
+router.get( '/user/:username', function( req, res ){
   console.log( 'in find only by username' );
   Reservation.find({'user': req.params.username }, function( err, results){
+    if( err ){
+      console.log( err );
+      res.sendStatus(500);
+    } else {
+      res.send({ results });
+    } // end else
+  }); // end find
+}); // end get
+
+//GET reservations by date for manage reservations
+router.get( '/:dateSpecific', function( req, res ){
+  console.log( 'in router.get by dateSpecific:');
+  //Split the date string so it is store without time
+  var date = req.params.dateSpecific.split('T')[0];
+  console.log(date);
+  Reservation.find({ 'dateScheduled': date  }, function( err, results){
     if( err ){
       console.log( err );
       res.sendStatus(500);
