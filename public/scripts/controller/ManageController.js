@@ -19,7 +19,7 @@ function( $scope, $http, $location, AuthFactory ){
   // GET to display on DOM
   $scope.displayReservation = function(){
     console.log( 'in displayReservation' );
-    $http.get( '/private/reservations' )
+    $http.get( '/private/reservations/all/' + new Date().toISOString() )
     .then(function( response ){
       console.log('reservations', response.data);
       $scope.reservations = response.data.results;
@@ -62,7 +62,7 @@ function( $scope, $http, $location, AuthFactory ){
   // getting only reservations for the teacher logged in
   $scope.getByUsername = function (){
     console.log('User is', AuthFactory.username);
-    $http.get( '/private/reservations/' + AuthFactory.username )
+    $http.get( '/private/reservations/user/' + AuthFactory.username )
     .then(function( response ){
       console.log('User Reservations', response);
       $scope.userReservations = response.data.results;
@@ -96,6 +96,28 @@ function( $scope, $http, $location, AuthFactory ){
   $scope.teacherSelected= {name: undefined};
   $scope.itemSelected= {newItem: undefined};
   $scope.categorySelected= {category: undefined};
+
+  $scope.getByDate = function(date){
+    console.log('In getByDate');
+    var specificDate = date.toISOString();
+    $http({
+      method: 'GET',
+      url: '/private/reservations/' + specificDate
+    }).then(function(response){
+      console.log('getByDate response:', response.data.results);
+      $scope.reservations = response.data.results;
+    });
+
+  };
+
+  $scope.popup = {
+    opened: false
+  }; // end popup
+
+  $scope.openDatepick = function() {
+    //Open the datepicker popup
+    $scope.popup.opened = true;
+  }; // end openDatepick
 
 
 }]); // end ManageController

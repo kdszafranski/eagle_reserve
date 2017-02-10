@@ -86,12 +86,25 @@
                 </div>
               </div>
           </div>
+
+          <div class="form-group">
+            <div class="col-sm-4">
+              <p class="input-group">
+                <input ng-change="getByDate(date)" onkeydown="return false" type="text" class="form-control date-input" uib-datepicker-popup="MMMM dd, yyyy" ng-model="date" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="false"/>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="openDatepick()">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
+                  <button type="button" class="btn btn-default" ng-click="displayReservation();">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </span>
+              </p>
+            </div>
+          </div>
         </fieldset>
       </form>
 
-
-
-{{categorySelected.category.category}}
       <div class="table-responsive">
         <table class="table table-bordered">
           <thead>
@@ -106,7 +119,7 @@
           </thead>
           <tbody ng-repeat=' reservation in reservations | filter: ({user:teacherSelected.name.name, item:itemSelected.newItem.newItem, category:categorySelected.category.category})'>
             <tr>
-              <td>{{reservation.dateScheduled | date}}</td>
+              <td>{{reservation.dateScheduled | date: 'mediumDate': 'UTC'}}</td>
               <td>{{reservation.item}}</td>
               <td>{{reservation.category}}
               <td>{{reservation.period}}</td>
