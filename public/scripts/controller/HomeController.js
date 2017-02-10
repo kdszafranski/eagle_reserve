@@ -38,12 +38,19 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
         if (reservationObject.item === $scope.allItems[i].newItem) {
           //save the username for reservation in teacher variable
           var teacher = reservationObject.user;
+          //save reservation data in data variable
+          var data;
+          if (reservationObject.roomNumber) {
+            data = { value: reservationObject.roomNumber, display: 'Room #'};
+          } else {
+            data = { value: reservationObject.numberOfStudents, display: '# of Students: '};
+          } // end else
           //split the periods property into an array
           var newPeriodsReserved = reservationObject.period.split(',');
           //save existing periods reserved as a variable to pass to formatPeriodsReservedArray
           var existingPeriodsReserved = $scope.allItems[i].period;
           //Format the periodsReserved array to be an array of objects...
-          var periodsReserved = formatPeriodsReservedArray(newPeriodsReserved, existingPeriodsReserved, teacher);
+          var periodsReserved = formatPeriodsReservedArray(newPeriodsReserved, existingPeriodsReserved, teacher, data);
           //add period array value as a property of allItems[i] object
           $scope.allItems[i].period = periodsReserved;
         } // end if
@@ -58,7 +65,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
   }; // end disabled
 
-  var formatPeriodsReservedArray = function(periodsArray, existingPeriodsReservedArray, teacherName) {
+  var formatPeriodsReservedArray = function(periodsArray, existingPeriodsReservedArray, teacherName, data) {
+    console.log('in formatPeriodsReservedArray', data);
     //combine with existing periods reserved
     var newPeriodsArray = existingPeriodsReservedArray;
     //Map all values in periodsArray
@@ -72,6 +80,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
           newPeriodsArray[i].class = 'disabled';
           //set the user name for the reservation
           newPeriodsArray[i].teacher = teacherName;
+          //set data value for reservation
+          newPeriodsArray[i].data = data;
         } // end if
       } // end for
     }); // end map
