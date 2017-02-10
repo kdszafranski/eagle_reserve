@@ -17,6 +17,16 @@
     </div>
   </div>
 
+  <!-- <button uib-popover-template="'myPopoverTemplate.html'" popover-title="hi" type="button" class="btn btn-default">Popover With Template</button>
+
+      <script type="text/ng-template" id="myPopoverTemplate.html">
+          <div>hi</div>
+          <div class="form-group">
+            <label>Popup Title:</label>
+            <input type="text" ng-model="hi" class="form-control">
+          </div>
+      </script> -->
+
   <div class="table-responsive">
     <table class="table table-bordered calendar-table">
       <thead>
@@ -41,7 +51,12 @@
           <td ng-if="isAdmin"><a>{{item.newItem}}</a></td>
           <!-- Repeat table data -->
           <td ng-if="item.period" ng-repeat="value in item.period" class="{{value.class}}">
-            <div ng-if="value.class === 'disabled'" popover-title="Reservation Info:" uib-popover="{{value.teacher}}" popover-trigger="'mouseenter'"></div>
+            <div ng-if="value.class === 'disabled'" popover-title="Reservation Info:" uib-popover-template="'popoverTemplate.html'" popover-placement="top-left" popover-trigger="'mouseenter'"></div>
+              <!-- Popover Template -->
+              <script type="text/ng-template" id="popoverTemplate.html">
+                <p>{{value.teacher}}</p>
+                <p>{{value.data.display}}{{value.data.value}}</p>
+              </script>
             <div ng-if="value.class === 'enabled'"></div>
           </td>
         </tr>
