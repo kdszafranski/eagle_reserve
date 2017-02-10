@@ -52,6 +52,15 @@ html, body {
     color: $bootstrapRed;
   }
 }
+//Changes border color for invalid inputs after form is submitted
+.ng-submitted {
+  .ng-invalid {
+    border-color: $bootstrapRed;
+}
+  .ng-valid {
+      border-color:lightgreen;
+  }
+}
 // -- TABLES -- //
 .table {
   th {
