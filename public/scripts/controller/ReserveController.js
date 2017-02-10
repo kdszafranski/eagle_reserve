@@ -1,5 +1,5 @@
-myApp.controller( 'ReserveController', [ '$scope', '$http', '$location', 'AuthFactory',
-function( $scope, $http, $location, AuthFactory ){
+myApp.controller( 'ReserveController', [ '$scope', '$http', '$location', 'AuthFactory', "$uibModal",
+function( $scope, $http, $location, AuthFactory, $uibModal ){
   console.log( 'in ReserveController' );
 
   //Declare authFactory
@@ -72,38 +72,10 @@ function( $scope, $http, $location, AuthFactory ){
     }
   };
 
-  $scope.makeReservation = function (){
-    console.log('In Make Reservation');
 
-    $http ({
-      method: 'POST',
-      url: '/private/reservations',
-      data: $scope.newReservation,
-    }).then(function(response) {
-            console.log('response ->', response);
-    });
-
-    $http({
-    method: 'GET',
-    url: '/private/reservations'
-}).then(function(response) {
-    console.log('response ->', response);
-}); //end http
-
-  var item = $scope.newReservation.itemIn;
-  var date = $scope.newReservation.dateIn;
-  var period = $scope.newReservation.periodIn;
-  $scope.roomNumberIn = '';
-  $scope.numberOfStudentsIn = '';
-
-
-
-  $scope.outputDiv += '<p>' + 'You have added a reservation for ' + item + ' on ' + date + ' for period ' + period + '</p>';
-
-};//end make Reservation
 
 //open the modal (returns a modal instance)
-$scope.open = function (size, userId) {
+$scope.open = function (size, newReservation) {
   //open the modal
   console.log('Open confirm reservation modal');
   //set the modalInstance
@@ -113,38 +85,78 @@ $scope.open = function (size, userId) {
     size: size,
     //pass the userId to DeleteUserModalController
     resolve: {
-      deleteId: function () {
-        return userId;
+      newReservation: function () {
+        return newReservation;
       } // end userId
-    } // end resolve
+    } // en
   }); // end modalInstance
+  modalInstance.closed.then(function(){
+  var item = $scope.newReservation.itemIn;
+  var date = $scope.newReservation.dateIn;
+  var period = $scope.newReservation.periodIn;
+  $scope.roomNumberIn = '';
+  $scope.numberOfStudentsIn = '';
 
-  //Update the users when the modal has been closed
-  modalInstance.closed.then(function () {
-    getUsers();
-  }); // end modalInstance closed
 
+
+  $scope.outputDiv += '<p>' + 'You have added a reservation for ' + item + ' on ' + date + ' for period ' + period + '</p>';
+});
 }; // end open
-
-init();
-
-
-
 
 }]); // end ReserveController
 
 // confirmation modal
 
-myApp.controller('ConfirmReservationModalController', ['$scope', '$http', '$uibModalInstance',
-function ($scope, $http, $uibModalInstance) {
+myApp.controller('ConfirmReservationModalController', ['$scope', '$http', '$uibModalInstance', 'newReservation',
+function ($scope, $http, $uibModalInstance, newReservation) {
     console.log('in ConfirmReservationModalController');
+    console.log(newReservation);
+
+    $scope.makeReservation = function (){
+      console.log('In Make Reservation');
+
+      $http ({
+        method: 'POST',
+        url: '/private/reservations',
+        data: newReservation,
+      }).then(function(response) {
+              console.log('response ->', response);
+              $scope.sendEmail();
+              $scope.close();
+
+      });
+
+      $http({
+      method: 'GET',
+      url: '/private/reservations'
+  }).then(function(response) {
+      console.log('response ->', response);
+  }); //end http
+
+
+
+  };//end make Reservation
+
+  // send email
+  $scope.sendEmail = function( req, res ) {
+      //post info to the server
+      $http({
+        method: 'POST',
+        url: '/private/email'
+      }).then(function(response) {
+        console.log('EMAIL SENT');
+
+
+      }).catch(function(err) {
+        //if there was an error, log it
+        console.log(err);
+      }); // end $http
+    }; // end sendEmails
 
     //close the  modal
     $scope.close = function () {
       $uibModalInstance.dismiss('cancel');
     }; // end close
-
-    $scope.makeReservation();
 
 
 }]); // end ConfirmReservationModalController
