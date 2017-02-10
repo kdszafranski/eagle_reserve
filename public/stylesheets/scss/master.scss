@@ -4,7 +4,9 @@
 html, body {
   margin-top: 35px;
 }
-
+.red {
+  color: $bootstrapRed;
+}
 // -- UIB-DAYPICKERS -- //
 .uib-daypicker {
 

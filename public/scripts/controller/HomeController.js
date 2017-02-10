@@ -66,7 +66,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   }; // end disabled
 
   var formatPeriodsReservedArray = function(periodsArray, existingPeriodsReservedArray, teacherName, data) {
-    console.log('in formatPeriodsReservedArray', data);
     //combine with existing periods reserved
     var newPeriodsArray = existingPeriodsReservedArray;
     //Map all values in periodsArray

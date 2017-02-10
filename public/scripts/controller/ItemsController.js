@@ -54,7 +54,13 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     var modalInstance = $uibModal.open({
       templateUrl: 'addNewItemModal.html',
       controller: 'AddNewItemModalController',
-      size: size
+      size: size,
+      //pass allItems array to modal for comparison
+      resolve: {
+        allItems: function () {
+          return $scope.allItems;
+        } // end userId
+      } // end resolve
     }); // end modalInstance
 
     //Update the users when the modal has been closed
@@ -101,29 +107,45 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
  * this instance object which is used to close the modal. */
 
 //AddNewItemModalController
-myApp.controller('AddNewItemModalController', ['$scope', '$http', '$uibModalInstance',
-function ($scope, $http, $uibModalInstance) {
+myApp.controller('AddNewItemModalController', ['$scope', '$http', '$uibModalInstance', 'allItems',
+function ($scope, $http, $uibModalInstance, allItems) {
     console.log('in AddNewItemModalController');
+
+    $scope.duplicateItem = false;
 
     //close the  modal
     $scope.close = function () {
       $uibModalInstance.dismiss('cancel');
     }; // end close
 
+    var checkForDuplicateItems = function(itemToAdd) {
+      console.log('in checkForDuplicateItems', allItems, itemToAdd);
+      for (var i = 0; i < allItems.length; i++) {
+        if (allItems[i].category === itemToAdd.category && allItems[i].newItem === itemToAdd.newItem) {
+          $scope.duplicateItem = true;
+          return false;
+        } // end if
+      } // end for
+      return true;
+    }; // end checkForDuplicateItems
+
     $scope.addItem = function(){
+      //construct item to send
+      var itemToSend = {
+        newItem: $scope.newItem.name,
+        category: $scope.newItem.category
+      }; // end itemToSend
       // If the form has been validated (all fields have been filled out),
+      // and the item is not a duplicate
       // add the item
-      if ($scope.addItemForm.$valid) {
-        var itemToSend = {
-          newItem: $scope.newItem.name,
-          category: $scope.newItem.category
-        }; // end itemToSend
+      if ($scope.addItemForm.$valid && checkForDuplicateItems(itemToSend)) {
         $http({
           method: 'POST',
           url: '/private/items',
           data: itemToSend
         }).then(function successCallback( response ){
           console.log( 'response in newItem', response );
+          $scope.duplicateItem = false;
           //close the modal
           $scope.close();
         }, function errorCallback( error ){
