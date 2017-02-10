@@ -21,23 +21,10 @@ function( $scope, $http, $location, AuthFactory ){
   url: '/private/items'
   }).then(function(response) {
   console.log('response for items ->', response);
-  var items = response.data.results;
-  $scope.itemNames = [];
-  $scope.categories = [];
-
-  console.log('items', items);
-
-  for (var i = 0; i < items.length; i++) {
-    $scope.itemNames.push(items[i].newItem)
-    if ($scope.categories.indexOf(items[i].category) === -1){
-      $scope.categories.push(items[i].category)
-    } else {
-      console.log('already exists');
-    }
-  }
-
-  console.log('item names array', $scope.itemNames);
-
+  $scope.items = response.data.results;
+  $scope.categories = $scope.items.map (function (x){
+    return x.category
+  })
 
   }); //end http
 
@@ -46,6 +33,9 @@ function( $scope, $http, $location, AuthFactory ){
 
   var username = authFactory.username
 
+  $scope.testme = function() {
+    console.log($scope.newReservation.itemIn);
+  }
 
 
   $scope.newReservation = {
@@ -57,6 +47,7 @@ function( $scope, $http, $location, AuthFactory ){
       numberOfStudents: $scope.numberOfStudentsIn,
       roomNumber: $scope.roomNumberIn
     }
+
 
     $scope.toggleSelection = function toggleSelection(periodName) {
     var idx = $scope.selection.indexOf(periodName);
