@@ -140,12 +140,38 @@ myApp.controller('ConfirmReservationModalController', ['$scope', '$http', '$uibM
 function ($scope, $http, $uibModalInstance, newReservation) {
   console.log('in ConfirmReservationModalController', newReservation);
 
+  $scope.newReservation = newReservation;
+
+  //Show the appropriate input
+  //if category is Cart, show room # input
+  if ($scope.newReservation.categoryIn === 'Cart') {
+    $scope.isCart = true;
+  //If category is not cart, show numStudents input
+  } else {
+    $scope.isCart = false;
+  } // end else
+
+  var attachInputInfo = function(reservationObject) {
+    console.log('in attachInputInfo', reservationObject);
+    //If the category is Cart, attach room Number information
+    if (reservationObject.categoryIn === 'Cart') {
+      reservationObject.roomNumberIn = $scope.roomNumberIn;
+    //If the category is NOT Cart, attach number of students information
+    } else {
+      reservationObject.numberOfStudentsIn = $scope.numberOfStudentsIn;
+    } // end else
+    return reservationObject;
+  }; // end attachInputInfo
+
   $scope.makeReservation = function (){
     console.log('In Make Reservation', newReservation);
+    //attach the info from inputs
+    newReservation = attachInputInfo(newReservation);
+    //POST reservation info to server
     $http ({
       method: 'POST',
       url: '/private/reservations',
-      data: newReservation,
+      data: $scope.newReservation,
     }).then(function(response) {
       console.log('makeReservation response ->', response);
       $scope.sendEmail();

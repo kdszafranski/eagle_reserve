@@ -1,6 +1,6 @@
 <!-- Make a Reservation View -->
 <div ng-if="loggedIn">
-    
+
     <h1 class="text-center">Make a Reservation</h1>
 
     <pre>New Reservation Object: {{newReservation}}</pre>
@@ -56,11 +56,27 @@
             <div class="modal-content">
                 <script type="text/ng-template" id="confirmReservationModal.html">
                     <div class="modal-header">
-                        <h5 class="modal-title">Confirm Reservation</h5>
+                        <h5 class="modal-title">Complete Your Reservation</h5>
                     </div>
                     <div class="modal-body">
-                        <p>In order to reserve carts or equipment, please provide your room number.</p>
-                        <input type="text" name="numberOfStudents" ng-model="numberOfStudents" required="true"/>
+                        <p>You are reserving {{newReservation.itemIn}} on {{newReservation.dateIn | date}} for period(s):
+                            <span ng-repeat="period in newReservation.periodIn">
+                                <!-- display a comma before item if it is not first in array -->
+                                <span ng-if="!$first">, </span>{{period}}
+                            </span>
+                        </p>
+                        <form class="form" novalidate>
+                            <!-- show this input if the category is Cart -->
+                            <div ng-show="isCart" class="form-group">
+                                <label>Room Number:</label>
+                                <input type="text" name="numberOfStudents" ng-model="roomNumberIn" class="form-control" required/>
+                            </div>
+                            <!-- show this input if category is NOT Cart -->
+                            <div ng-hide="isCart" class="form-group">
+                                <label>Number of Students:</label>
+                                <input type="text" name="numberOfStudents" ng-model="numberOfStudentsIn" class="form-control" required/>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button ng-click="makeReservation();" type="button" class="btn btn-success">Confirm</button>
