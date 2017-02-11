@@ -7,6 +7,7 @@ router.post('/', function(req, res){
   console.log('in reservation route');
   console.log('req.body ->', req.body);
   //Split the date string so it is store without time
+  //TODO: take out the split once datepicker and moment.js have been implemented
   var dateIn = req.body.dateIn.split('T')[0];
   console.log(dateIn);
   var newReservation = new Reservation ({
@@ -17,7 +18,6 @@ router.post('/', function(req, res){
     user: req.body.username,
     roomNumber: req.body.roomNumberIn,
     numberOfStudents: req.body.numberOfStudentsIn
-
   });
   newReservation.save(function(err){
     if(err){
@@ -45,7 +45,7 @@ router.get( '/', function( req, res ){
 //GET reservations by date for past dates in manageReservations view
 router.get( '/all/:date', function( req, res ){
   console.log( 'in router.get reservation by date', req.params.date);
-  var date = req.params.date.split('T')[0];
+  var date = req.params.date;
   console.log('Date', date);
   Reservation.find({"dateScheduled": { $gte: date }}, function( err, results){
     if( err ){
@@ -61,7 +61,7 @@ router.get( '/all/:date', function( req, res ){
 router.get( '/date/:date', function( req, res ){
   console.log( 'in router.get by date:');
   //Split the date string so it is store without time
-  var date = req.params.date.split('T')[0];
+  var date = req.params.date;
   console.log(date);
   Reservation.find({ 'dateScheduled': date  }, function( err, results){
     if( err ){
@@ -97,7 +97,7 @@ router.get( '/user/:username', function( req, res ){
 router.get( '/:dateSpecific', function( req, res ){
   console.log( 'in router.get by dateSpecific:');
   //Split the date string so it is store without time
-  var date = req.params.dateSpecific.split('T')[0];
+  var date = req.params.dateSpecific;
   console.log(date);
   Reservation.find({ 'dateScheduled': date  }, function( err, results){
     if( err ){
