@@ -110,5 +110,19 @@ router.get( '/:dateSpecific', function( req, res ){
 }); // end get
 
 
+//GET reservations by date and item name (reserveController)
+router.get( '/multiple/:date/:item', function( req, res ){
+  console.log( 'in reservationRouter.get/multiple');
+  var date = req.params.date;
+  var item = req.params.item;
+  Reservation.find({ 'dateScheduled': date, 'item': item  }, function( err, results){
+    if( err ){
+      console.log( err );
+      res.sendStatus(500);
+    } else {
+      res.send({ results });
+    } // end else
+  }); // end find
+}); // end get
 
 module.exports = router;
