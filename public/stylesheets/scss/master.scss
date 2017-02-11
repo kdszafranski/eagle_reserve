@@ -84,10 +84,14 @@ html, body {
       padding: 0;
     }
   }
+  td.disabled {
+    cursor: pointer;
+  }
+}
+.colorfield-table {
   //class for table data containing a reservation
   td.disabled {
     background-color: lighten($bootstrapRed, 10%);
-    cursor: pointer;
   }
   //class for table data not containing
   td.enabled {

@@ -16,6 +16,18 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     $location.path("/#!/login");
   } // end if
 
+  var defaultPeriodsArray = [
+    { name: 'BS', reserved: false, class: 'enabled' },
+    { name: 'One', reserved: false, class: 'enabled' },
+    { name: 'Two', reserved: false, class: 'enabled' },
+    { name: 'Three', reserved: false, class: 'enabled' },
+    { name: 'Four', reserved: false, class: 'enabled' },
+    { name: 'Five', reserved: false, class: 'enabled' },
+    { name: 'Six', reserved: false, class: 'enabled' },
+    { name: 'Seven', reserved: false, class: 'enabled' },
+    { name: 'AS', reserved: false, class: 'enabled' },
+  ]; // end defaultPeriodsArray
+
   //pull the username in from authFactory and store as variable
   var username = authFactory.username;
 
@@ -28,6 +40,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   $scope.getReservations= function() {
     console.log('in getReservations');
+    //reset periods array to defaults
+    resetPeriodArray();
     //set date and item variables for get call
     var currentDate = moment($scope.newReservation.dateIn).format('YYYY-MM-DD');
     var itemSelected = $scope.newReservation.itemIn;
@@ -38,7 +52,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     }).then(function(response) {
       console.log('getReservations response-->', response.data);
       var unavailablePeriodsArray = makeUnavailablePeriodsArray(response.data.results);
-      console.log('HERE-->', unavailablePeriodsArray);
+      updatePeriodArrayValues(unavailablePeriodsArray);
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
@@ -50,12 +64,12 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     $scope.popup.opened = true;
   }; // end openDatepick
 
-//Disabled drop down until categories and items are selected
+  //Disabled drop down until categories and items are selected
   $scope.changeDropDown = function () {
-    if($scope.newReservation.categoryIn == '') {
+    if($scope.newReservation.categoryIn === '') {
       $scope.dropDownDisabledItem = true;
       $scope.dropDownDisabledDate = true;
-    } else if ($scope.newReservation.itemIn == '') {
+    } else if ($scope.newReservation.itemIn === '') {
       $scope.dropDownDisabledItem = false;
       $scope.dropDownDisabledDate = true;
     } else {
@@ -70,17 +84,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     $scope.dropDownDisabledDate = true;
 
     //set periodArray and selection scopes
-    var defaultPeriodsArray = [
-      { name: 'BS', reserved: false },
-      { name: 'One', reserved: false },
-      { name: 'Two', reserved: false },
-      { name: 'Three', reserved: false },
-      { name: 'Four', reserved: false },
-      { name: 'Five', reserved: false },
-      { name: 'Six', reserved: false },
-      { name: 'Seven', reserved: false },
-      { name: 'AS', reserved: false },
-    ];
     $scope.periodArray = defaultPeriodsArray;
     $scope.selection = [];
     $scope.categories = [];
@@ -127,7 +130,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   }; // end getAllItems
 
   var makeUnavailablePeriodsArray = function(reservationsArray) {
-    console.log('in makeUnavailablePeriodsArray');
     var allPeriodsReserved = [];
     reservationsArray.map(function(reservation) {
       //split the period property into an array
@@ -142,6 +144,21 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     }); // end map
     return allPeriodsReserved;
   }; // end makeUnavailablePeriodsArray
+
+  var resetPeriodArray = function() {
+    //reset periods array to defaults
+    $scope.periodArray = [
+      { name: 'BS', reserved: false, class: 'enabled' },
+      { name: 'One', reserved: false, class: 'enabled' },
+      { name: 'Two', reserved: false, class: 'enabled' },
+      { name: 'Three', reserved: false, class: 'enabled' },
+      { name: 'Four', reserved: false, class: 'enabled' },
+      { name: 'Five', reserved: false, class: 'enabled' },
+      { name: 'Six', reserved: false, class: 'enabled' },
+      { name: 'Seven', reserved: false, class: 'enabled' },
+      { name: 'AS', reserved: false, class: 'enabled' },
+    ]; // end periodArray
+  }; // end resetPeriodArray
 
   var setCategorySelectOptions = function(resultsArray) {
     console.log('in setCategorySelectOptions');
@@ -170,6 +187,18 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     //update current period selections in newReservation object
     $scope.newReservation.periodIn = $scope.selection;
   }; // end toggleSelection
+
+  var updatePeriodArrayValues = function(unavailablePeriodsArray) {
+    unavailablePeriodsArray.map(function(period) {
+      //update periodsArray reserved property if value matches
+      for (var i = 0; i < $scope.periodArray.length; i++) {
+        if ($scope.periodArray[i].name === period) {
+          $scope.periodArray[i].reserved = true;
+          $scope.periodArray[i].class = 'disabled';
+        } // end if
+      } // end for
+    }); // end unavailablePeriodsArray
+  }; // end updatePeriodArrayValues
 
   //open the modal (returns a modal instance)
   $scope.open = function (size, newReservation) {
