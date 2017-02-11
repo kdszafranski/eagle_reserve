@@ -146,12 +146,15 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       //TODO: clear/reset the make a reservation form after modal closed
       $scope.resetForm = function () {
         $scope.selection = [];
-        $scope.newReservation.periodIn = '[]';
-        $scope.newReservation.dateIn = '[]';
+        $scope.newReservation.periodIn = '';
+        $scope.newReservation.dateIn = '';
         $scope.dateOptions = {};
         $scope.dt = new Date();
-        $scope.newReservation.itemIn = '[]';
-        $scope.newReservation.categoryIn = '[]';
+        $scope.newReservation.itemIn = '';
+        $scope.newReservation.categoryIn = '';
+        $scope.dropDownDisabledItem = true;
+        $scope.dropDownDisabledDate = true;
+
       };
 
       //if the modal was closed via 'confirm' btn, display reservation confirmation alert
