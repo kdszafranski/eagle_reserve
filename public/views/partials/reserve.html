@@ -18,6 +18,7 @@
     </div>
 
     Categories: {{categories}}
+    Reservations: {{newReservation}}
 
     <div class="period">
         <label ng-repeat="periodName in periodArray">
@@ -38,25 +39,25 @@
 
     </div>
 
-    <!-- Modal -->
-<div class="modal fade">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <script type="text/ng-template" id="confirmReservationModal.html">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirm Reservation</h5>
-                </div>
-                <div class="modal-body">
-                    <p>In order to reserve carts or equipment, please provide your room number.</p>
-                    <input type="text" name="numberOfStudents" ng-model="numberOfStudents" required="true"/>
-                </div>
-                <div class="modal-footer">
-                    <button ng-click="makeReservation();" type="button" class="btn btn-success">Confirm</button>
-                    <button ng-click="close()" type="button" class="btn btn-danger">Cancel</button>
-                </div>
-            </script>
+    <!-- Confirm Reservation Modal -->
+    <div class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <script type="text/ng-template" id="confirmReservationModal.html">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm Reservation</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>In order to reserve carts or equipment, please provide your room number.</p>
+                        <input type="text" name="numberOfStudents" ng-model="numberOfStudents" required="true"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-click="makeReservation();" type="button" class="btn btn-success">Confirm</button>
+                        <button ng-click="close()" type="button" class="btn btn-danger">Cancel</button>
+                    </div>
+                </script>
+            </div>
         </div>
-    </div>
 </div>
 
 

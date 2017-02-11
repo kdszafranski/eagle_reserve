@@ -107,8 +107,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     console.log('in getReservationsByDate');
     //reset period property of all items to default
     resetPeriodsProperties($scope.allItems);
-    //convert date to ISO String format
-    date = date.toISOString();
+    //convert date string to correct timezone using moment.js
+    date = moment(date).format('YYYY-MM-DD');
     //Get all reservations for selected date
     $http({
       method: 'GET',

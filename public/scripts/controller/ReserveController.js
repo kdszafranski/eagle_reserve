@@ -24,6 +24,16 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     $scope.periodArray = ['BS', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'AS'];
     $scope.selection = [];
     $scope.categories = [];
+
+    //set newReservation defaults
+    $scope.newReservation = {
+      categoryIn: '',
+      itemIn: '',
+      dateIn: '',
+      periodIn: '',
+      username: username
+    }; // end newReservation
+
     getAllItems();
   }; // end init
 
@@ -57,29 +67,23 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     console.log($scope.newReservation.itemIn);
   }; // end testme
 
-  $scope.newReservation = {
-    categoryIn: '',
-    itemIn: '',
-    dateIn: '',
-    periodIn: $scope.selection,
-    username: username,
-    numberOfStudents: $scope.numberOfStudentsIn,
-    roomNumber: $scope.roomNumberIn
-  }; // end newReservation
-
   $scope.toggleSelection = function toggleSelection(periodName) {
+    console.log('in toggleSelection');
     var idx = $scope.selection.indexOf(periodName);
-
     // Is currently selected
     if (idx > -1) {
       $scope.selection.splice(idx, 1);
+      console.log('result one:', $scope.selection);
     }
-
     // Is newly selected
     else {
       $scope.selection.push(periodName);
+      console.log('result 2:', $scope.selection);
     }
-  };
+    console.log('current selections:', $scope.selection);
+    //update current period selections in newReservation object
+    $scope.newReservation.periodIn = $scope.selection;
+  }; // end toggleSelection
 
   //open the modal (returns a modal instance)
   $scope.open = function (size, newReservation) {
