@@ -40,23 +40,32 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   $scope.getReservations= function() {
     console.log('in getReservations');
+    //Hide the table
+    $scope.tableIsVisible = false;
     //reset periods array to defaults
     resetPeriodArray();
     //set date and item variables for get call
-    var currentDate = moment($scope.newReservation.dateIn).format('YYYY-MM-DD');
+    var currentDateSelected = moment($scope.newReservation.dateIn).format('YYYY-MM-DD');
     var itemSelected = $scope.newReservation.itemIn;
-    //GET reservations matching selected date and item
-    $http({
-      method: 'GET',
-      url: '/private/reservations/multiple/' + currentDate + '/' + itemSelected,
-    }).then(function(response) {
-      console.log('getReservations response-->', response.data);
-      var unavailablePeriodsArray = makeUnavailablePeriodsArray(response.data.results);
-      updatePeriodArrayValues(unavailablePeriodsArray);
-    }).catch(function(err) {
-      //TODO: add better error handling here
-      console.log(err);
-    }); // end $http
+    console.log('getting all reservations for:', currentDateSelected, itemSelected);
+    //run the get call if the date has a valid value
+    //TODO: prevent get call from running when em value is undefined
+    if (currentDateSelected !== "Invalid date" && itemSelected !== undefined) {
+      //GET reservations matching selected date and item
+      $http({
+        method: 'GET',
+        url: '/private/reservations/multiple/' + currentDateSelected + '/' + itemSelected,
+      }).then(function(response) {
+        console.log('getReservations response-->', response.data);
+        var unavailablePeriodsArray = makeUnavailablePeriodsArray(response.data.results);
+        updatePeriodArrayValues(unavailablePeriodsArray);
+        //TODO: show the table
+        $scope.tableIsVisible = true;
+      }).catch(function(err) {
+        //TODO: add better error handling here
+        console.log(err);
+      }); // end $http
+    } // end if
   }; // end getReservations
 
   $scope.openDatepick = function() {
@@ -230,9 +239,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         $scope.newReservation.categoryIn = '';
         $scope.dropDownDisabledItem = true;
         $scope.dropDownDisabledDate = true;
-
       };
-
+      //Hide the table
+      $scope.tableIsVisible = false;
+      //reset period array values
+      resetPeriodArray();
       //if the modal was closed via 'confirm' btn, display reservation confirmation alert
       if (reason.value === 'confirm') {
         //construct reservationMadeObject

@@ -16,7 +16,7 @@
                     ng-options="c.newItem as c.newItem for c in items | filter: {category: newReservation.categoryIn}"
                     class="form-control"
                     ng-disabled="dropDownDisabledItem"
-                    ng-change="changeDropDown()"
+                    ng-change="changeDropDown(); getReservations()"
                     required>
               <option value="" selected disabled>Select by Item</option>
             </select>
@@ -39,7 +39,7 @@
         <br><br>
 
         <div class="table-responsive">
-          <table class="table table-bordered colorfield-table">
+          <table class="table table-bordered colorfield-table" ng-if="tableIsVisible">
             <thead>
               <tr>
                 <th ng-repeat="period in periodArray">{{period.name}}</th>
@@ -48,7 +48,8 @@
             <tbody>
               <tr>
                 <td ng-repeat="period in periodArray" class="{{period.class}}">
-                    <input ng-hide="period.reserved" type="checkbox" name="selectedPeriods[]"
+                    <!-- only show input checkbox if period is available -->
+                    <input ng-if="!period.reserved" type="checkbox" name="selectedPeriods[]"
                            value="period" ng-checked="selection.indexOf(period) > -1"
                            ng-click="toggleSelection(period)">
                 </td>
