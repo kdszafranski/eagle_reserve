@@ -165,18 +165,21 @@ function ($scope, $http, $uibModalInstance, newReservation) {
 
   $scope.makeReservation = function (){
     console.log('In Make Reservation', newReservation);
-    //attach the info from inputs
-    newReservation = attachInputInfo(newReservation);
-    //POST reservation info to server
-    $http ({
-      method: 'POST',
-      url: '/private/reservations',
-      data: $scope.newReservation,
-    }).then(function(response) {
-      console.log('makeReservation response ->', response);
-      $scope.sendEmail();
-      $scope.close();
-    }); // end $http
+    if ($scope.confirmReservationForm.$valid) {
+      console.log('form has been validated');
+      //attach the info from inputs
+      newReservation = attachInputInfo(newReservation);
+      //POST reservation info to server
+      $http ({
+        method: 'POST',
+        url: '/private/reservations',
+        data: $scope.newReservation,
+      }).then(function(response) {
+        console.log('makeReservation response ->', response);
+        $scope.sendEmail();
+        $scope.close();
+      }); // end $http
+    } // end if
   };//end make Reservation
 
   // send email
