@@ -16,24 +16,42 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     $location.path("/#!/login");
   } // end if
 
-  //GET all items from the database
-  $http({
-    method: 'GET',
-    url: '/private/items'
-  }).then(function(response) {
-    console.log('response for items ->', response);
-    $scope.items = response.data.results;
-    $scope.categories = $scope.items.map (function (x){
-      return x.category;
-    }); // end callback
-  }); //end http
-
-  //set periodArray and selection scopes
-  $scope.periodArray = ['BS', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'AS'];
-  $scope.selection = [];
-
   //pull the username in from authFactory and store as variable
   var username = authFactory.username;
+
+  var init = function() {
+    //set periodArray and selection scopes
+    $scope.periodArray = ['BS', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'AS'];
+    $scope.selection = [];
+    $scope.categories = [];
+    getAllItems();
+  }; // end init
+
+  var getAllItems = function() {
+    //GET all items from the database
+    $http({
+      method: 'GET',
+      url: '/private/items'
+    }).then(function(response) {
+      console.log('response for items ->', response);
+      $scope.items = response.data.results;
+      //set categories array for select values
+      setCategorySelectOptions(response.data.results);
+    }); //end http
+  }; // end getAllItems
+
+  var setCategorySelectOptions = function(resultsArray) {
+    console.log('in setCategorySelectOptions', resultsArray);
+    //for each item in resultsArray
+    for (var i = 0; i < resultsArray.length; i++) {
+      var category = resultsArray[i].category;
+      //If the category is not already in $scope.category
+      // push the value into the array
+      if ($scope.categories.indexOf(category) === -1) {
+        $scope.categories.push(category);
+      } // end if
+    } // end for
+  }; // end setCategorySelectOptions
 
   $scope.testme = function() {
     console.log($scope.newReservation.itemIn);
@@ -89,6 +107,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       $scope.outputDiv += '<p>' + 'You have added a reservation for ' + item + ' on ' + date + ' for period ' + period + '</p>';
     }); // end modalInstance.closed callback
   }; // end open
+
+  init();
 
 }]); // end ReserveController
 
