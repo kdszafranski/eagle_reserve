@@ -37,7 +37,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       url: '/private/reservations/multiple/' + currentDate + '/' + itemSelected,
     }).then(function(response) {
       console.log('getReservations response-->', response.data);
-      makeUnavailablePeriodsArray(response.data.results);
+      var unavailablePeriodsArray = makeUnavailablePeriodsArray(response.data.results);
+      console.log('HERE-->', unavailablePeriodsArray);
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
@@ -108,11 +109,20 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   }; // end getAllItems
 
   var makeUnavailablePeriodsArray = function(reservationsArray) {
-    console.log('in makeUnavailablePeriodsArray', reservationsArray);
-    for (var i = 0; i < reservationsArray.length; i++) {
-      //set the reserved property to true for this period
-      console.log(reservationsArray[i].period);
-    }
+    console.log('in makeUnavailablePeriodsArray');
+    var allPeriodsReserved = [];
+    reservationsArray.map(function(reservation) {
+      //split the period property into an array
+      var periodsReserved = reservation.period.split(',');
+      //for each period in periodsReserved
+      for (var i = 0; i < periodsReserved.length; i++) {
+        //push the value into allPeriodsReserved array if it's not already in there
+        if (allPeriodsReserved.indexOf(periodsReserved[i]) === -1) {
+          allPeriodsReserved.push(periodsReserved[i]);
+        } // end if
+      } // end for
+    }); // end map
+    return allPeriodsReserved;
   }; // end makeUnavailablePeriodsArray
 
   var setCategorySelectOptions = function(resultsArray) {
