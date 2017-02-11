@@ -5,8 +5,7 @@
 
     <pre>New Reservation Object: {{newReservation}}</pre>
 
-    <form ng-submit = "makeReservationForm.$valid && open('md', newReservation)" class="form-inline filter-form reservations" name ='makeReservationForm' novalidate>
-      {{makeReservationForm.$valid}}
+    <form ng-submit = "makeReservationForm.$valid && open('md', newReservation)" class="form-inline filter-form reservations" name="makeReservationForm" novalidate>
         <div class="form-group">
             <select ng-model="newReservation.categoryIn" ng-options="p for p in categories" class="form-control" required>
               <option value="" selected disabled>Select by Category</option>
@@ -23,7 +22,8 @@
           <input onkeydown="return false" type="text" class="form-control date-input"
                  uib-datepicker-popup="MMMM dd, yyyy" ng-model="newReservation.dateIn" is-open="popup.opened"
                  datepicker-options="dateOptions" ng-required="true" close-text="Close"
-                 alt-input-formats="altInputFormats" show-button-bar="true" required/>
+                 alt-input-formats="altInputFormats" show-button-bar="false"
+                 ng-change="getReservations()" required/>
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="openDatepick()">
               <i class="glyphicon glyphicon-calendar"></i>
@@ -31,16 +31,27 @@
           </span>
         </p>
 
-        <div class="form-group">
-            <label ng-repeat="periodName in periodArray">
-            <input
-              type="checkbox"
-              name="selectedPeriods[]"
-              value="{{periodName}}"
-              ng-checked= "selection.indexOf(periodName) > -1"
-              ng-click="toggleSelection(periodName)"
-              /> {{periodName}}
-            </label>
+        <!-- TODO: remove break and add styling instead -->
+        <br><br>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th ng-repeat="period in periodArray">{{period.name}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td ng-repeat="period in periodArray">
+                    {{period.reserved}}
+                    <input type="checkbox" name="selectedPeriods[]"
+                           value="period" ng-checked="selection.indexOf(period) > -1"
+                           ng-click="toggleSelection(period)">
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <button type="submit" class="btn btn-success">Make Reservation</button>
