@@ -96,7 +96,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       //scope all items as allItems for table repeat
       $scope.allItems = response.data.results;
       //Get all reservations for today
-      $scope.getReservationsByDate(new Date());
+      //$scope.getReservationsByDate(new Date());
+      $scope.getReservationsByDate($scope.today());
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
@@ -123,8 +124,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       console.log(err);
     }); // end $http
   }; // end getAll
-
-
 
   var init = function() {
     console.log('in init');
@@ -215,6 +214,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     } // end else
     console.log('DEFAULT-->',datePickDefault._d);
     $scope.date = datePickDefault._d;
+    return datePickDefault._d;
   }; // end today
 
   //If user is not logged in
