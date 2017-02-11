@@ -228,7 +228,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     modalInstance.result.then(function (reason) {
       console.log('reason-->', reason.value, reason.reservation);
 
-      //TODO: clear/reset the make a reservation form after modal closed
+      //Clear/reset the make a reservation form after modal closed
       $scope.resetForm = function () {
         $scope.selection = [];
         $scope.newReservation.periodIn = '';
