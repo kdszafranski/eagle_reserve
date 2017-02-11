@@ -60,6 +60,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       showWeeks: false
     }; // end dateOptions
 
+    $scope.reservationsMade = [];
+
     getAllItems();
   }; // end init
 
@@ -120,15 +122,23 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         } // end userId
       } // end resolve
     }); // end modalInstance
-    //when the modal instance is closed, show the confirmation alert
-    modalInstance.closed.then(function(){
-      var item = $scope.newReservation.itemIn;
-      var date = $scope.newReservation.dateIn;
-      var period = $scope.newReservation.periodIn;
-      $scope.roomNumberIn = '';
-      $scope.numberOfStudentsIn = '';
-      $scope.outputDiv += '<p>' + 'You have added a reservation for ' + item + ' on ' + date + ' for period ' + period + '</p>';
-    }); // end modalInstance.closed callback
+    modalInstance.result.then(function (reason) {
+      console.log('reason-->', reason.value, reason.reservation);
+
+      //TODO: clear/reset the make a reservation form after modal closed
+
+      //if the modal was closed via 'confirm' btn, display reservation confirmation alert
+      if (reason.value === 'confirm') {
+        //construct reservationMadeObject
+        var reservationMadeObject = {
+          item: reason.reservation.itemIn,
+          date: reason.reservation.dateIn,
+          period: reason.reservation.periodIn
+        }; // end reservationMadeObject
+        //push the reservation made into the $scope.reservationMade array
+        $scope.reservationsMade.push(reservationMadeObject);
+      } // end if
+    }); // end modal result
   }; // end open
 
   init();
@@ -140,17 +150,46 @@ myApp.controller('ConfirmReservationModalController', ['$scope', '$http', '$uibM
 function ($scope, $http, $uibModalInstance, newReservation) {
   console.log('in ConfirmReservationModalController', newReservation);
 
+  $scope.newReservation = newReservation;
+
+  //Show the appropriate input
+  //if category is Cart, show room # input
+  if ($scope.newReservation.categoryIn === 'Cart') {
+    $scope.isCart = true;
+  //If category is not cart, show numStudents input
+  } else {
+    $scope.isCart = false;
+  } // end else
+
+  var attachInputInfo = function(reservationObject) {
+    console.log('in attachInputInfo', reservationObject);
+    //If the category is Cart, attach room Number information
+    if (reservationObject.categoryIn === 'Cart') {
+      reservationObject.roomNumberIn = $scope.roomNumberIn;
+    //If the category is NOT Cart, attach number of students information
+    } else {
+      reservationObject.numberOfStudentsIn = $scope.numberOfStudentsIn;
+    } // end else
+    return reservationObject;
+  }; // end attachInputInfo
+
   $scope.makeReservation = function (){
     console.log('In Make Reservation', newReservation);
-    $http ({
-      method: 'POST',
-      url: '/private/reservations',
-      data: newReservation,
-    }).then(function(response) {
-      console.log('makeReservation response ->', response);
-      $scope.sendEmail(newReservation);
-      $scope.close();
-    }); // end $http
+    if ($scope.confirmReservationForm.$valid) {
+      console.log('form has been validated');
+      //attach the info from inputs
+      newReservation = attachInputInfo(newReservation);
+      //POST reservation info to server
+      $http ({
+        method: 'POST',
+        url: '/private/reservations',
+        data: newReservation,
+      }).then(function(response) {
+        console.log('makeReservation response ->', response);
+        $scope.sendEmail(newReservation);
+        $scope.close('confirm', newReservation );
+      }); // end $http
+    } // end if
   };//end make Reservation
 
   // send email
@@ -171,8 +210,8 @@ function ($scope, $http, $uibModalInstance, newReservation) {
   }; // end sendEmails
 
   //close the  modal
-  $scope.close = function () {
-    $uibModalInstance.dismiss('cancel');
+  $scope.close = function (reason, reservation) {
+    $uibModalInstance.close({ value: reason, reservation: reservation });
   }; // end close
 
 
