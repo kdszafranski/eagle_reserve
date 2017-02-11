@@ -126,6 +126,15 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       console.log('reason-->', reason.value, reason.reservation);
 
       //TODO: clear/reset the make a reservation form after modal closed
+      $scope.resetForm = function () {
+        $scope.selection = [];
+        $scope.newReservation.periodIn = '[]';
+        $scope.newReservation.dateIn = '[]';
+        $scope.dateOptions = {};
+        $scope.dt = new Date();
+        $scope.newReservation.itemIn = '[]';
+        $scope.newReservation.categoryIn = '[]';
+      };
 
       //if the modal was closed via 'confirm' btn, display reservation confirmation alert
       if (reason.value === 'confirm') {
@@ -137,6 +146,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         }; // end reservationMadeObject
         //push the reservation made into the $scope.reservationMade array
         $scope.reservationsMade.push(reservationMadeObject);
+        $scope.resetForm();
       } // end if
     }); // end modal result
   }; // end open
@@ -188,6 +198,7 @@ function ($scope, $http, $uibModalInstance, newReservation) {
         console.log('makeReservation response ->', response);
         $scope.sendEmail(newReservation);
         $scope.close('confirm', newReservation );
+
       }); // end $http
     } // end if
   };//end make Reservation
