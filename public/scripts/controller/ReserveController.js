@@ -31,7 +31,24 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     $scope.popup.opened = true;
   }; // end openDatepick
 
+  $scope.changeDropDown = function () {
+    if($scope.newReservation.categoryIn == '') {
+      $scope.dropDownDisabledItem = true;
+      $scope.dropDownDisabledDate = true;
+    } else if ($scope.newReservation.itemIn == '') {
+      $scope.dropDownDisabledItem = false;
+      $scope.dropDownDisabledDate = true;
+    } else {
+      $scope.dropDownDisabledItem = false;
+      $scope.dropDownDisabledDate = false;
+    }
+  }
+
   var init = function() {
+
+    $scope.dropDownDisabledItem = true;
+    $scope.dropDownDisabledDate = true;
+
     //set periodArray and selection scopes
     $scope.periodArray = ['BS', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'AS'];
     $scope.selection = [];
