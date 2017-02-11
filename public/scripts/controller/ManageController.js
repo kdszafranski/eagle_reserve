@@ -16,16 +16,17 @@ function( $scope, $http, $location, AuthFactory ){
     $location.path("/#!/login");
   } // end if
 
-  // GET to display on DOM
+  // GET all reservations to display on DOM
   $scope.displayReservation = function(){
     console.log( 'in displayReservation' );
-    $http.get( '/private/reservations/all/' + new Date().toISOString() )
+    //convert today's date with moment.js
+    var today = moment(new Date()).format('YYYY-MM-DD');
+    $http.get( '/private/reservations/all/' + today )
     .then(function( response ){
       console.log('reservations', response.data);
       $scope.reservations = response.data.results;
     });// end then
   };// end displayReservation
-
 
   // Getting all Items that are currently in database to choose from
   $scope.getItems = function(){
@@ -48,7 +49,6 @@ function( $scope, $http, $location, AuthFactory ){
       $scope.displayReservation();
     });// end then
   };// end deleteReservation
-
 
   // delete a reservation
   $scope.deleteReservationUser = function( indexIn ){
@@ -99,15 +99,15 @@ function( $scope, $http, $location, AuthFactory ){
 
   $scope.getByDate = function(date){
     console.log('In getByDate');
-    var specificDate = date.toISOString();
+    //use moment.js to format date chosen
+    date = moment(date).format('YYYY-MM-DD');
     $http({
       method: 'GET',
-      url: '/private/reservations/' + specificDate
+      url: '/private/reservations/' + date
     }).then(function(response){
       console.log('getByDate response:', response.data.results);
       $scope.reservations = response.data.results;
     });
-
   };
 
   $scope.popup = {
