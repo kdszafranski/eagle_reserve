@@ -31,6 +31,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     $scope.popup.opened = true;
   }; // end openDatepick
 
+//Disabled drop down until categories and items are selected
   $scope.changeDropDown = function () {
     if($scope.newReservation.categoryIn == '') {
       $scope.dropDownDisabledItem = true;
@@ -42,7 +43,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       $scope.dropDownDisabledItem = false;
       $scope.dropDownDisabledDate = false;
     }
-  }
+  };//end change drop down
 
   var init = function() {
 
