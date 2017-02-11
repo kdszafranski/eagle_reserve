@@ -51,7 +51,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   }; // end getAllItems
 
   var setCategorySelectOptions = function(resultsArray) {
-    console.log('in setCategorySelectOptions', resultsArray);
+    console.log('in setCategorySelectOptions');
     //for each item in resultsArray
     for (var i = 0; i < resultsArray.length; i++) {
       var category = resultsArray[i].category;
@@ -63,24 +63,17 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     } // end for
   }; // end setCategorySelectOptions
 
-  $scope.testme = function() {
-    console.log($scope.newReservation.itemIn);
-  }; // end testme
-
   $scope.toggleSelection = function toggleSelection(periodName) {
     console.log('in toggleSelection');
     var idx = $scope.selection.indexOf(periodName);
     // Is currently selected
     if (idx > -1) {
       $scope.selection.splice(idx, 1);
-      console.log('result one:', $scope.selection);
     }
     // Is newly selected
     else {
       $scope.selection.push(periodName);
-      console.log('result 2:', $scope.selection);
     }
-    console.log('current selections:', $scope.selection);
     //update current period selections in newReservation object
     $scope.newReservation.periodIn = $scope.selection;
   }; // end toggleSelection
