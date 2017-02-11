@@ -122,7 +122,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="reservation in reservations | filter: ({user:teacherSelected.name.name, item:itemSelected.newItem.newItem, category:categorySelected.category.category})">
+            <tr ng-repeat="reservation in reservations | filter: ({user:teacherSelected.name.name, item:itemSelected.newItem.newItem, category:categorySelected.category.category})"m>
               <td>{{reservation.dateScheduled | date: 'mediumDate': 'UTC'}}</td>
               <td>{{reservation.item}}</td>
               <td>{{reservation.category}}</td>
