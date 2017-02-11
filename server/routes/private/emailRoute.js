@@ -3,11 +3,22 @@ var router = express.Router();
 var Reservation = require('../../models/reservation');
 var nodemailer = require('nodemailer');
 var schedule = require('node-schedule');
+var moment = require('moment');
 
 // SEND confirmation email
-router.post('/', function( req,res){
+router.post('/', function( req, res ){
+
     console.log( 'in email post' );
+    console.log('req.body ->', req.body );
     console.log( "email receiver-->", req.user.email );
+    console.log( "item-->", req.body.itemIn );
+    console.log( "date-->", req.body.dateIn );
+    console.log( "period -->", req.body.periodIn );
+
+    var item = req.body.itemIn;
+    var date = moment(req.body.dateIn).format('MMMM Do YYYY');
+
+    var period = req.body.periodIn;
 
     // create reusable transporter object using the default SMTP transport
     var transporter = nodemailer.createTransport({
@@ -23,7 +34,7 @@ router.post('/', function( req,res){
         from: '"Test1" <avhs.test1@apps.district196.org>', // sender address
         to: '<'+req.user.email+'>', // list of receivers
         subject: 'Reservation Confirmation', // Subject line
-        text: 'You reserved ________ on ________ during _________ period' // plain text body
+        text: 'You reserved ' + item + ' on ' + date + ' during period(s): ' + period  // plain text body
         // html: '<b>Hello world ?</b>' // html body
     };
 
