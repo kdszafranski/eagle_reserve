@@ -120,15 +120,19 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         } // end userId
       } // end resolve
     }); // end modalInstance
-    //when the modal instance is closed, show the confirmation alert
-    modalInstance.closed.then(function(){
-      var item = $scope.newReservation.itemIn;
-      var date = $scope.newReservation.dateIn;
-      var period = $scope.newReservation.periodIn;
-      $scope.roomNumberIn = '';
-      $scope.numberOfStudentsIn = '';
-      $scope.outputDiv += '<p>' + 'You have added a reservation for ' + item + ' on ' + date + ' for period ' + period + '</p>';
-    }); // end modalInstance.closed callback
+    modalInstance.result.then(function (reason) {
+      console.log('reason-->', reason.value);
+      //TODO: clear/reset the make a reservation form after modal closed
+      //if the modal was closed via 'confirm' btn, display reservation confirmation alert
+      if (reason.value === 'confirm') {
+        var item = $scope.newReservation.itemIn;
+        var date = $scope.newReservation.dateIn;
+        var period = $scope.newReservation.periodIn;
+        $scope.roomNumberIn = '';
+        $scope.numberOfStudentsIn = '';
+        $scope.outputDiv += '<p>' + 'You have added a reservation for ' + item + ' on ' + date + ' for period ' + period + '</p>';
+      } // end if
+    }); // end modal result
   }; // end open
 
   init();
@@ -177,7 +181,7 @@ function ($scope, $http, $uibModalInstance, newReservation) {
       }).then(function(response) {
         console.log('makeReservation response ->', response);
         $scope.sendEmail();
-        $scope.close();
+        $scope.close('confirm');
       }); // end $http
     } // end if
   };//end make Reservation
@@ -197,8 +201,8 @@ function ($scope, $http, $uibModalInstance, newReservation) {
   }; // end sendEmails
 
   //close the  modal
-  $scope.close = function () {
-    $uibModalInstance.dismiss('cancel');
+  $scope.close = function (reason) {
+    $uibModalInstance.close({ value: reason});
   }; // end close
 
 }]); // end ConfirmReservationModalController
