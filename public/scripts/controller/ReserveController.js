@@ -233,7 +233,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         $scope.selection = [];
         $scope.newReservation.periodIn = '';
         $scope.newReservation.dateIn = '';
-        $scope.dateOptions = {};
+        //$scope.dateOptions = {};
         $scope.dt = new Date();
         $scope.newReservation.itemIn = '';
         $scope.newReservation.categoryIn = '';
