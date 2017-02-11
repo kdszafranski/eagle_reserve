@@ -161,22 +161,26 @@ function ($scope, $http, $uibModalInstance, newReservation) {
     $scope.isCart = false;
   } // end else
 
+  $scope.userInput = {
+    roomNumberIn: '',
+    numberOfStudentsIn: ''
+  }; // end userInput
+
   var attachInputInfo = function(reservationObject) {
     console.log('in attachInputInfo', reservationObject);
     //If the category is Cart, attach room Number information
     if (reservationObject.categoryIn === 'Cart') {
-      reservationObject.roomNumberIn = $scope.roomNumberIn;
+      reservationObject.roomNumberIn = $scope.userInput.roomNumberIn;
     //If the category is NOT Cart, attach number of students information
     } else {
-      reservationObject.numberOfStudentsIn = $scope.numberOfStudentsIn;
+      reservationObject.numberOfStudentsIn = $scope.userInput.numberOfStudentsIn;
     } // end else
     return reservationObject;
   }; // end attachInputInfo
 
   $scope.makeReservation = function (){
-    console.log('In Make Reservation', newReservation);
+    console.log('In Make Reservation');
     if ($scope.confirmReservationForm.$valid) {
-      console.log('form has been validated');
       //attach the info from inputs
       newReservation = attachInputInfo(newReservation);
       //POST reservation info to server
@@ -194,7 +198,6 @@ function ($scope, $http, $uibModalInstance, newReservation) {
 
   // send email
   $scope.sendEmail = function( reservation ) {
-    console.log("reservation ->", reservation );
     //post info to the server
     $http({
       method: 'POST',
