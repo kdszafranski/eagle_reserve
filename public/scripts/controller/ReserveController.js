@@ -148,23 +148,26 @@ function ($scope, $http, $uibModalInstance, newReservation) {
       data: newReservation,
     }).then(function(response) {
       console.log('makeReservation response ->', response);
-      $scope.sendEmail();
+      $scope.sendEmail(newReservation);
       $scope.close();
     }); // end $http
   };//end make Reservation
 
   // send email
-  $scope.sendEmail = function( req, res ) {
+  $scope.sendEmail = function( reservation ) {
+    console.log("reservation ->", reservation );
     //post info to the server
     $http({
       method: 'POST',
-      url: '/private/email'
+      url: '/private/email',
+      data: reservation
     }).then(function(response) {
       console.log('sendEmail response-->', response);
     }).catch(function(err) {
       //if there was an error, log it
       console.log(err);
     }); // end $http
+
   }; // end sendEmails
 
   //close the  modal
