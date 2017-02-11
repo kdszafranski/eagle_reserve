@@ -60,6 +60,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       showWeeks: false
     }; // end dateOptions
 
+    $scope.reservationsMade = [];
+
     getAllItems();
   }; // end init
 
@@ -121,16 +123,20 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       } // end resolve
     }); // end modalInstance
     modalInstance.result.then(function (reason) {
-      console.log('reason-->', reason.value);
+      console.log('reason-->', reason.value, reason.reservation);
+
       //TODO: clear/reset the make a reservation form after modal closed
+
       //if the modal was closed via 'confirm' btn, display reservation confirmation alert
       if (reason.value === 'confirm') {
-        var item = $scope.newReservation.itemIn;
-        var date = $scope.newReservation.dateIn;
-        var period = $scope.newReservation.periodIn;
-        $scope.roomNumberIn = '';
-        $scope.numberOfStudentsIn = '';
-        $scope.outputDiv += '<p>' + 'You have added a reservation for ' + item + ' on ' + date + ' for period ' + period + '</p>';
+        //construct reservationMadeObject
+        var reservationMadeObject = {
+          item: reason.reservation.itemIn,
+          date: reason.reservation.dateIn,
+          period: reason.reservation.periodIn
+        }; // end reservationMadeObject
+        //push the reservation made into the $scope.reservationMade array
+        $scope.reservationsMade.push(reservationMadeObject);
       } // end if
     }); // end modal result
   }; // end open
@@ -181,7 +187,7 @@ function ($scope, $http, $uibModalInstance, newReservation) {
       }).then(function(response) {
         console.log('makeReservation response ->', response);
         $scope.sendEmail();
-        $scope.close('confirm');
+        $scope.close('confirm', newReservation );
       }); // end $http
     } // end if
   };//end make Reservation
@@ -201,8 +207,8 @@ function ($scope, $http, $uibModalInstance, newReservation) {
   }; // end sendEmails
 
   //close the  modal
-  $scope.close = function (reason) {
-    $uibModalInstance.close({ value: reason});
+  $scope.close = function (reason, reservation) {
+    $uibModalInstance.close({ value: reason, reservation: reservation });
   }; // end close
 
 }]); // end ConfirmReservationModalController

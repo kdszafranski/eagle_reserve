@@ -29,9 +29,6 @@
             </button>
           </span>
         </p>
-        <!-- <input type="text" ng-model="reservationToSend.numberOfStudentsIn" ng-if="newReservation.categoryIn == 'Lab'" placeholder="Number of Students">
-        <input type="text" ng-model="reservationToSend.roomNumberIn" ng-if="newReservation.categoryIn == 'Cart'" placeholder="Room Number">
-        <input type="text" ng-model="reservationToSend.roomNumberIn" ng-if="newReservation.categoryIn == 'Other'" placeholder="Room Number"> -->
     </form>
 
     <div class="form-group">
@@ -48,7 +45,14 @@
 
     <button type="button" ng-click="open('md', newReservation)" class="btn btn-success">Make Reservation</button>
 
-    <div ng-bind-html= "outputDiv"></div>
+    <!-- Reservation Confirmation Alerts -->
+    <div ng-repeat="reservation in reservationsMade" class="alert alert-success" role="alert">
+       You have added a reservation for {{reservation.item}} on {{reservation.date | date}} for period(s): {{}}
+       <span ng-repeat="period in reservation.period">
+           <!-- display a comma before item if it is not first in array -->
+           <span ng-if="!$first">, </span>{{period}}
+       </span>
+    </div>
 
     <!-- Confirm Reservation Modal -->
     <div class="modal fade">
