@@ -1,10 +1,12 @@
 <!-- Make a Reservation View -->
 <div ng-if="loggedIn">
+
+
     <h1 class="text-center">Make a Reservation</h1>
 
-    <p>New Reservation Object: {{newReservation}}</p>
+    <pre>New Reservation Object: {{newReservation}}</pre>
 
-    <form class="form-inline reservations">
+    <form class="form-inline filter-form reservations">
         <div class="form-group">
             <select ng-model="newReservation.categoryIn" ng-options="p for p in categories" class="form-control">
               <option value="">Select by Category</option>
@@ -15,9 +17,14 @@
               <option value="">Select by Item</option>
             </select>
         </div>
-        <div class="form-group">
-            <input type="date" ng-model="newReservation.dateIn" class="form-control">
-        </div>
+        <p class="input-group" style="margin-bottom:0;">
+          <input onkeydown="return false" type="text" class="form-control date-input" uib-datepicker-popup="MMMM dd, yyyy" ng-model="newReservation.dateIn" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" show-button-bar="true"/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDatepick()">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </span>
+        </p>
         <!-- <input type="text" ng-model="reservationToSend.numberOfStudentsIn" ng-if="newReservation.categoryIn == 'Lab'" placeholder="Number of Students">
         <input type="text" ng-model="reservationToSend.roomNumberIn" ng-if="newReservation.categoryIn == 'Cart'" placeholder="Room Number">
         <input type="text" ng-model="reservationToSend.roomNumberIn" ng-if="newReservation.categoryIn == 'Other'" placeholder="Room Number"> -->

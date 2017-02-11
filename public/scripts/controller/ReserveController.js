@@ -19,6 +19,18 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   //pull the username in from authFactory and store as variable
   var username = authFactory.username;
 
+  var disabled = function(data) {
+    // Disable weekend selection on daypicker
+    var date = data.date,
+      mode = data.mode;
+    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+  }; // end disabled
+
+  $scope.openDatepick = function() {
+    //Open the datepicker popup
+    $scope.popup.opened = true;
+  }; // end openDatepick
+
   var init = function() {
     //set periodArray and selection scopes
     $scope.periodArray = ['BS', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'AS'];
@@ -33,6 +45,20 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       periodIn: '',
       username: username
     }; // end newReservation
+
+    //Initialize datepicker popup to closed
+    $scope.popup = {
+      opened: false
+    }; // end popup
+
+    //Set datepicker options
+    $scope.dateOptions = {
+      dateDisabled: disabled,
+      formatYear: 'yy',
+      minDate: new Date(),
+      startingDay: 1,
+      showWeeks: false
+    }; // end dateOptions
 
     getAllItems();
   }; // end init
