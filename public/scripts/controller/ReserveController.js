@@ -172,4 +172,5 @@ function ($scope, $http, $uibModalInstance, newReservation) {
     $uibModalInstance.dismiss('cancel');
   }; // end close
 
+
 }]); // end ConfirmReservationModalController
