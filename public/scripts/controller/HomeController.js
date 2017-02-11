@@ -124,6 +124,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     }); // end $http
   }; // end getAll
 
+
+
   var init = function() {
     console.log('in init');
 
@@ -191,10 +193,29 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     } // end for
   }; //end resetPeriodsProperties
 
+  // $scope.today = function() {
+  //   //Set datepicker default day to today
+  //   $scope.date = new Date();
+  // }; // end today();
+
   $scope.today = function() {
-    //Set datepicker default day to today
-    $scope.date = new Date();
-  }; // end today();
+    //Sets the default date picker date.
+    //Sets it to monday if the current day is a weekend
+    console.log('in TODAY-->', moment().isoWeekday());
+    var dayOfWeekToday = moment().isoWeekday();
+    var datePickDefault;
+    if (dayOfWeekToday > 5) {
+      console.log('WEEKEND');
+      //set the default to the next monday
+      var num = 8 - dayOfWeekToday;
+      datePickDefault = moment().add(num, 'days');
+    } else {
+      //set the default to the current day
+      datePickDefault = moment();
+    } // end else
+    console.log('DEFAULT-->',datePickDefault._d);
+    $scope.date = datePickDefault._d;
+  }; // end today
 
   //If user is not logged in
   if(!$scope.loggedIn) {
