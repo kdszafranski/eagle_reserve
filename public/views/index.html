@@ -68,9 +68,21 @@
     </section>
 
     <!-- Partial Views -->
-    <div class="container">
-      <main ng-view></main>
+    <div class="container wrapper">
+      <main ng-view autoscroll="true"></main>
     </div>
+
+    <div class="push"></div>
+
+    <footer class="footer">
+      <div class="container">
+        <ul class="footer-list">
+          <li><a href="#!/home">Home</a></li>
+          <li><a href="#!/reserve">Reserve</a></li>
+          <li><a href="#!/manage">Manage</a></li>
+        </ul>
+      </div>
+    </footer>
 
   </body>
 </html>
