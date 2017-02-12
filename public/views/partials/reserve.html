@@ -3,8 +3,7 @@
 
     <h1 class="text-center">Make a Reservation</h1>
 
-    <pre>New Reservation Object: {{newReservation}}</pre>
-
+    <!-- Add New Reservation Form -->
     <form ng-submit = "makeReservationForm.$valid && open('md', newReservation); makeReservationForm.$setPristine()" class="form-inline filter-form reservations" name="makeReservationForm" novalidate>
         <div class="form-group">
             <select ng-model="newReservation.categoryIn" ng-options="p for p in categories" class="form-control" ng-change="changeDropDown()" required>
@@ -21,7 +20,8 @@
               <option value="" selected disabled>Select by Item</option>
             </select>
         </div>
-        <p class="input-group" style="margin-bottom:0;">
+        <!-- DatePicker -->
+        <p class="input-group reserve-datepick">
           <input onkeydown="return false" type="text" class="form-control date-input"
                  uib-datepicker-popup="MMMM dd, yyyy" ng-model="newReservation.dateIn" is-open="popup.opened"
                  datepicker-options="dateOptions" ng-required="true" close-text="Close"
@@ -34,10 +34,7 @@
             </button>
           </span>
         </p>
-
-        <!-- TODO: remove break and add styling instead -->
-        <br><br>
-
+        <!-- Period Selection Checkboxes Table -->
         <div class="table-responsive">
           <table ng-if="tableIsVisible" class="table table-bordered colorfield-table">
             <thead>
@@ -57,7 +54,7 @@
             </tbody>
           </table>
         </div>
-
+        <!-- Submit Button -->
         <button ng-disabled="newReservation.periodIn.length < 1" type="submit" class="btn btn-success">Make Reservation</button>
     </form>
 
