@@ -40,6 +40,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   $scope.getReservations= function() {
     console.log('in getReservations');
+    //Hide the table
+    //$scope.tableIsVisible = false;
     //reset periods array to defaults
     resetPeriodArray();
     //set date and item variables for get call
@@ -63,7 +65,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         //TODO: add better error handling here
         console.log(err);
       }); // end $http
-    } // end if
+    } else {
+      //If either the item or date values are not selected
+      //Hide the period selection table
+      $scope.tableIsVisible = false;
+    }
   }; // end getReservations
 
   $scope.openDatepick = function() {
