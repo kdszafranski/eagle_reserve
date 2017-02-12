@@ -27,7 +27,7 @@
                  datepicker-options="dateOptions" ng-required="true" close-text="Close"
                  alt-input-formats="altInputFormats" show-button-bar="false"
                  ng-disabled="dropDownDisabledDate"
-                 ng-change="getReservations()" required/>
+                 ng-change="getReservations()"/>
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="openDatepick()">
               <i class="glyphicon glyphicon-calendar"></i>
@@ -51,14 +51,14 @@
                     <!-- only show input checkbox if period is available -->
                     <input ng-if="!period.reserved" type="checkbox" name="selectedPeriods[]"
                            value="period" ng-checked="selection.indexOf(period) > -1"
-                           ng-click="toggleSelection(period)">
+                           ng-click="toggleSelection(period)" required>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <button type="submit" class="btn btn-success">Make Reservation</button>
+        <button ng-disabled="newReservation.periodIn.length < 1" type="submit" class="btn btn-success">Make Reservation</button>
     </form>
 
     <!-- Reservation Confirmation Alerts -->
