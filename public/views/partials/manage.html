@@ -1,9 +1,90 @@
 <!-- Manage Reservations View -->
 <div ng-if="loggedIn" class="text-center">
+
+  <h1 class="text-center">Manage Reservations</h1>
+
+  <form class="form filters-form">
+    <fieldset>
+      <!-- Filter by Teacher select group (visible to Admin Only)  -->
+      <div ng-if="isAdmin" class="form-group">
+          <div class="col-sm-3">
+            <div class="input-group">
+              <ui-select allow-clear ng-model="teacherSelected.name" theme="bootstrap">
+                <ui-select-match placeholder="Filter By Teacher..." >{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices repeat="status in (teachers | filter: $select.search) track by status.name">
+                  <span ng-bind-html="status.name"></span>
+                </ui-select-choices>
+              </ui-select>
+              <span class="input-group-btn">
+                <button type="button" ng-click="teacherSelected.name = undefined" class="btn btn-default">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </span>
+            </div>
+          </div>
+      </div>
+      <!-- Filter by Category select group (visible to all)  -->
+      <div class="form-group">
+          <div class="col-sm-3">
+            <div class="input-group">
+              <ui-select allow-clear ng-model="categorySelected.category" theme="bootstrap">
+                <ui-select-match placeholder="Filter By Category..." >{{$select.selected.category}}</ui-select-match>
+                <ui-select-choices repeat="status in (category | filter: $select.search) track by status.category">
+                  <span ng-bind-html="status.category"></span>
+                </ui-select-choices>
+              </ui-select>
+              <span class="input-group-btn">
+                <button type="button" ng-click="categorySelected.category = undefined" class="btn btn-default">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </span>
+            </div>
+          </div>
+      </div>
+      <!-- Filter by Item select group (visible to all) -->
+      <div class="form-group">
+          <div class="col-sm-3">
+            <div class="input-group">
+              <ui-select allow-clear ng-model="itemSelected.newItem" theme="bootstrap">
+                <ui-select-match placeholder="Filter By Item..." >{{$select.selected.newItem}}</ui-select-match>
+                <ui-select-choices repeat="status in (items | filter: $select.search) track by status.newItem">
+                  <span ng-bind-html="status.newItem"></span>
+                </ui-select-choices>
+              </ui-select>
+              <span class="input-group-btn">
+                <button type="button" ng-click="itemSelected.newItem = undefined" class="btn btn-default">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </span>
+            </div>
+          </div>
+      </div>
+      <!-- Filter by Date select group (visible to Admin Only) -->
+      <div ng-if="isAdmin" class="form-group">
+        <div class="col-sm-3">
+          <p class="input-group">
+            <input ng-change="getByDate(date)" onkeydown="return false" type="text" class="form-control date-input"
+                   uib-datepicker-popup="MMMM dd, yyyy" ng-model="date" is-open="popup.opened"
+                   datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                   alt-input-formats="altInputFormats" show-button-bar="false" placeholder="Filter by Date..."/>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="openDatepick()">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+              <button type="button" class="btn btn-default" ng-click="displayReservation();">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </span>
+          </p>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+  <!-- Teacher Manage View -->
   <div ng-if="!isAdmin" class="text-center" ng-init="getByUsername()" >
-    <h1>Manage My Reservations</h1>
     <div class="table-responsive">
-      <table class="table table-bordered">
+      <table class="table table-striped table-hover">
         <thead>
           <tr>
             <th>Date</th>
@@ -12,8 +93,8 @@
             <th>Delete</th>
           </tr>
         </thead>
-        <tbody ng-repeat="reservation in userReservations">
-          <tr>
+        <tbody>
+          <tr ng-repeat="reservation in userReservations | filter: ({item:itemSelected.newItem.newItem, category:categorySelected.category.category})">
             <td>{{reservation.dateScheduled | date}}</td>
             <td>{{reservation.item}}</td>
             <td>{{reservation.period}}</td>
@@ -28,115 +109,36 @@
     </div>
   </div>
 
-    <div ng-if="isAdmin"  ng-init="displayReservation()">
-      <h1 class="text-center">Manage Reservations</h1>
-      <form class="form filters-form">
-        <fieldset>
-          <div class="form-group">
-            <!-- Filter by Teacher select group  -->
-              <div class="col-sm-3">
-                <div class="input-group">
-                  <ui-select allow-clear ng-model="teacherSelected.name" theme="bootstrap">
-                    <ui-select-match placeholder="Filter By Teacher..." >{{$select.selected.name}}</ui-select-match>
-                    <ui-select-choices repeat="status in (teachers | filter: $select.search) track by status.name">
-                      <span ng-bind-html="status.name"></span>
-                    </ui-select-choices>
-                  </ui-select>
-                  <span class="input-group-btn">
-                    <button type="button" ng-click="teacherSelected.name = undefined" class="btn btn-default">
-                      <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                  </span>
-                </div>
-              </div>
-          </div>
-          <div class="form-group">
-            <!-- Filter by Category select group  -->
-              <div class="col-sm-3">
-                <div class="input-group">
-                  <ui-select allow-clear ng-model="categorySelected.category" theme="bootstrap">
-                    <ui-select-match placeholder="Filter By Category..." >{{$select.selected.category}}</ui-select-match>
-                    <ui-select-choices repeat="status in (category | filter: $select.search) track by status.category">
-                      <span ng-bind-html="status.category"></span>
-                    </ui-select-choices>
-                  </ui-select>
-                  <span class="input-group-btn">
-                    <button type="button" ng-click="categorySelected.category = undefined" class="btn btn-default">
-                      <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                  </span>
-                </div>
-              </div>
-          </div>
-          <div class="form-group">
-            <!-- Filter by Item select group  -->
-              <div class="col-sm-3">
-                <div class="input-group">
-                  <ui-select allow-clear ng-model="itemSelected.newItem" theme="bootstrap">
-                    <ui-select-match placeholder="Filter By Item..." >{{$select.selected.newItem}}</ui-select-match>
-                    <ui-select-choices repeat="status in (items | filter: $select.search) track by status.newItem">
-                      <span ng-bind-html="status.newItem"></span>
-                    </ui-select-choices>
-                  </ui-select>
-                  <span class="input-group-btn">
-                    <button type="button" ng-click="itemSelected.newItem = undefined" class="btn btn-default">
-                      <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                  </span>
-                </div>
-              </div>
-          </div>
-
-          <div class="form-group">
-            <!-- Filter by Date select group  -->
-            <div class="col-sm-3">
-              <p class="input-group">
-                <input ng-change="getByDate(date)" onkeydown="return false" type="text" class="form-control date-input"
-                       uib-datepicker-popup="MMMM dd, yyyy" ng-model="date" is-open="popup.opened"
-                       datepicker-options="dateOptions" ng-required="true" close-text="Close"
-                       alt-input-formats="altInputFormats" show-button-bar="false" placeholder="Filter by Date..."/>
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="openDatepick()">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                  </button>
-                  <button type="button" class="btn btn-default" ng-click="displayReservation();">
-                    <span class="glyphicon glyphicon-trash"></span>
-                  </button>
-                </span>
-              </p>
-            </div>
-          </div>
-        </fieldset>
-      </form>
-
-      <div class="table-responsive">
-        <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Item</th>
-              <th>Category</th>
-              <th>Time Period</th>
-              <th>Teacher</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="reservation in reservations | filter: ({user:teacherSelected.name.name, item:itemSelected.newItem.newItem, category:categorySelected.category.category})">
-              <td>{{reservation.dateScheduled | date: 'mediumDate': 'UTC'}}</td>
-              <td>{{reservation.item}}</td>
-              <td>{{reservation.category}}</td>
-              <td>{{reservation.period}}</td>
-              <td>{{reservation.user}}</td>
-              <td>
-                <button ng-click="deleteReservation( $index )" class="btn btn-sm btn-danger">
-                  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
+  <!-- Admin Manage View -->
+  <div ng-if="isAdmin"  ng-init="displayReservation()">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Item</th>
+            <th>Category</th>
+            <th>Time Period</th>
+            <th>Teacher</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="reservation in reservations | filter: ({user:teacherSelected.name.name, item:itemSelected.newItem.newItem, category:categorySelected.category.category})">
+            <td>{{reservation.dateScheduled | date: 'mediumDate': 'UTC'}}</td>
+            <td>{{reservation.item}}</td>
+            <td>{{reservation.category}}</td>
+            <td>{{reservation.period}}</td>
+            <td>{{reservation.user}}</td>
+            <td>
+              <button ng-click="deleteReservation( $index )" class="btn btn-sm btn-danger">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+
+</div>
