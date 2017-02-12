@@ -39,7 +39,7 @@
         <br><br>
 
         <div class="table-responsive">
-          <table class="table table-bordered colorfield-table" ng-if="tableIsVisible">
+          <table ng-if="tableIsVisible" class="table table-bordered colorfield-table">
             <thead>
               <tr>
                 <th ng-repeat="period in periodArray">{{period.name}}</th>
