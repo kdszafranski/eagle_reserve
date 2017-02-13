@@ -51,7 +51,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in allItems| filter: ({ newItem: itemSearch, category: categorySelected.value.value })">
+        <tr ng-repeat="item in allItems| filter: ({ newItem: itemSearch, category: categorySelected.value.value }) | orderBy: 'newItem' ">
           <td>{{ item.newItem }}</td>
           <td>{{ item.category }}</td>
           <td>
