@@ -125,4 +125,16 @@ router.get( '/multiple/:date/:item', function( req, res ){
   }); // end find
 }); // end get
 
+router.get( '/user/date/:username/:date', function( req, res ){
+  console.log( 'in find only by username' );
+  Reservation.find({'user': req.params.username, 'dateScheduled': req.params.date }, function( err, results){
+    if( err ){
+      console.log( err );
+      res.sendStatus(500);
+    } else {
+      res.send({ results });
+    } // end else
+  }); // end find
+}); // end get
+
 module.exports = router;

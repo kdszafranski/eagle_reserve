@@ -84,6 +84,16 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     });// end then
   };// end getByUsername
 
+  $scope.getByUsernameDate = function (date){
+    console.log('User is', AuthFactory.username);
+    date = moment(date).format('YYYY-MM-DD');
+    $http.get( '/private/reservations/user/date/' + AuthFactory.username + '/' + date)
+    .then(function( response ){
+      console.log('User Reservations', response);
+      $scope.userReservations = response.data.results;
+    });// end then
+  };// end getByUsername
+
   // getting just the teachers in the database
   $scope.getTeachers = function(){
     console.log('In get teachers');
@@ -151,6 +161,14 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   //Initialize the view
   init();
+  //Set datepicker options
+  $scope.dateOptions = {
+    //dateDisabled: disabled,
+    formatYear: 'yy',
+    minDate: new Date(),
+    startingDay: 1,
+    showWeeks: false
+  }; // end dateOptions
 
 }]); // end ManageController
 

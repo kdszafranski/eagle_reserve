@@ -60,13 +60,31 @@
             </div>
           </div>
       </div>
+      <div class="form-group">
+        <div class="col-sm-3">
+          <p class="input-group">
+            <input ng-change="getByUsernameDate(date)" onkeydown="return false" type="text" class="form-control date-input"
+                   uib-datepicker-popup="MMMM dd, yyyy" ng-model="date" is-open="popup.opened"
+                   datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                   alt-input-formats="altInputFormats" show-button-bar="false" placeholder="Filter by Date..."/>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="openDatepick()">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+              <button type="button" class="btn btn-default" ng-click="getByUsername();">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </span>
+          </p>
+        </div>
+      </div>
       <!-- Filter by Date select group (visible to Admin Only) -->
       <div ng-if="isAdmin" class="form-group">
         <div class="col-sm-3">
           <p class="input-group">
             <input ng-change="getByDate(date)" onkeydown="return false" type="text" class="form-control date-input"
                    uib-datepicker-popup="MMMM dd, yyyy" ng-model="date" is-open="popup.opened"
-                   datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                   ng-required="true" close-text="Close"
                    alt-input-formats="altInputFormats" show-button-bar="false" placeholder="Filter by Date..."/>
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="openDatepick()">
