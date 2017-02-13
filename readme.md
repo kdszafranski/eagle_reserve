@@ -9,8 +9,6 @@ To run Eagle Reserve locally:
 * `grunt uglify` to create minified client.min.css
 * Eagle Reserve requires a MongoDB DBMS, and a database URI at `DATABASE_URL`. Eagle Reserve was developed using [MongoDB](https://www.mongodb.com/) and [Mongoose](http://mongoosejs.com/).
 * In order to generate and send emails from within the app, the follow environmental variables are required:
-  * `POSTMARK_KEY`
-  * `POSTMARK_EMAIL` (sets the 'from' email address)
   * `GOOGLE_AUTH_CLIENT_ID`
   * `GOOGLE_AUTH_CLIENT_SECRET`
   * `GOOGLE_AUTH_CALLBACK_URL`
@@ -33,4 +31,3 @@ To run Eagle Reserve locally:
   * HTML5
   * PDFKit
   * ngAnimate
-  
