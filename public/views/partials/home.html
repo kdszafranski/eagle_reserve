@@ -72,7 +72,6 @@
     </table>
 
     <!-- Week View -->
-
     <table ng-hide="dayViewDisplay" class="table table-bordered">
       <thead>
         <tr>
@@ -82,8 +81,8 @@
       </thead>
 
       <tbody>
-        <tr ng-repeat="item in allItems">
-          <td >{{item.newItem}}</td>
+        <tr ng-repeat="item in weekViewItemsArray">
+          <td >{{item.itemName}}</td>
           <td ng-repeat="x in [1, 2, 3, 4, 5]">
             <p ng-repeat="y in ['BS', 1, 2, 3, 4, 5, 6, 7]">
               <strong>{{y}}</strong>

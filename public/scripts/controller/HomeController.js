@@ -17,6 +17,9 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   //display the day view table as default
   $scope.dayViewDisplay = true;
 
+  //create blank simple items array for week view
+  $scope.weekViewItemsArray = [];
+
   $scope.allItems = [];
 
   $scope.freePeriods = [
@@ -66,10 +69,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     console.log('in getThisWeeksDates');
     //Monday of this week
     var weekStart = moment().startOf('week').add(1, 'days').format('YYYY-MM-DD');
-    console.log('Start of this week-->', weekStart);
     //Friday of this week
     var weekEnd = moment().endOf('week').subtract(1, 'days').format('YYYY-MM-DD');
-    console.log('End of this week -->', weekEnd);
     //construct object to return
     var startEndDates = {
       weekStart: weekStart,
@@ -91,7 +92,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   }; // end displayDayView
 
   $scope.displayWeekView = function() {
-    console.log('in displayWeekView');
     $scope.dayViewDisplay = false;
     //calculate the start and end dates of this week
     var startEndDates = calculateThisWeeksDates();
@@ -117,7 +117,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   }; // end enumerateDaysBetweenDates
 
   var getAllWeeksReservations = function(startEndDates) {
-    console.log('in getAllWeeksReservations', startEndDates);
     //construct url
     var urlParamString = startEndDates.weekStart + '/' + startEndDates.weekEnd;
     $http({
@@ -161,14 +160,24 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     }).then(function(response) {
       //scope all items as allItems for table repeat
       $scope.allItems = response.data.results;
+      //create weekViewItems array
+      $scope.weekViewItemsArray = populateWeekViewItemsArray(response.data.results);
       //Get all reservations for today
-      //$scope.getReservationsByDate(new Date());
       $scope.getReservationsByDate($scope.today());
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
     }); // end $http
   }; // end getAllItems
+
+  var populateWeekViewItemsArray = function(array) {
+    console.log('in populateWeekViewItemsArray');
+    var newArray = [];
+    for (var i = 0; i < array.length; i++) {
+      newArray.push({itemName: array[i].newItem});
+    } // end for
+    return newArray;
+  }; // end createWeekViewItemsArray
 
   $scope.getReservationsByDate = function(date) {
     console.log('in getReservationsByDate');
@@ -265,11 +274,9 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   $scope.today = function() {
     //Sets the default date picker date.
     //Sets it to monday if the current day is a weekend
-    console.log('in TODAY-->', moment().isoWeekday());
     var dayOfWeekToday = moment().isoWeekday();
     var datePickDefault;
     if (dayOfWeekToday > 5) {
-      console.log('WEEKEND');
       //set the default to the next monday
       var num = 8 - dayOfWeekToday;
       datePickDefault = moment().add(num, 'days');
@@ -277,7 +284,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       //set the default to the current day
       datePickDefault = moment();
     } // end else
-    console.log('DEFAULT-->',datePickDefault._d);
     $scope.date = datePickDefault._d;
     return datePickDefault._d;
   }; // end today
