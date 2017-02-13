@@ -226,6 +226,37 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     init();
   } // end else
 
+  $scope.makePDF = function () {
+    console.log('all items', $scope.allItems);
+
+    var columns = [
+      {title: "", dataKey: "items"},
+      {title: "BS", dataKey: "BS"},
+      {title: "1", dataKey: "1"},
+      {title: "2", dataKey: "2"},
+      {title: "3", dataKey: "3"},
+      {title: "4", dataKey: "4"},
+    ];
+
+    var rows = [
+      {"items": "Cart" }
+    ];
+
+
+    var doc = new jsPDF('p', 'pt');
+        doc.autoTable(columns, rows, {
+      styles: {fillColor: [100, 255, 255]},
+      columnStyles: {
+          id: {fillColor: 255}
+      },
+      margin: {top: 60},
+      addPageContent: function(data) {
+          doc.text("Header", 40, 30);
+      }
+  });
+  doc.save('table.pdf');
+  };//end make pdf
+
 }]); // end HomeController
 
 //UpdateUsernameModalController
