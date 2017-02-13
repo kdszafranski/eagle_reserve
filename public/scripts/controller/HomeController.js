@@ -226,49 +226,59 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     init();
   } // end else
 
-  $scope.makePDF = function () {
-    console.log('all items', $scope.allItems);
-    var rows = [];
-    var columns = [ "items", "BS", "One", "Two", "Three", "Four", "Five", "Six", "Seven" , "AS"];
+  $scope.makePDF = function (item) {
+    console.log('item', item);
+    var rows = []
+    var columns = [];
+    columns.push(item.newItem)
 
-    var allItems = $scope.allItems;
+    var item = item;
     var oneRow = [];
-    console.log('all items', $scope.allItems);
 
 
-    allItems.forEach(function(item){
-      oneRow.push(item.newItem);
 
       item.period.forEach(function(period){
         if (period.class === 'disabled'){
-          oneRow.push(period.teacher);
+          var newData = [period.teacher, period.data.display, period.data.value]
+          oneRow.push(newData);
         } else {
-        oneRow.push(period.class);
+        oneRow.push('Open');
       }
-      });
 
       rows.push(oneRow);
 
       oneRow = [];
 
     })
+console.log('rows', rows);
+rows.join(' ')
 
-
-
-
-
-
-
-    var doc = new jsPDF('p', 'pt');
+var doc = new jsPDF('p', 'pt');
+doc.setFont("courier");
+doc.setFontSize(30);
         doc.autoTable(columns, rows, {
-      styles: {fillColor: [100, 255, 255]},
+      styles: {},
       columnStyles: {
-          items: {fillColor: 200}
+        items: [000,000,000]
       },
-      margin: {top: 60},
+      margin: {top: 60, left: 150, right: 150},
       addPageContent: function(data) {
-          doc.text("Reservation By Date", 40, 30);
-      }
+          doc.text("Reservation", 40, 30);
+      },
+      createdCell: function (cell, data) {
+                if (cell.raw.length < 5) {
+                    cell.styles.fillColor = [200,0,0];
+                  }
+                    if (cell.raw === 'Open') {
+                       cell.styles.fillColor = [0,200,0];
+                     }
+                  },
+      drawCell: function(cell, data) {
+          if (data.column.index == 0) {
+              }
+          if (data.header) {
+              }
+            }
   });
   doc.save('table.pdf');
   };//end make pdf
