@@ -228,30 +228,46 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   $scope.makePDF = function () {
     console.log('all items', $scope.allItems);
+    var rows = [];
+    var columns = [ "items", "BS", "One", "Two", "Three", "Four", "Five", "Six", "Seven" , "AS"];
 
-    var columns = [
-      {title: "", dataKey: "items"},
-      {title: "BS", dataKey: "BS"},
-      {title: "1", dataKey: "1"},
-      {title: "2", dataKey: "2"},
-      {title: "3", dataKey: "3"},
-      {title: "4", dataKey: "4"},
-    ];
+    var allItems = $scope.allItems;
+    var oneRow = [];
+    console.log('all items', $scope.allItems);
 
-    var rows = [
-      {"items": "Cart" }
-    ];
+
+    allItems.forEach(function(item){
+      oneRow.push(item.newItem);
+
+      item.period.forEach(function(period){
+        if (period.class === 'disabled'){
+          oneRow.push(period.teacher);
+        } else {
+        oneRow.push(period.class);
+      }
+      });
+
+      rows.push(oneRow);
+
+      oneRow = [];
+
+    })
+
+
+
+
+
 
 
     var doc = new jsPDF('p', 'pt');
         doc.autoTable(columns, rows, {
       styles: {fillColor: [100, 255, 255]},
       columnStyles: {
-          id: {fillColor: 255}
+          items: {fillColor: 200}
       },
       margin: {top: 60},
       addPageContent: function(data) {
-          doc.text("Header", 40, 30);
+          doc.text("Reservation By Date", 40, 30);
       }
   });
   doc.save('table.pdf');
