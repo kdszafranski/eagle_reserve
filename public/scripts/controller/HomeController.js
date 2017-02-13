@@ -127,12 +127,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       method: 'GET',
       url: '/private/reservations/range/' + urlParamString
     }).then(function(response) {
-      console.log('getAllWeeksReservations response-->', response);
+      console.log('getAllWeeksReservations response-->', response.data.results);
       //add date object to each item object in $scope.weekViewItemsArray
       addDefaultObjectsToWeekViewItemsArray();
-
       //populate $scope.weekViewItemsArray with reservations
-
+      //populateWeekViewItemsArrayWithReservations();
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
@@ -141,27 +140,29 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   var addDefaultObjectsToWeekViewItemsArray = function() {
     console.log('in addDefaultObjectsToWeekViewItemsArray');
-    console.log('STUFF-->', $scope.weekViewItemsArray);
     //add date object to each item object in $scope.weekViewItemsArray
     $scope.weekViewItemsArray.map(function(x) {
       //set periodsArrayDefaults array
-      var periodsArrayDefaults = [ {name: 'BS', reserved : false},
-                                   {name: 'One', reserved : false},
-                                   {name: 'Two', reserved : false},
-                                   {name: 'Three', reserved : false},
-                                   {name: 'Four', reserved : false},
-                                   {name: 'Five', reserved : false},
+      var periodsArrayDefaults = [ {name: 'BS', display: 'BS', reserved : false},
+                                   {name: 'One', display: '1', reserved : false},
+                                   {name: 'Two', display: '2', reserved : false},
+                                   {name: 'Three', display: '3', reserved : false},
+                                   {name: 'Four', display: '4', reserved : false},
+                                   {name: 'Five', display: '5', reserved : false},
+                                   {name: 'Six', display: '6', reserved : false},
+                                   {name: 'Seven', display: '7', reserved : false},
+                                   {name: 'AS', display: 'AS', reserved : false}
                                  ];
       //create reservationsByDate property with values for each item
       x.reservationsByDate = [
-        { Monday: periodsArrayDefaults },
-        { Tuesday: periodsArrayDefaults},
-        { Wednesday: periodsArrayDefaults},
-        { Thursday: periodsArrayDefaults},
-        { Friday: periodsArrayDefaults}
+        { 0: periodsArrayDefaults }, //Monday
+        { 1: periodsArrayDefaults}, //Tuesday
+        { 2: periodsArrayDefaults}, //Wednesday
+        { 3: periodsArrayDefaults}, //Thursday
+        { 4: periodsArrayDefaults} //Friday
       ]; // end reservationsByDate property object
     }); // end map
-    console.log('FINAL-->', $scope.weekViewItemsArray);
+    console.log('FINAL WEEK VIEW ITEMS ARRAY-->', $scope.weekViewItemsArray);
   }; // end addDefaultObjectsToWeekViewItemsArray
 
   var formatPeriodsReservedArray = function(periodsArray, existingPeriodsReservedArray, teacherName, data) {
