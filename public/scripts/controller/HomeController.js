@@ -131,8 +131,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     }); // end $http
   }; // end getAllWeeksReservations
 
-
-
   var formatPeriodsReservedArray = function(periodsArray, existingPeriodsReservedArray, teacherName, data) {
     //combine with existing periods reserved
     var newPeriodsArray = existingPeriodsReservedArray;
@@ -242,6 +240,10 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     }); // end modalInstance
   }; // end openUsernameModal
 
+  $scope.printView = function() {
+    window.print();
+  }; // end printView
+
   var resetPeriodsProperties = function(array) {
     //TODO: fix this undefined value
     console.log('in clearPeriodsProperty');
@@ -259,11 +261,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       ]; // end periodsArray
     } // end for
   }; //end resetPeriodsProperties
-
-  // $scope.today = function() {
-  //   //Set datepicker default day to today
-  //   $scope.date = new Date();
-  // }; // end today();
 
   $scope.today = function() {
     //Sets the default date picker date.

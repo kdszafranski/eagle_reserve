@@ -23,6 +23,10 @@
     <div ng-if="isAdmin" class="pull-right">
       <button ng-click="displayWeekView()" ng-show="dayViewDisplay" class="btn btn-primary">Week View</button>
       <button ng-hide="dayViewDisplay" ng-click="displayDayView()" class="btn btn-primary">Day View</button>
+      <!-- Print View button -->
+      <button ng-hide="dayViewDisplay" ng-click="printView()" class="btn btn-warning">Print</button>
+      <!-- TODO: remove this break and add styling -->
+      <br> <br>
     </div>
 
   </div>
@@ -67,6 +71,8 @@
       </tbody>
     </table>
 
+    <!-- Week View -->
+
     <table ng-hide="dayViewDisplay" class="table table-bordered">
       <thead>
         <tr>
@@ -74,10 +80,16 @@
           <th ng-repeat="date in thisWeeksDates">{{date}}</th>
         </tr>
       </thead>
-      
+
       <tbody>
-        <tr>
-          <td>**period table here**</td>
+        <tr ng-repeat="item in allItems">
+          <td >{{item.newItem}}</td>
+          <td ng-repeat="x in [1, 2, 3, 4, 5]">
+            <p ng-repeat="y in ['BS', 1, 2, 3, 4, 5, 6, 7]">
+              <strong>{{y}}</strong>
+              <span>data here</span>
+            </p>
+          </td>
         </tr>
       </tbody>
     </table>
