@@ -125,4 +125,10 @@ router.get( '/multiple/:date/:item', function( req, res ){
   }); // end find
 }); // end get
 
+//GET reservations for date range (week view)
+router.get('/range/:start/:end', function(req,res) {
+  console.log('reservationRoute /range route hit. Req.params-->', req.params);
+  res.sendStatus(200);
+}); // end get
+
 module.exports = router;

@@ -5,7 +5,7 @@
    <pre>Selected date is: <em>{{date | date:'fullDate' }}</em></pre>
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4" ng-show="dayViewDisplay">
       <p class="input-group">
         <input ng-change="getReservationsByDate(date)" onkeydown="return false" type="text"
               class="form-control date-input" uib-datepicker-popup="MMMM dd, yyyy" ng-model="date"
@@ -18,10 +18,15 @@
         </span>
       </p>
     </div>
+    <div class="pull-right">
+      <button ng-click="displayWeekView()" ng-show="dayViewDisplay" class="btn btn-primary">Week View</button>
+      <button ng-hide="dayViewDisplay" ng-click="displayDayView()" class="btn btn-primary">Day View</button>
+    </div>
   </div>
 
   <div class="table-responsive">
-    <table class="table table-bordered colorfield-table calendar-table">
+    <!-- Single Day View Table -->
+    <table ng-show="dayViewDisplay" class="table table-bordered colorfield-table calendar-table">
       <thead>
         <tr>
           <th></th>

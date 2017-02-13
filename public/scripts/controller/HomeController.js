@@ -14,6 +14,9 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   var username = authFactory.username;
   console.log('Username-->', username);
 
+  //display the day view table as default
+  $scope.dayViewDisplay = true;
+
   $scope.allItems = [];
 
   $scope.freePeriods = [
@@ -58,12 +61,60 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     }); // end .map
   }; // end addReservationsToAllItems
 
+  var calculateThisWeeksDates = function() {
+    //Calculate the start and end dates of this week
+    console.log('in getThisWeeksDates');
+    //Monday of this week
+    var weekStart = moment().startOf('week').add(1, 'days').format('YYYY-MM-DD');
+    console.log('Start of this week-->', weekStart);
+    //Friday of this week
+    var weekEnd = moment().endOf('week').subtract(1, 'days').format('YYYY-MM-DD');
+    console.log('End of this week -->', weekEnd);
+    //construct object to return
+    var startEndDates = {
+      weekStart: weekStart,
+      weekEnd: weekEnd
+    }; // end startEndDates
+    return startEndDates;
+  }; // end getThisWeeksDates
+
   var disabled = function(data) {
     // Disable weekend selection on daypicker
     var date = data.date,
       mode = data.mode;
     return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
   }; // end disabled
+
+  $scope.displayDayView = function() {
+    console.log('in displayDayView');
+    $scope.dayViewDisplay = true;
+  }; // end displayDayView
+
+  $scope.displayWeekView = function() {
+    console.log('in displayWeekView');
+    $scope.dayViewDisplay = false;
+    //calculate the start and end dates of this week
+    var startEndDates = calculateThisWeeksDates();
+    //get all reservations for the current week
+    getAllWeeksReservations(startEndDates);
+  }; // end displayWeekView
+
+  var getAllWeeksReservations = function(startEndDates) {
+    console.log('in getAllWeeksReservations', startEndDates);
+    //construct url
+    var urlParamString = startEndDates.weekStart + '/' + startEndDates.weekEnd;
+    $http({
+      method: 'GET',
+      url: '/private/reservations/range/' + urlParamString
+    }).then(function(response) {
+      console.log('getAllWeeksReservations response-->', response);
+    }).catch(function(err) {
+      //TODO: add better error handling here
+      console.log(err);
+    }); // end $http
+  }; // end getAllWeeksReservations
+
+
 
   var formatPeriodsReservedArray = function(periodsArray, existingPeriodsReservedArray, teacherName, data) {
     //combine with existing periods reserved
