@@ -81,9 +81,9 @@ router.delete( '/:id', function( req, res ){
 });
 
 //GET only user reservations
-router.get( '/user/:username', function( req, res ){
+router.get( '/user/:username/:date', function( req, res ){
   console.log( 'in find only by username' );
-  Reservation.find({'user': req.params.username }, function( err, results){
+  Reservation.find({'user': req.params.username, 'dateScheduled':{$gte: req.params.date} }, function( err, results){
     if( err ){
       console.log( err );
       res.sendStatus(500);

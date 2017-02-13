@@ -76,7 +76,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   // getting only reservations for the teacher logged in
   $scope.getByUsername = function (){
     console.log('User is', AuthFactory.username);
-    $http.get( '/private/reservations/user/' + AuthFactory.username )
+    var today = moment(new Date()).format('YYYY-MM-DD');
+    $http.get( '/private/reservations/user/' + AuthFactory.username + '/' + today)
     .then(function( response ){
       console.log('User Reservations', response);
       $scope.userReservations = response.data.results;
