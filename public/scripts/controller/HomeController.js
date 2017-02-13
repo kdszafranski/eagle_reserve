@@ -97,7 +97,24 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     var startEndDates = calculateThisWeeksDates();
     //get all reservations for the current week
     getAllWeeksReservations(startEndDates);
+    //get all days of this week, scope them for thead repeat
+    $scope.thisWeeksDates = enumerateDaysBetweenDates(startEndDates.weekStart);
+    //display week view table
+    //populate week view table
   }; // end displayWeekView
+
+  var enumerateDaysBetweenDates = function(startDate) {
+    //make an array of the dates this week, startDate is Monday
+    var dates = [];
+    //push Monday in
+    dates.push(moment(startDate).format('dddd MM/DD'));
+    var rangeArray = [1, 2, 3, 4];
+    //push Tuesday-Friday in
+    for (var i = 0; i < rangeArray.length; i++) {
+      dates.push(moment(startDate).add(rangeArray[i], 'days').format('dddd MM/DD'));
+    } // end for
+    return dates;
+  }; // end enumerateDaysBetweenDates
 
   var getAllWeeksReservations = function(startEndDates) {
     console.log('in getAllWeeksReservations', startEndDates);
