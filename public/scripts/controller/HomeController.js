@@ -92,6 +92,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   }; // end displayDayView
 
   $scope.displayWeekView = function() {
+    console.log('in display week view');
     $scope.dayViewDisplay = false;
     //calculate the start and end dates of this week
     var startEndDates = calculateThisWeeksDates();
@@ -99,8 +100,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     getAllWeeksReservations(startEndDates);
     //get all days of this week, scope them for thead repeat
     $scope.thisWeeksDates = enumerateDaysBetweenDates(startEndDates.weekStart);
-    //display week view table
+    //populate default weekViewItemsArray
+    //TODO: make sure there are not async errors with the following--> maybe place in getAllWeeksReservations success callback
+    console.log('TO POPULATE-->',$scope.weekViewItemsArray);
     //populate week view table
+
   }; // end displayWeekView
 
   var enumerateDaysBetweenDates = function(startDate) {
@@ -124,11 +128,41 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       url: '/private/reservations/range/' + urlParamString
     }).then(function(response) {
       console.log('getAllWeeksReservations response-->', response);
+      //add date object to each item object in $scope.weekViewItemsArray
+      addDefaultObjectsToWeekViewItemsArray();
+
+      //populate $scope.weekViewItemsArray with reservations
+
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
     }); // end $http
   }; // end getAllWeeksReservations
+
+  var addDefaultObjectsToWeekViewItemsArray = function() {
+    console.log('in addDefaultObjectsToWeekViewItemsArray');
+    console.log('STUFF-->', $scope.weekViewItemsArray);
+    //add date object to each item object in $scope.weekViewItemsArray
+    $scope.weekViewItemsArray.map(function(x) {
+      //set periodsArrayDefaults array
+      var periodsArrayDefaults = [ {name: 'BS', reserved : false},
+                                   {name: 'One', reserved : false},
+                                   {name: 'Two', reserved : false},
+                                   {name: 'Three', reserved : false},
+                                   {name: 'Four', reserved : false},
+                                   {name: 'Five', reserved : false},
+                                 ];
+      //create reservationsByDate property with values for each item
+      x.reservationsByDate = [
+        { Monday: periodsArrayDefaults },
+        { Tuesday: periodsArrayDefaults},
+        { Wednesday: periodsArrayDefaults},
+        { Thursday: periodsArrayDefaults},
+        { Friday: periodsArrayDefaults}
+      ]; // end reservationsByDate property object
+    }); // end map
+    console.log('FINAL-->', $scope.weekViewItemsArray);
+  }; // end addDefaultObjectsToWeekViewItemsArray
 
   var formatPeriodsReservedArray = function(periodsArray, existingPeriodsReservedArray, teacherName, data) {
     //combine with existing periods reserved
@@ -174,6 +208,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     console.log('in populateWeekViewItemsArray');
     var newArray = [];
     for (var i = 0; i < array.length; i++) {
+      //push the item name in to the array as an object
       newArray.push({itemName: array[i].newItem});
     } // end for
     return newArray;
