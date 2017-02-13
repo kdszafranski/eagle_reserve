@@ -1,7 +1,12 @@
 <!-- Manage Reservations View -->
 <div ng-if="loggedIn" class="text-center">
 
-  <h1 class="text-center">Manage Reservations</h1>
+  <div ng-if="isAdmin">
+    <h1 class="text-center">Manage Reservations</h1>
+  </div>
+  <div ng-if="!isAdmin">
+    <h1 class="text-center">Manage My Reservations</h1>
+  </div>
 
   <!-- Filters Form -->
   <form class="form filters-form">
