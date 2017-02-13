@@ -86,7 +86,7 @@
           <td ng-repeat="day in item.reservationsByDate">
             <!-- X:{{x[$index]}} -->
             <p ng-repeat="period in day[$index]">
-              <strong>{{period.name}}</strong>
+              <strong>{{period.display}}</strong>
               <span>{{period.reserved}}</span>
             </p>
           </td>

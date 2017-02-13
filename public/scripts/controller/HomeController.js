@@ -152,12 +152,30 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       var dayIndex = convertDayToIndex(reservation.dateScheduled);
       //save item name as variable
       var itemName = reservation.item;
-      
+
       //loop through items array to match item names
       for (var i = 0; i < $scope.weekViewItemsArray.length; i++) {
-        if ($scope.weekViewItemsArray[i].itemName === reservation.item) {
+        var thisItem = $scope.weekViewItemsArray[i];
+
+        //if the reservation item name matches the item name of this object
+        if (thisItem.itemName === reservation.item) {
           console.log('item matched-->', reservation.item);
+          //periods for this reservation
+          var periodsArray = reservation.period.split(',');
+          console.log('periods reserved-->', periodsArray);
+
+          //match the day index and go into that object
+          var thisDatesAvailability = thisItem.reservationsByDate[index][index];
+          console.log('reservations objects for this item\'s date-->', thisDatesAvailability);
+
+          //TODO: THIS ONE--> FOR thing in thisDatesAvailibility, if indexOf thisDatesAvailibility.name > -1 in periodsArray...
+            // mark that one as reserved.
+            //Also grab teacher/meta data
+
+
+
         } // end if
+
       } // end for
 
     }); // end map
