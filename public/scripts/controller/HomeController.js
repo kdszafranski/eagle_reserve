@@ -79,6 +79,14 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     return startEndDates;
   }; // end getThisWeeksDates
 
+  var convertDayToIndex = function(date) {
+    //convert date to index number [monday=0, etc.]
+    var weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    date = moment(date.split('T')[0]).format('dddd');
+    index = weekdays.indexOf(date);
+    return index;
+  }; // end convertDayToIndex
+
   var disabled = function(data) {
     // Disable weekend selection on daypicker
     var date = data.date,
@@ -100,11 +108,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     getAllWeeksReservations(startEndDates);
     //get all days of this week, scope them for thead repeat
     $scope.thisWeeksDates = enumerateDaysBetweenDates(startEndDates.weekStart);
-    //populate default weekViewItemsArray
-    //TODO: make sure there are not async errors with the following--> maybe place in getAllWeeksReservations success callback
-    console.log('TO POPULATE-->',$scope.weekViewItemsArray);
-    //populate week view table
-
   }; // end displayWeekView
 
   var enumerateDaysBetweenDates = function(startDate) {
@@ -131,12 +134,34 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       //add date object to each item object in $scope.weekViewItemsArray
       addDefaultObjectsToWeekViewItemsArray();
       //populate $scope.weekViewItemsArray with reservations
-      //populateWeekViewItemsArrayWithReservations();
+      addReservationsToWeekViewItems(response.data.results);
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
     }); // end $http
   }; // end getAllWeeksReservations
+
+  var addReservationsToWeekViewItems = function(reservationArray) {
+    console.log('in addReservationsToWeekViewItems');
+    console.log('RESERVATION ARRAY-->', reservationArray);
+    console.log('ITEMS ARRAY-->', $scope.weekViewItemsArray);
+
+    //For each reservation...
+    reservationArray.map(function(reservation) {
+      //convert date to index number [monday=0, etc.]
+      var dayIndex = convertDayToIndex(reservation.dateScheduled);
+      //save item name as variable
+      var itemName = reservation.item;
+      
+      //loop through items array to match item names
+      for (var i = 0; i < $scope.weekViewItemsArray.length; i++) {
+        if ($scope.weekViewItemsArray[i].itemName === reservation.item) {
+          console.log('item matched-->', reservation.item);
+        } // end if
+      } // end for
+
+    }); // end map
+  }; // end addReservationsToWeekViewItems
 
   var addDefaultObjectsToWeekViewItemsArray = function() {
     console.log('in addDefaultObjectsToWeekViewItemsArray');
@@ -162,7 +187,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
         { 4: periodsArrayDefaults} //Friday
       ]; // end reservationsByDate property object
     }); // end map
-    console.log('FINAL WEEK VIEW ITEMS ARRAY-->', $scope.weekViewItemsArray);
   }; // end addDefaultObjectsToWeekViewItemsArray
 
   var formatPeriodsReservedArray = function(periodsArray, existingPeriodsReservedArray, teacherName, data) {
