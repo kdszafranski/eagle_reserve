@@ -230,7 +230,13 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     console.log('item', item);
     var rows = []
     var columns = [];
-    columns.push(item.newItem)
+    var newItem = item.newItem
+    var date = $scope.date.toString();
+    date = date.slice(4, -24)
+    console.log('date', date);
+    newItem += ' ' + '(' + date + ')'
+
+    columns.push(newItem)
 
     var item = item;
     var oneRow = [];
@@ -239,8 +245,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
       item.period.forEach(function(period){
         if (period.class === 'disabled'){
-          var teacher = period.teacher;
-          teacher += ":";
+          var teacher = period.teacher
           teacher += "\n";
           var display = period.data.display;
           display = display.replace(/#/g, "Number");
@@ -267,26 +272,25 @@ rows.join(' ')
 
 var doc = new jsPDF('p', 'pt');
 doc.setFont("courier");
-doc.setFontSize(24);
+doc.setFontSize(16);
         doc.autoTable(columns, rows, {
       styles: {
-        fontSize: 14,
-        fontFamily: 'courier'
+        fontSize: 18,
+        font: "tahoma",
+        halign: "center"
       },
       columnStyles: {
         items: [000,000,000]
       },
       margin: {top: 60, left: 150, right: 150},
       addPageContent: function(data) {
-          doc.text("Reservation", 200, 30);
       },
       createdCell: function (cell, data) {
                 if (cell.raw.length < 5) {
-                    cell.styles.fillColor = [200,0,0];
+                    // cell.styles.fillColor = [200,0,0];
                   }
                     if (cell.raw === 'Open') {
-                       cell.styles.fillColor = [0,200,0];
-                       cell.align = "center"
+                      //  cell.styles.fillColor = [0,200,0];
                      }
                   },
       drawCell: function(cell, data) {
