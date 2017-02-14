@@ -178,16 +178,14 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
           //TODO: THIS ONE--> FOR thing in thisDatesAvailibility, if indexOf thisDatesAvailibility.name > -1 in periodsArray...
             // mark that one as reserved.
             //Also grab teacher/meta data
-            for (var y = 0; y < thisDatesAvailability.length; y++) {
-              //console.log(thisDatesAvailability[y]);
-
-              if (periodsArray.indexOf(thisDatesAvailability[y].name) > -1) {
-                console.log('updating reserved');
-                thisDatesAvailability[y].reserved = true;
-                console.log(thisDatesAvailability[y]);
-
-              } // end if
-            } // end for
+            // for (var y = 0; y < thisDatesAvailability.length; y++) {
+            //   //console.log(thisDatesAvailability[y]);
+            //   if (periodsArray.indexOf(thisDatesAvailability[y].name) > -1) {
+            //     console.log('updating reserved');
+            //     thisDatesAvailability[y].reserved = true;
+            //     console.log(thisDatesAvailability[y]);
+            //   } // end if
+            // } // end for
 
 
         } // end if
