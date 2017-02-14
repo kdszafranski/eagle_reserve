@@ -153,31 +153,45 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       //save item name as variable
       var itemName = reservation.item;
 
-      //loop through items array to match item names
+      //compare against each item name in weekViewItemsArray
       for (var i = 0; i < $scope.weekViewItemsArray.length; i++) {
+
         var thisItem = $scope.weekViewItemsArray[i];
 
         //if the reservation item name matches the item name of this object
         if (thisItem.itemName === reservation.item) {
-          console.log('item matched-->', reservation.item);
+          /////////////////////////
+          //TODO: push this info into it's own array, update scoped array from there???
+          console.log('---------------');
+          console.log(reservation.item, 'is reserved');
           //periods for this reservation
           var periodsArray = reservation.period.split(',');
-          console.log('periods reserved-->', periodsArray);
+          console.log('for periods-->', periodsArray);
+          console.log('on DATE-->',dayIndex, '('+ reservation.dateScheduled.split('T')[0] +')');
+          /////////////////////////
 
           //match the day index and go into that object
-          var thisDatesAvailability = thisItem.reservationsByDate[index][index];
-          console.log('reservations objects for this item\'s date-->', thisDatesAvailability);
+          var thisDatesAvailability = thisItem.reservationsByDate[dayIndex][dayIndex];
+          console.log('res. data:-->', thisDatesAvailability);
+
 
           //TODO: THIS ONE--> FOR thing in thisDatesAvailibility, if indexOf thisDatesAvailibility.name > -1 in periodsArray...
             // mark that one as reserved.
             //Also grab teacher/meta data
+            for (var y = 0; y < thisDatesAvailability.length; y++) {
+              //console.log(thisDatesAvailability[y]);
 
+              if (periodsArray.indexOf(thisDatesAvailability[y].name) > -1) {
+                console.log('updating reserved');
+                thisDatesAvailability[y].reserved = true;
+                console.log(thisDatesAvailability[y]);
+
+              } // end if
+            } // end for
 
 
         } // end if
-
       } // end for
-
     }); // end map
   }; // end addReservationsToWeekViewItems
 
