@@ -82,12 +82,15 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     if($scope.newReservation.categoryIn === '') {
       $scope.dropDownDisabledItem = true;
       $scope.dropDownDisabledDate = true;
+      $scope.dropDownDisabledTeacher = true;
     } else if ($scope.newReservation.itemIn === '') {
       $scope.dropDownDisabledItem = false;
       $scope.dropDownDisabledDate = true;
+      $scope.dropDownDisabledTeacher = true;
     } else {
       $scope.dropDownDisabledItem = false;
       $scope.dropDownDisabledDate = false;
+      $scope.dropDownDisabledTeacher = false;
     }
   };//end change drop down
 
@@ -95,6 +98,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
     $scope.dropDownDisabledItem = true;
     $scope.dropDownDisabledDate = true;
+    $scope.dropDownDisabledTeacher = true;
 
     //set periodArray and selection scopes
     $scope.periodArray = defaultPeriodsArray;
@@ -109,6 +113,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       periodIn: '',
       username: username
     }; // end newReservation
+
+
 
     //Initialize datepicker popup to closed
     $scope.popup = {
@@ -127,6 +133,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     $scope.reservationsMade = [];
 
     getAllItems();
+
   }; // end init
 
   var getAllItems = function() {
@@ -215,6 +222,10 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   //open the modal (returns a modal instance)
   $scope.open = function (size, newReservation) {
+    console.log('TeacherName: ', $scope.teacherName);
+    if($scope.isAdmin === true){
+      $scope.newReservation.username = $scope.teacherName.name;
+    }// end if
     //open the modal
     console.log('Open confirm reservation modal');
     //set the modalInstance
@@ -265,11 +276,32 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   init();
 
+
+  // getting just the teachers in the database
+  $scope.getTeachers = function(){
+    console.log('In get teachers');
+    $http({
+      method: 'GET',
+      url: '/private/users'
+    }).then(function(response) {
+      console.log('Teachers ', response);
+      $scope.teachers = response.data.users;
+    }).catch(function(err) {
+      //TODO: add better error handling here
+      console.log(err);
+    }); // end $http
+  }; // end getTeachers
+  $scope.getTeachers();
+
+  $scope.teacherName= {
+    name:''
+  };
+
 }]); // end ReserveController
 
 // confirmation modal
-myApp.controller('ConfirmReservationModalController', ['$scope', '$http', '$uibModalInstance', 'newReservation',
-function ($scope, $http, $uibModalInstance, newReservation) {
+myApp.controller('ConfirmReservationModalController', ['$scope', '$http', '$uibModalInstance', 'newReservation','AuthFactory',
+function ($scope, $http, $uibModalInstance, newReservation, AuthFactory) {
   console.log('in ConfirmReservationModalController', newReservation);
 
   $scope.newReservation = newReservation;
@@ -302,6 +334,8 @@ function ($scope, $http, $uibModalInstance, newReservation) {
 
   $scope.makeReservation = function (){
     console.log('In Make Reservation');
+
+
     if ($scope.confirmReservationForm.$valid) {
       //attach the info from inputs
       newReservation = attachInputInfo(newReservation);

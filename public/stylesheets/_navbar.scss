@@ -24,10 +24,12 @@
   .navbar-collapse[aria-expanded="true"] {
     border-top: 1px solid $collapsableNavBorderColor;
   }
+  .dropdown-menu {
+    background-color: $navBkgColor;
+  }
 }
 // Dropdown menu //
 .dropdown-menu {
-  background-color: $navBkgColor;
   > li {
     > a,
     > a:hover {
