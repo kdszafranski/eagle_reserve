@@ -4,6 +4,13 @@
 html, body {
   margin-top: 35px;
   height: 100%;
+  background-color: lighten($mainBkgColor, 5%);
+}
+a {
+  color: darken($linkColor, 5%);
+}
+.container {
+  //background-color: green;
 }
 .red {
   color: $bootstrapRed;
@@ -85,8 +92,8 @@ form {
       border-color:lightgreen;
   }
 }
-// -- TABLES -- //
 .table {
+  background-color: $white;
   th {
     text-align: center;
   }
@@ -112,7 +119,8 @@ form {
 .colorfield-table {
   //class for table data containing a reservation
   td.disabled {
-    background-color: lighten($bootstrapRed, 10%);
+    //background-color: lighten($bootstrapRed, 10%);
+    background-color: $primaryAccentColor;
   }
   //class for table data not containing
   td.enabled {
@@ -137,7 +145,7 @@ form {
   width: 100%;
   height: 60px;
   a {
-    color: $linkColor;
+    color: $white;
   }
 }
 .footer-list {
@@ -150,7 +158,7 @@ form {
     &:not(:first-child):before {
       content: ' | ';
       padding: 20px;
-      color: $linkColor;
+      color: $white;
     }
   }
 }
