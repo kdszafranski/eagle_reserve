@@ -30,9 +30,9 @@
     <link rel="stylesheet" href="../vendors/select.min.css">
     <link rel="stylesheet" href="../stylesheets/master.min.css">
   </head>
-  <body ng-app="myApp">
+  <body ng-app="myApp" ng-controller="NavController">
     <!-- Navbar -->
-    <nav ng-controller="NavController" class="navbar navbar-fixed-top" role="navigation">
+    <nav  class="navbar navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
           <button ng-click="isNavCollapsed = !isNavCollapsed" type="button" class="navbar-toggle collapsed" data-toggle="collapse" aria-expanded="false">
@@ -42,7 +42,7 @@
               <span class="icon-bar bottom-bar"></span>
           </button>
         </div>
-        <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
+        <div ng-if='displayLogout' class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
           <ul class="nav navbar-nav">
             <li><a ng-click="collapseNav()" href="#!/home">Home</a></li>
             <li><a ng-click="collapseNav()" href="#!/reserve">Reserve</a></li>
@@ -75,8 +75,8 @@
 
     <div class="push"></div>
 
-    <footer class="footer">
-      <div class="container">
+    <footer class="footer"  ng-if='displayLogout'>
+      <div class="container" >
         <ul class="footer-list">
           <li><a href="#!/home">Home</a></li>
           <li><a href="#!/reserve">Reserve</a></li>
