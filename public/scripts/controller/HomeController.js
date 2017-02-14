@@ -239,13 +239,19 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
       item.period.forEach(function(period){
         if (period.class === 'disabled'){
-          var newData = [period.teacher, period.data.display, period.data.value]
+          var display = period.data.display;
+          display = display.replace(/#/g, "Number");
+          console.log('display ->', display);
+          var newData = [period.teacher, display, period.data.value];
           oneRow.push(newData);
         } else {
         oneRow.push('Open');
       }
 
-      rows.push(oneRow);
+
+        rows.push(oneRow);
+
+
 
       oneRow = [];
 
@@ -257,7 +263,10 @@ var doc = new jsPDF('p', 'pt');
 doc.setFont("courier");
 doc.setFontSize(30);
         doc.autoTable(columns, rows, {
-      styles: {},
+      styles: {
+        fontSize: 14,
+        fontFamily: 'courier'
+      },
       columnStyles: {
         items: [000,000,000]
       },
