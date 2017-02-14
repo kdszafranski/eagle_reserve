@@ -109,6 +109,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     }); // end $http
   }; // end getTeachers
 
+  
+
   $scope.getByDate = function(date){
     console.log('In getByDate');
     //use moment.js to format date chosen
