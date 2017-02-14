@@ -4,7 +4,8 @@
     <h1 class="text-center">Make a Reservation</h1>
 
     <!-- Add New Reservation Form -->
-    <form ng-submit = "makeReservationForm.$valid && open('md', newReservation); makeReservationForm.$setPristine()" class="form-inline filter-form reservations" name="makeReservationForm" novalidate>
+    <form ng-submit="makeReservationForm.$valid && open('md', newReservation); makeReservationForm.$setPristine()"
+          class="form-inline filter-form reservations text-center" name="makeReservationForm" novalidate>
         <div class="form-group">
             <select ng-model="newReservation.categoryIn" ng-options="p for p in categories" class="form-control" ng-change="changeDropDown()" required>
               <option value="" selected disabled>Select by Category</option>
@@ -36,7 +37,7 @@
                  ng-disabled="dropDownDisabledDate"
                  ng-change="getReservations()"/>
           <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="openDatepick()">
+            <button type="button" class="btn btn-default" ng-click="openDatepick()" ng-disabled="dropDownDisabledDate">
               <i class="glyphicon glyphicon-calendar"></i>
             </button>
           </span>
