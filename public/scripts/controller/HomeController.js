@@ -236,6 +236,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     console.log('date', date);
     newItem += ' ' + '(' + date + ')'
 
+    console.log('item ->', item);
+
     columns.push(newItem)
 
     var item = item;
@@ -247,17 +249,25 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
         if (period.class === 'disabled'){
           var teacher = period.teacher
           teacher += "\n";
+          var name = period.name
+          name += "\n";
           var display = period.data.display;
           display = display.replace(/#/g, "Number");
           console.log('display ->', display);
-          var newData = [teacher, display, period.data.value];
+          var newData = [name, teacher, display, period.data.value];
           newData = newData.toString();
           console.log('new Data', newData);
           newData = newData.replace(/,/g, " ");
           oneRow.push(newData);
         } else {
-        oneRow.push('Open');
-      }
+        var name = period.name
+        name += "\n";
+        var open = ['Open']
+        var newDataTwo = [name, open]
+        newDataTwo = newDataTwo.toString();
+        newDataTwo = newDataTwo.replace(/,/g, " ");
+        oneRow.push(newDataTwo);
+      };
 
 
         rows.push(oneRow);
@@ -300,7 +310,15 @@ doc.setFontSize(16);
               }
             }
   });
-  doc.save('table.pdf');
+  newItem = newItem.replace("(", "")
+  newItem = newItem.replace(")", "")
+  newItem = newItem.replace(" ", "")
+  newItem = newItem.replace(" ", "")
+  newItem = newItem.replace(" ", "")
+  newItem = newItem.replace(" ", "")
+  newItem = newItem.replace(" ", "")
+  newItem = newItem.toLowerCase();
+  doc.save(newItem + '.pdf');
   };//end make pdf
 
 }]); // end HomeController
