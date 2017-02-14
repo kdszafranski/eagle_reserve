@@ -1,6 +1,5 @@
 // -- NAVBAR -- //
 .nav>li>a:focus, .nav>li>a:hover {
-  background-color: $primaryAccentColor;
   color: $navBkgColor;
 }
 .navbar  {
@@ -28,13 +27,15 @@
 }
 // Dropdown menu //
 .dropdown-menu {
+  background-color: $navBkgColor;
   > li {
     > a,
     > a:hover {
-      //color: $linkColor;
-      background-color: $navBkgColor;
-      color: $navbarLinkColor;
+      color: $navBkgColor;
       text-align: right;
+    }
+    > a {
+      color: $white;
     }
   }
 }
