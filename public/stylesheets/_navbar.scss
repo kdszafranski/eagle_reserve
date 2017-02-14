@@ -1,13 +1,18 @@
 // -- NAVBAR -- //
+.nav>li>a:focus, .nav>li>a:hover {
+  color: $navBkgColor;
+}
 .navbar  {
-  // background-color: $white;
-  background-color: #00303f;
+  a {
+    color: $navbarLinkColor;
+  }
+  background-color: $navBkgColor;
   box-shadow: 0 3px 6px -6px $boxShadowColor;
   .navbar-toggle {
     //Necessary to make hamburger menu visible
     .icon-bar {
-      // background-color: $linkColor;
-      background-color: black;
+      //background-color: $linkColor;
+      background-color: $navbarLinkColor;
     }
   }
   .nav {
@@ -22,11 +27,15 @@
 }
 // Dropdown menu //
 .dropdown-menu {
+  background-color: $navBkgColor;
   > li {
     > a,
     > a:hover {
-      color: $linkColor;
+      color: $navBkgColor;
       text-align: right;
+    }
+    > a {
+      color: $white;
     }
   }
 }
