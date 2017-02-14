@@ -239,10 +239,16 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
       item.period.forEach(function(period){
         if (period.class === 'disabled'){
+          var teacher = period.teacher;
+          teacher += ":";
+          teacher += "\n";
           var display = period.data.display;
           display = display.replace(/#/g, "Number");
           console.log('display ->', display);
-          var newData = [period.teacher, display, period.data.value];
+          var newData = [teacher, display, period.data.value];
+          newData = newData.toString();
+          console.log('new Data', newData);
+          newData = newData.replace(/,/g, " ");
           oneRow.push(newData);
         } else {
         oneRow.push('Open');
@@ -261,7 +267,7 @@ rows.join(' ')
 
 var doc = new jsPDF('p', 'pt');
 doc.setFont("courier");
-doc.setFontSize(30);
+doc.setFontSize(24);
         doc.autoTable(columns, rows, {
       styles: {
         fontSize: 14,
@@ -272,7 +278,7 @@ doc.setFontSize(30);
       },
       margin: {top: 60, left: 150, right: 150},
       addPageContent: function(data) {
-          doc.text("Reservation", 40, 30);
+          doc.text("Reservation", 200, 30);
       },
       createdCell: function (cell, data) {
                 if (cell.raw.length < 5) {
@@ -280,6 +286,7 @@ doc.setFontSize(30);
                   }
                     if (cell.raw === 'Open') {
                        cell.styles.fillColor = [0,200,0];
+                       cell.align = "center"
                      }
                   },
       drawCell: function(cell, data) {
