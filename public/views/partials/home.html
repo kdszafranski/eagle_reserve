@@ -10,7 +10,8 @@
         <input ng-change="getReservationsByDate(date)" onkeydown="return false" type="text"
               class="form-control date-input" uib-datepicker-popup="MMMM dd, yyyy" ng-model="date"
               is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close"
-              alt-input-formats="altInputFormats" show-button-bar="false"/>
+              alt-input-formats="altInputFormats" show-button-bar="false"
+              ng-click="openDatepick()"/>
         <span class="input-group-btn">
           <button type="button" class="btn btn-default" ng-click="openDatepick()">
             <i class="glyphicon glyphicon-calendar"></i>
