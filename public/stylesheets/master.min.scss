@@ -64,10 +64,19 @@ h1 {
     margin-right: 15px;
   }
   span.glyphicon-remove {
-    color: $bootstrapRed;
+    color: $white;
   }
   .input-group {
     min-width: 100%;
+  }
+  //Clear filter button styles
+  .input-group-btn {
+    >button {
+      background-color: $bootstrapRed;
+    }
+    >button.daypicker-btn {
+      background-color: $white;
+    }
   }
 }
 .reserve-datepick {
