@@ -4,7 +4,8 @@
     <h1 class="text-center">Make a Reservation</h1>
 
     <!-- Add New Reservation Form -->
-    <form ng-submit = "makeReservationForm.$valid && open('md', newReservation); makeReservationForm.$setPristine()" class="form-inline filter-form reservations" name="makeReservationForm" novalidate>
+    <form ng-submit="makeReservationForm.$valid && open('md', newReservation); makeReservationForm.$setPristine()"
+          class="form-inline filter-form reservations text-center" name="makeReservationForm" novalidate>
         <div class="form-group">
             <select ng-model="newReservation.categoryIn" ng-options="p for p in categories" class="form-control" ng-change="changeDropDown()" required>
               <option value="" selected disabled>Select by Category</option>
@@ -20,6 +21,13 @@
               <option value="" selected disabled>Select by Item</option>
             </select>
         </div>
+
+        <div class="form-group" ng-if='isAdmin'>
+            <select ng-model="teacherName.name" class="form-control" ng-disabled="dropDownDisabledTeacher"  required>
+              <option value="" selected disabled>Select a Teacher</option>
+              <option ng-repeat='teacher in teachers' value="{{teacher.name}}">{{teacher.name}}</option>
+            </select>
+        </div>
         <!-- DatePicker -->
         <p class="input-group reserve-datepick">
           <input onkeydown="return false" type="text" class="form-control date-input"
@@ -27,9 +35,9 @@
                  datepicker-options="dateOptions" ng-required="true" close-text="Close"
                  alt-input-formats="altInputFormats" show-button-bar="false"
                  ng-disabled="dropDownDisabledDate"
-                 ng-change="getReservations()"/>
+                 ng-change="getReservations()" ng-click="openDatepick()"/>
           <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="openDatepick()">
+            <button type="button" class="btn btn-default" ng-click="openDatepick()" ng-disabled="dropDownDisabledDate">
               <i class="glyphicon glyphicon-calendar"></i>
             </button>
           </span>

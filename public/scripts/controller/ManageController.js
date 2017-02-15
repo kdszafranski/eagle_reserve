@@ -76,7 +76,18 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   // getting only reservations for the teacher logged in
   $scope.getByUsername = function (){
     console.log('User is', AuthFactory.username);
-    $http.get( '/private/reservations/user/' + AuthFactory.username )
+    var today = moment(new Date()).format('YYYY-MM-DD');
+    $http.get( '/private/reservations/user/' + AuthFactory.username + '/' + today)
+    .then(function( response ){
+      console.log('User Reservations', response);
+      $scope.userReservations = response.data.results;
+    });// end then
+  };// end getByUsername
+
+  $scope.getByUsernameDate = function (date){
+    console.log('User is', AuthFactory.username);
+    date = moment(date).format('YYYY-MM-DD');
+    $http.get( '/private/reservations/user/date/' + AuthFactory.username + '/' + date)
     .then(function( response ){
       console.log('User Reservations', response);
       $scope.userReservations = response.data.results;
@@ -97,6 +108,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       console.log(err);
     }); // end $http
   }; // end getTeachers
+
+
 
   $scope.getByDate = function(date){
     console.log('In getByDate');
@@ -150,6 +163,29 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   //Initialize the view
   init();
+
+  // Disable weekend selection
+  var disabled = function(data) {
+    var date = data.date,
+      mode = data.mode;
+    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+  }; // end disabled
+
+  //Set datepicker options for Teacher view
+  $scope.dateOptions = {
+    dateDisabled: disabled,
+    formatYear: 'yyyy',
+    minDate: new Date(),
+    startingDay: 1,
+    showWeeks: false
+  }; // end dateOptions
+
+  //Set datepicker options for Admin view
+  $scope.dateOptionsAdmin = {
+    formatYear: 'yyyy',
+    startingDay: 1,
+    showWeeks: false
+  }; // end dateOptions
 
 }]); // end ManageController
 

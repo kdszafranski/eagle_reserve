@@ -387,6 +387,101 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     init();
   } // end else
 
+  $scope.makePDF = function (item) {
+    console.log('item', item);
+    var rows = []
+    var columns = [];
+    var newItem = item.newItem
+    var date = $scope.date.toString();
+    date = date.slice(4, -24)
+    console.log('date', date);
+    newItem += ' ' + '(' + date + ')'
+
+    console.log('item ->', item);
+
+    columns.push(newItem)
+
+    var item = item;
+    var oneRow = [];
+
+
+
+      item.period.forEach(function(period){
+        if (period.class === 'disabled'){
+          var teacher = period.teacher
+          teacher += "\n";
+          var name = period.name
+          name += "\n";
+          var display = period.data.display;
+          display = display.replace(/#/g, "Number");
+          console.log('display ->', display);
+          var newData = [name, teacher, display, period.data.value];
+          newData = newData.toString();
+          console.log('new Data', newData);
+          newData = newData.replace(/,/g, " ");
+          oneRow.push(newData);
+        } else {
+        var name = period.name
+        name += "\n";
+        var open = ['Open']
+        var newDataTwo = [name, open]
+        newDataTwo = newDataTwo.toString();
+        newDataTwo = newDataTwo.replace(/,/g, " ");
+        oneRow.push(newDataTwo);
+      };
+
+
+        rows.push(oneRow);
+
+
+
+      oneRow = [];
+
+    })
+console.log('rows', rows);
+rows.join(' ')
+
+var doc = new jsPDF('p', 'pt');
+doc.setFont("courier");
+doc.setFontSize(16);
+        doc.autoTable(columns, rows, {
+      styles: {
+        fontSize: 18,
+        font: "tahoma",
+        halign: "center"
+      },
+      columnStyles: {
+        items: [000,000,000]
+      },
+      margin: {top: 60, left: 150, right: 150},
+      addPageContent: function(data) {
+      },
+      createdCell: function (cell, data) {
+                if (cell.raw.length < 5) {
+                    // cell.styles.fillColor = [200,0,0];
+                  }
+                    if (cell.raw === 'Open') {
+                      //  cell.styles.fillColor = [0,200,0];
+                     }
+                  },
+      drawCell: function(cell, data) {
+          if (data.column.index == 0) {
+              }
+          if (data.header) {
+              }
+            }
+  });
+  newItem = newItem.replace("(", "")
+  newItem = newItem.replace(")", "")
+  newItem = newItem.replace(" ", "")
+  newItem = newItem.replace(" ", "")
+  newItem = newItem.replace(" ", "")
+  newItem = newItem.replace(" ", "")
+  newItem = newItem.replace(" ", "")
+  newItem = newItem.toLowerCase();
+  doc.save(newItem + '.pdf');
+  };//end make pdf
+
 }]); // end HomeController
 
 //UpdateUsernameModalController

@@ -81,9 +81,9 @@ router.delete( '/:id', function( req, res ){
 });
 
 //GET only user reservations
-router.get( '/user/:username', function( req, res ){
+router.get( '/user/:username/:date', function( req, res ){
   console.log( 'in find only by username' );
-  Reservation.find({'user': req.params.username }, function( err, results){
+  Reservation.find({'user': req.params.username, 'dateScheduled':{$gte: req.params.date} }, function( err, results){
     if( err ){
       console.log( err );
       res.sendStatus(500);
@@ -129,6 +129,18 @@ router.get( '/multiple/:date/:item', function( req, res ){
 router.get('/range/:start/:end', function(req,res) {
   console.log('reservationRoute /range route hit. Req.params-->', req.params);
   Reservation.find({ 'dateScheduled': { $gte: req.params.start, $lte: req.params.end }}, function( err, results ){
+    if( err ){
+      console.log( err );
+      res.sendStatus(500);
+    } else {
+      res.send({ results });
+    } // end else
+  }); // end find
+}); // end get
+
+router.get( '/user/date/:username/:date', function( req, res ){
+  console.log( 'in find only by username' );
+  Reservation.find({'user': req.params.username, 'dateScheduled': req.params.date }, function( err, results){
     if( err ){
       console.log( err );
       res.sendStatus(500);

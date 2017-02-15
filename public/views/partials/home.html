@@ -1,16 +1,18 @@
 <!-- Home View -->
 <div ng-if="loggedIn" class="text-center">
-  <h1 ng-show="dayViewDisplay" class="text-center">Home view</h1>
 
-  <pre ng-show="dayViewDisplay">Selected date is: <em>{{date | date:'fullDate' }}</em></pre>
-  
+  <h1 class="text-center">{{date | date:'fullDate' }}</h1>
+
+   <!-- <pre>Selected date is: <em>{{date | date:'fullDate' }}</em></pre> -->
+
   <div class="row">
-    <div class="col-md-4" ng-show="dayViewDisplay">
+    <div class="col-md-3 pull-right">
       <p class="input-group">
         <input ng-change="getReservationsByDate(date)" onkeydown="return false" type="text"
               class="form-control date-input" uib-datepicker-popup="MMMM dd, yyyy" ng-model="date"
               is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close"
-              alt-input-formats="altInputFormats" show-button-bar="false"/>
+              alt-input-formats="altInputFormats" show-button-bar="false"
+              ng-click="openDatepick()"/>
         <span class="input-group-btn">
           <button type="button" class="btn btn-default" ng-click="openDatepick()">
             <i class="glyphicon glyphicon-calendar"></i>
@@ -54,7 +56,7 @@
           <!-- View if user is an not an Admin (no link) -->
           <td ng-if="!isAdmin">{{item.newItem}}</td>
           <!-- View if user is an Admin (show link) -->
-          <td ng-if="isAdmin"><a>{{item.newItem}}</a></td>
+          <td ng-if="isAdmin"><a ng-click ='makePDF(item)'>{{item.newItem}}</a></td>
           <!-- Repeat table data -->
           <td ng-if="item.period" ng-repeat="value in item.period" class="{{value.class}}">
             <div ng-if="value.class === 'disabled'" popover-title="Reservation Info:"

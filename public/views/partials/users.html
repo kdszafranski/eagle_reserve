@@ -16,8 +16,8 @@
                 </ui-select-choices>
               </ui-select>
               <span class="input-group-btn">
-                <button type="button" ng-click="statusSelected.value = undefined" class="btn btn-default">
-                  <span class="glyphicon glyphicon-trash"></span>
+                <button ng-show="statusSelected.value" type="button" ng-click="statusSelected.value = undefined" class="btn btn-default">
+                  <span class="glyphicon glyphicon-remove"></span>
                 </button>
               </span>
             </div>

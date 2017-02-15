@@ -1,7 +1,12 @@
 <!-- Manage Reservations View -->
 <div ng-if="loggedIn" class="text-center">
 
-  <h1 class="text-center">Manage Reservations</h1>
+  <div ng-if="isAdmin">
+    <h1 class="text-center">Manage Reservations</h1>
+  </div>
+  <div ng-if="!isAdmin">
+    <h1 class="text-center">Manage My Reservations</h1>
+  </div>
 
   <!-- Filters Form -->
   <form class="form filters-form">
@@ -16,9 +21,9 @@
                   <span ng-bind-html="status.name"></span>
                 </ui-select-choices>
               </ui-select>
-              <span class="input-group-btn">
+              <span ng-hide="!teacherSelected.name.name" class="input-group-btn">
                 <button type="button" ng-click="teacherSelected.name = undefined" class="btn btn-default">
-                  <span class="glyphicon glyphicon-trash"></span>
+                  <span class="glyphicon glyphicon-remove"></span>
                 </button>
               </span>
             </div>
@@ -34,9 +39,9 @@
                   <span ng-bind-html="status.category"></span>
                 </ui-select-choices>
               </ui-select>
-              <span class="input-group-btn">
+              <span ng-hide="!categorySelected.category.category" class="input-group-btn">
                 <button type="button" ng-click="categorySelected.category = undefined" class="btn btn-default">
-                  <span class="glyphicon glyphicon-trash"></span>
+                  <span class="glyphicon glyphicon-remove"></span>
                 </button>
               </span>
             </div>
@@ -52,28 +57,52 @@
                   <span ng-bind-html="status.newItem"></span>
                 </ui-select-choices>
               </ui-select>
-              <span class="input-group-btn">
+              <span ng-hide="!itemSelected.newItem.newItem" class="input-group-btn">
                 <button type="button" ng-click="itemSelected.newItem = undefined" class="btn btn-default">
-                  <span class="glyphicon glyphicon-trash"></span>
+                  <span class="glyphicon glyphicon-remove"></span>
                 </button>
               </span>
             </div>
           </div>
       </div>
+
+      {{}}
+      <!-- Filter by Item select group (visible to all) -->
+      <div ng-if="!isAdmin" class="form-group" >
+        <div class="col-sm-3">
+          <p class="input-group">
+            <input ng-change="getByUsernameDate(date)" onkeydown="return false" type="text" class="form-control date-input"
+                   uib-datepicker-popup="MM/dd/yyyy" ng-model="date" is-open="popup.opened"
+                   datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                   alt-input-formats="altInputFormats" show-button-bar="false" placeholder="Filter by Date..."
+                   ng-click="openDatepick()"/>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default daypicker-btn" ng-click="openDatepick()">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+              <button ng-show="date" type="button" class="btn btn-default" ng-click="date=undefined; getByUsername();">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </span>
+          </p>
+        </div>
+      </div>
+
       <!-- Filter by Date select group (visible to Admin Only) -->
       <div ng-if="isAdmin" class="form-group">
         <div class="col-sm-3">
           <p class="input-group">
             <input ng-change="getByDate(date)" onkeydown="return false" type="text" class="form-control date-input"
-                   uib-datepicker-popup="MMMM dd, yyyy" ng-model="date" is-open="popup.opened"
-                   datepicker-options="dateOptions" ng-required="true" close-text="Close"
-                   alt-input-formats="altInputFormats" show-button-bar="false" placeholder="Filter by Date..."/>
+                   uib-datepicker-popup="MM/dd/yyyy" ng-model="date" is-open="popup.opened"
+                   ng-required="true" close-text="Close" datepicker-options="dateOptionsAdmin"
+                   alt-input-formats="altInputFormats" show-button-bar="false" placeholder="Filter by Date..."
+                   ng-click="openDatepick()"/>
             <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="openDatepick()">
+              <button type="button" class="btn btn-default daypicker-btn" ng-click="openDatepick()">
                 <i class="glyphicon glyphicon-calendar"></i>
               </button>
-              <button type="button" class="btn btn-default" ng-click="displayReservation();">
-                <span class="glyphicon glyphicon-trash"></span>
+              <button ng-show="date" type="button" class="btn btn-default" ng-click="date = undefined; displayReservation();">
+                <span class="glyphicon glyphicon-remove"></span>
               </button>
             </span>
           </p>
