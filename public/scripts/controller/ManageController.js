@@ -109,7 +109,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     }); // end $http
   }; // end getTeachers
 
-  
+
 
   $scope.getByDate = function(date){
     console.log('In getByDate');
@@ -163,11 +163,26 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   //Initialize the view
   init();
-  //Set datepicker options
+
+  // Disable weekend selection
+  var disabled = function(data) {
+    var date = data.date,
+      mode = data.mode;
+    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+  }; // end disabled
+
+  //Set datepicker options for Teacher view
   $scope.dateOptions = {
-    //dateDisabled: disabled,
-    formatYear: 'yy',
+    dateDisabled: disabled,
+    formatYear: 'yyyy',
     minDate: new Date(),
+    startingDay: 1,
+    showWeeks: false
+  }; // end dateOptions
+
+  //Set datepicker options for Admin view
+  $scope.dateOptionsAdmin = {
+    formatYear: 'yyyy',
     startingDay: 1,
     showWeeks: false
   }; // end dateOptions
