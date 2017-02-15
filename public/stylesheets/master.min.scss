@@ -10,6 +10,7 @@ html, body {
 a {
   color: darken($linkColor, 5%);
 }
+
 .red {
   color: $bootstrapRed;
 }
@@ -162,6 +163,14 @@ form {
       color: $footerLinkColor;
     }
   }
+}
+
+// -- Images -- //
+img#logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  mix-blend-mode: multiply;
 }
 
 // -- Media Queries -- //
