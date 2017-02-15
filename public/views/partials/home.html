@@ -85,17 +85,28 @@
       <tbody>
         <tr ng-repeat="item in weekViewItemsArray">
           <td >{{item.itemName}}</td>
-          <td ng-repeat="day in item.reservationsByDate">
-            <!-- X:{{x[$index]}} -->
-            <p ng-repeat="period in day[$index]">
+          <!-- <td ng-repeat="day in [0, 1, 2, 3, 4]"></td> -->
+          <td ng-repeat="day in item.reservationsByDate track by $index">
+            <p ng-repeat="period in day track by $index">
               <strong>{{period.display}}</strong>
               <span>{{period.reserved}}</span>
             </p>
           </td>
+
+
+          <!-- <td ng-repeat="day in item.reservationsByDate[$index]"> -->
+            <!-- X:{{x[$index]}} -->
+            <!-- <p ng-repeat="period in day[$index]">
+              <strong>{{period.display}}</strong>
+              <span>{{period.reserved}}</span>
+            </p> -->
+          <!-- </td> -->
         </tr>
       </tbody>
     </table>
   </div>
+
+  {{weekViewItemsArray}}
 
   <!-- Modal -->
   <div class="modal fade">

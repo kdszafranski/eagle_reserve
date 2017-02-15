@@ -175,17 +175,18 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
           console.log('res. data:-->', thisDatesAvailability);
 
 
-          //TODO: THIS ONE--> FOR thing in thisDatesAvailibility, if indexOf thisDatesAvailibility.name > -1 in periodsArray...
-            // mark that one as reserved.
-            //Also grab teacher/meta data
-            // for (var y = 0; y < thisDatesAvailability.length; y++) {
-            //   //console.log(thisDatesAvailability[y]);
-            //   if (periodsArray.indexOf(thisDatesAvailability[y].name) > -1) {
-            //     console.log('updating reserved');
-            //     thisDatesAvailability[y].reserved = true;
-            //     console.log(thisDatesAvailability[y]);
-            //   } // end if
-            // } // end for
+          // TODO: THIS ONE--> FOR thing in thisDatesAvailibility, if indexOf thisDatesAvailibility.name > -1 in periodsArray...
+          //   mark that one as reserved.
+          //   Also grab teacher/meta data
+            for (var y = 0; y < thisDatesAvailability.length; y++) {
+              //console.log(thisDatesAvailability[y]);
+              if (periodsArray.indexOf(thisDatesAvailability[y].name) > -1) {
+                console.log('updating reserved');
+                console.log('updating-->', thisItem.reservationsByDate);
+                thisDatesAvailability[y].reserved = true;
+                console.log('updated reserved-->',thisDatesAvailability[y]);
+              } // end if
+            } // end for
 
 
         } // end if
@@ -209,12 +210,19 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
                                    {name: 'AS', display: 'AS', reserved : false}
                                  ];
       //create reservationsByDate property with values for each item
+      // x.reservationsByDate = [
+      //   { 0: periodsArrayDefaults }, //Monday
+      //   { 1: periodsArrayDefaults}, //Tuesday
+      //   { 2: periodsArrayDefaults}, //Wednesday
+      //   { 3: periodsArrayDefaults}, //Thursday
+      //   { 4: periodsArrayDefaults} //Friday
+      // ]; // end reservationsByDate property object
       x.reservationsByDate = [
-        { 0: periodsArrayDefaults }, //Monday
-        { 1: periodsArrayDefaults}, //Tuesday
-        { 2: periodsArrayDefaults}, //Wednesday
-        { 3: periodsArrayDefaults}, //Thursday
-        { 4: periodsArrayDefaults} //Friday
+        periodsArrayDefaults , //Monday
+        periodsArrayDefaults, //Tuesday
+        periodsArrayDefaults, //Wednesday
+        periodsArrayDefaults, //Thursday
+        periodsArrayDefaults //Friday
       ]; // end reservationsByDate property object
     }); // end map
   }; // end addDefaultObjectsToWeekViewItemsArray
@@ -389,17 +397,17 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   $scope.makePDF = function (item) {
     console.log('item', item);
-    var rows = []
+    var rows = [];
     var columns = [];
-    var newItem = item.newItem
+    var newItem = item.newItem;
     var date = $scope.date.toString();
-    date = date.slice(4, -24)
+    date = date.slice(4, -24);
     console.log('date', date);
-    newItem += ' ' + '(' + date + ')'
+    newItem += ' ' + '(' + date + ')';
 
     console.log('item ->', item);
 
-    columns.push(newItem)
+    columns.push(newItem);
 
     var item = item;
     var oneRow = [];
@@ -407,10 +415,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
 
       item.period.forEach(function(period){
+        var name;
         if (period.class === 'disabled'){
-          var teacher = period.teacher
+          var teacher = period.teacher;
           teacher += "\n";
-          var name = period.name
+          name = period.name;
           name += "\n";
           var display = period.data.display;
           display = display.replace(/#/g, "Number");
@@ -421,25 +430,22 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
           newData = newData.replace(/,/g, " ");
           oneRow.push(newData);
         } else {
-        var name = period.name
-        name += "\n";
-        var open = ['Open']
-        var newDataTwo = [name, open]
-        newDataTwo = newDataTwo.toString();
-        newDataTwo = newDataTwo.replace(/,/g, " ");
-        oneRow.push(newDataTwo);
-      };
-
+          name = period.name;
+          name += "\n";
+          var open = ['Open'];
+          var newDataTwo = [name, open];
+          newDataTwo = newDataTwo.toString();
+          newDataTwo = newDataTwo.replace(/,/g, " ");
+          oneRow.push(newDataTwo);
+        }
 
         rows.push(oneRow);
 
-
-
       oneRow = [];
 
-    })
+    });
 console.log('rows', rows);
-rows.join(' ')
+rows.join(' ');
 
 var doc = new jsPDF('p', 'pt');
 doc.setFont("courier");
@@ -471,13 +477,13 @@ doc.setFontSize(16);
               }
             }
   });
-  newItem = newItem.replace("(", "")
-  newItem = newItem.replace(")", "")
-  newItem = newItem.replace(" ", "")
-  newItem = newItem.replace(" ", "")
-  newItem = newItem.replace(" ", "")
-  newItem = newItem.replace(" ", "")
-  newItem = newItem.replace(" ", "")
+  newItem = newItem.replace("(", "");
+  newItem = newItem.replace(")", "");
+  newItem = newItem.replace(" ", "");
+  newItem = newItem.replace(" ", "");
+  newItem = newItem.replace(" ", "");
+  newItem = newItem.replace(" ", "");
+  newItem = newItem.replace(" ", "");
   newItem = newItem.toLowerCase();
   doc.save(newItem + '.pdf');
   };//end make pdf
