@@ -41,7 +41,7 @@
           <!-- View if user is an not an Admin (no link) -->
           <td ng-if="!isAdmin">{{item.newItem}}</td>
           <!-- View if user is an Admin (show link) -->
-          <td ng-if="isAdmin"><a>{{item.newItem}}</a></td>
+          <td ng-if="isAdmin"><a ng-click ='makePDF(item)'>{{item.newItem}}</a></td>
           <!-- Repeat table data -->
           <td ng-if="item.period" ng-repeat="value in item.period" class="{{value.class}}">
             <div ng-if="value.class === 'disabled'" popover-title="Reservation Info:"
