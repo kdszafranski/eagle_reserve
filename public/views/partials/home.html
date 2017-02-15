@@ -1,11 +1,11 @@
 <!-- Home View -->
 <div ng-if="loggedIn" class="text-center">
-  <h1 class="text-center">Home</h1>
+  <h1 class="text-center">{{date | date:'fullDate' }}</h1>
 
    <!-- <pre>Selected date is: <em>{{date | date:'fullDate' }}</em></pre> -->
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3 pull-right">
       <p class="input-group">
         <input ng-change="getReservationsByDate(date)" onkeydown="return false" type="text"
               class="form-control date-input" uib-datepicker-popup="MMMM dd, yyyy" ng-model="date"

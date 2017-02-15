@@ -5,6 +5,7 @@ html, body {
   margin-top: 35px;
   height: 100%;
   background-color: $mainBkgColor;
+  font-family: $primaryFont;
 }
 a {
   color: darken($linkColor, 5%);
@@ -12,9 +13,11 @@ a {
 .red {
   color: $bootstrapRed;
 }
+h1 {
+  margin: 30px auto;
+}
 // -- UIB-DAYPICKERS -- //
 .uib-daypicker {
-
   .btn-info, .btn-info.active {
     background-color: $bootstrapGreen;
     .text-info {
@@ -100,10 +103,12 @@ form {
   }
 }
 .calendar-table {
+  border: 3px solid $navBkgColor;
   >tbody>tr>td {
     padding: 0;
     > div {
-      padding: 16px;
+      //padding: 16px;
+      padding: 20px;
     }
     .popover {
       padding: 0;
