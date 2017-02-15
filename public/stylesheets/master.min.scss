@@ -59,8 +59,15 @@ h1 {
   .col-sm-4 {
     padding-left: 0;
   }
-  span.glyphicon-trash {
+  //Filter Select styles
+  .ui-select-placeholder {
+    margin-right: 15px;
+  }
+  span.glyphicon-remove {
     color: $bootstrapRed;
+  }
+  .input-group {
+    min-width: 100%;
   }
 }
 .reserve-datepick {
