@@ -254,6 +254,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         $scope.newReservation.categoryIn = '';
         $scope.dropDownDisabledItem = true;
         $scope.dropDownDisabledDate = true;
+        $scope.dropDownDisabledTeacher = true;
+        $scope.teacherName.name = '';
       };
       //Hide the table
       $scope.tableIsVisible = false;
