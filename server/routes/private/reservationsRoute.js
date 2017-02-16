@@ -20,9 +20,9 @@ router.post('/', function(req, res){
     numberOfStudents: req.body.numberOfStudentsIn
   });
 
-  Reservation.find({'dateScheduled':dateIn}, {'item':req.body.itemIn}, {'period':req.body.periodIn}, function( err, results){
+Reservation.find({'dateScheduled':req.body.dateIn}, {'item':req.body.itemIn}, {'period':req.body.periodIn}, function( err, results){
     console.log('The Results', results);
-    if( results.length <= 2 ){
+    if( results.length === 0 ){
       newReservation.save(function(err){
         if(err){
           console.log(err);
@@ -35,6 +35,7 @@ router.post('/', function(req, res){
       res.sendStatus(400);
     } // end else
   });
+
 
   // newReservation.save(function(err){
   //   if(err){
