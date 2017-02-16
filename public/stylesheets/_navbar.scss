@@ -11,13 +11,26 @@
   .navbar-toggle {
     //Necessary to make hamburger menu visible
     .icon-bar {
-      //background-color: $linkColor;
       background-color: $navbarLinkColor;
     }
   }
   .nav {
     > li {
       text-align: right;
+      box-sizing: border-box;
+      >a {
+        padding:  0 !important;
+        margin: 15px 15px;
+        border-bottom: 2px solid transparent;
+        font-size: 15px;
+        transition: all 0.2s ease;
+        &:hover,
+        &:focus {
+          border-bottom: 2px solid $secondaryAccentColor;
+          background-color: transparent;
+          color: $mainBkgColor;
+        }
+      }
     }
   }
   //Collapsable nav border top

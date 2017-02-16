@@ -8,7 +8,7 @@ html, body {
   font-family: $primaryFont;
 }
 a {
-  color: darken($linkColor, 5%);
+  color: $navBkgColor;
 }
 
 .red {
@@ -17,6 +17,24 @@ a {
 h1 {
   margin: 30px auto;
 }
+.no-right-pad-col {
+  padding-right: 0;
+  margin-right: -10px;
+}
+// -- BUTTONS -- //
+.btn-default.btn-accent {
+  border: 2px solid $secondaryAccentColor;
+  border-radius: 0;
+  background-color: $secondaryAccentColor;
+  color: $mainBkgColor;
+  font-weight: bold;
+  // transition: all 0.2s ease;
+  &:hover {
+    background-color: $mainBkgColor;
+    color: $secondaryAccentColor;
+  }
+}
+
 // -- UIB-DAYPICKERS -- //
 .uib-daypicker {
   .btn-info, .btn-info.active {
@@ -111,6 +129,9 @@ form {
   }
 }
 .table {
+  &.week-table {
+    margin-top: 20px;
+  }
   th {
     text-align: center;
   }

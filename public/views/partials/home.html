@@ -4,16 +4,10 @@
   <h1 ng-show="dayViewDisplay" class="text-center">{{date | date:'fullDate' }}</h1>
 
   <div class="row">
-    <!-- Week/Day View Toggle Button -->
-    <div ng-if="isAdmin" class="pull-right" style="display:block;">
-      <button ng-click="displayWeekView()" ng-show="dayViewDisplay" class="btn btn-primary">Week View</button>
-      <button ng-hide="dayViewDisplay" ng-click="displayDayView()" class="btn btn-primary">Day View</button>
-      <!-- Print View button -->
-      <button ng-hide="dayViewDisplay" ng-click="printView()" class="btn btn-warning">Print</button>
-    </div>
 
-    <div class="col-xs-12">
-      <div ng-show="dayViewDisplay" class="col-md-3 pull-right">
+
+    <div class="col-xs-3">
+      <div ng-show="dayViewDisplay" class="pull-left">
         <p class="input-group">
           <input ng-change="getReservationsByDate(date)" onkeydown="return false" type="text"
                 class="form-control date-input" uib-datepicker-popup="MMMM dd, yyyy" ng-model="date"
@@ -26,6 +20,22 @@
             </button>
           </span>
         </p>
+      </div>
+    </div>
+
+    <!-- Week/Day View Toggle Button -->
+    <div ng-if="isAdmin" class="col-xs-offset-6 col-xs-2 pull-right no-right-pad-col">
+      <button ng-click="displayWeekView()" ng-show="dayViewDisplay" class="btn btn-default btn-accent">Week View</button>
+      <button ng-hide="dayViewDisplay" ng-click="displayDayView()" class="btn btn-default btn-accent">Day View</button>
+
+    </div>
+
+    <!-- Print View button -->
+    <div ng-hide="dayViewDisplay" class="col-xs-3">
+      <div class="pull-left">
+        <button ng-click="printView()" class="btn btn-default btn-accent pull-left">
+          Print <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+        </button>
       </div>
     </div>
 
@@ -72,7 +82,7 @@
     </table>
 
     <!-- Week View -->
-    <table ng-hide="dayViewDisplay" class="table table-bordered">
+    <table ng-hide="dayViewDisplay" class="table table-bordered week-table">
       <thead>
         <tr>
           <th></th>
