@@ -34,6 +34,22 @@ h1 {
     color: $secondaryAccentColor;
   }
 }
+.btn-danger {
+  background-color: transparent;
+  border: 2px solid $bootstrapRed;
+  border-radius: 0;
+
+  >span.glyphicon-trash {
+    color: $bootstrapRed;
+  }
+  &:hover {
+    background-color: $bootstrapRed;
+    border: 2px solid $bootstrapRed !important;
+    >span.glyphicon-trash {
+      color: $white;
+    }
+  }
+}
 
 // -- UIB-DAYPICKERS -- //
 .uib-daypicker {
