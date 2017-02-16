@@ -171,9 +171,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
           /////////////////////////
 
           //match the day index and go into that object
-          var thisDatesAvailability = thisItem.reservationsByDate[dayIndex][dayIndex];
+          var thisDatesAvailability = thisItem.reservationsByDate[dayIndex];
           console.log('res. data:-->', thisDatesAvailability);
-
 
           // TODO: THIS ONE--> FOR thing in thisDatesAvailibility, if indexOf thisDatesAvailibility.name > -1 in periodsArray...
           //   mark that one as reserved.
@@ -181,14 +180,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
             for (var y = 0; y < thisDatesAvailability.length; y++) {
               //console.log(thisDatesAvailability[y]);
               if (periodsArray.indexOf(thisDatesAvailability[y].name) > -1) {
-                console.log('updating reserved');
                 console.log('updating-->', thisItem.reservationsByDate);
                 thisDatesAvailability[y].reserved = true;
-                console.log('updated reserved-->',thisDatesAvailability[y]);
+                
               } // end if
             } // end for
-
-
         } // end if
       } // end for
     }); // end map
@@ -199,30 +195,26 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     //add date object to each item object in $scope.weekViewItemsArray
     $scope.weekViewItemsArray.map(function(x) {
       //set periodsArrayDefaults array
-      var periodsArrayDefaults = [ {name: 'BS', display: 'BS', reserved : false},
-                                   {name: 'One', display: '1', reserved : false},
-                                   {name: 'Two', display: '2', reserved : false},
-                                   {name: 'Three', display: '3', reserved : false},
-                                   {name: 'Four', display: '4', reserved : false},
-                                   {name: 'Five', display: '5', reserved : false},
-                                   {name: 'Six', display: '6', reserved : false},
-                                   {name: 'Seven', display: '7', reserved : false},
-                                   {name: 'AS', display: 'AS', reserved : false}
-                                 ];
+      function PeriodsArrayDefaults() {
+        return [ {name: 'BS', display: 'BS', reserved : false},
+                                     {name: 'One', display: '1', reserved : false},
+                                     {name: 'Two', display: '2', reserved : false},
+                                     {name: 'Three', display: '3', reserved : false},
+                                     {name: 'Four', display: '4', reserved : false},
+                                     {name: 'Five', display: '5', reserved : false},
+                                     {name: 'Six', display: '6', reserved : false},
+                                     {name: 'Seven', display: '7', reserved : false},
+                                     {name: 'AS', display: 'AS', reserved : false}
+                                   ];
+      } // end function
+
       //create reservationsByDate property with values for each item
-      // x.reservationsByDate = [
-      //   { 0: periodsArrayDefaults }, //Monday
-      //   { 1: periodsArrayDefaults}, //Tuesday
-      //   { 2: periodsArrayDefaults}, //Wednesday
-      //   { 3: periodsArrayDefaults}, //Thursday
-      //   { 4: periodsArrayDefaults} //Friday
-      // ]; // end reservationsByDate property object
       x.reservationsByDate = [
-        periodsArrayDefaults , //Monday
-        periodsArrayDefaults, //Tuesday
-        periodsArrayDefaults, //Wednesday
-        periodsArrayDefaults, //Thursday
-        periodsArrayDefaults //Friday
+        new PeriodsArrayDefaults(), //Monday
+        new PeriodsArrayDefaults(), //Tuesday
+        new PeriodsArrayDefaults(), //Wednesday
+        new PeriodsArrayDefaults(), //Thursday
+        new PeriodsArrayDefaults() //Friday
       ]; // end reservationsByDate property object
     }); // end map
   }; // end addDefaultObjectsToWeekViewItemsArray

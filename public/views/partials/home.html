@@ -3,8 +3,6 @@
 
   <h1 class="text-center">{{date | date:'fullDate' }}</h1>
 
-   <!-- <pre>Selected date is: <em>{{date | date:'fullDate' }}</em></pre> -->
-
   <div class="row">
     <div class="col-md-3 pull-right">
       <p class="input-group">
@@ -56,7 +54,7 @@
           <!-- View if user is an not an Admin (no link) -->
           <td ng-if="!isAdmin">{{item.newItem}}</td>
           <!-- View if user is an Admin (show link) -->
-          <td ng-if="isAdmin"><a ng-click ='makePDF(item)'>{{item.newItem}}</a></td>
+          <td ng-if="isAdmin"><a ng-click="makePDF(item)">{{item.newItem}}</a></td>
           <!-- Repeat table data -->
           <td ng-if="item.period" ng-repeat="value in item.period" class="{{value.class}}">
             <div ng-if="value.class === 'disabled'" popover-title="Reservation Info:"
@@ -67,7 +65,7 @@
                 <p>{{value.teacher}}</p>
                 <p>{{value.data.display}}{{value.data.value}}</p>
               </script>
-            <div ng-if="value.class === 'enabled'"></div>
+            <div ng-if="value.class === 'enabled' "></div>
           </td>
         </tr>
       </tbody>
@@ -85,28 +83,16 @@
       <tbody>
         <tr ng-repeat="item in weekViewItemsArray">
           <td >{{item.itemName}}</td>
-          <!-- <td ng-repeat="day in [0, 1, 2, 3, 4]"></td> -->
           <td ng-repeat="day in item.reservationsByDate track by $index">
             <p ng-repeat="period in day track by $index">
               <strong>{{period.display}}</strong>
-              <span>{{period.reserved}}</span>
+              <span ng-show="period.reserved">{{period.reserved}}</span>
             </p>
           </td>
-
-
-          <!-- <td ng-repeat="day in item.reservationsByDate[$index]"> -->
-            <!-- X:{{x[$index]}} -->
-            <!-- <p ng-repeat="period in day[$index]">
-              <strong>{{period.display}}</strong>
-              <span>{{period.reserved}}</span>
-            </p> -->
-          <!-- </td> -->
         </tr>
       </tbody>
     </table>
   </div>
-
-  {{weekViewItemsArray}}
 
   <!-- Modal -->
   <div class="modal fade">
