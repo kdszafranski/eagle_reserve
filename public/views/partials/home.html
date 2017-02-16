@@ -1,28 +1,40 @@
 <!-- Home View -->
 <div ng-if="loggedIn" class="text-center">
-  <h1 class="text-center">{{date | date:'fullDate' }}</h1>
 
-   <!-- <pre>Selected date is: <em>{{date | date:'fullDate' }}</em></pre> -->
+  <h1 ng-show="dayViewDisplay" class="text-center">{{date | date:'fullDate' }}</h1>
 
   <div class="row">
-    <div class="col-md-3 pull-right">
-      <p class="input-group">
-        <input ng-change="getReservationsByDate(date)" onkeydown="return false" type="text"
-              class="form-control date-input" uib-datepicker-popup="MMMM dd, yyyy" ng-model="date"
-              is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close"
-              alt-input-formats="altInputFormats" show-button-bar="false"
-              ng-click="openDatepick()"/>
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default" ng-click="openDatepick()">
-            <i class="glyphicon glyphicon-calendar"></i>
-          </button>
-        </span>
-      </p>
+    <!-- Week/Day View Toggle Button -->
+    <div ng-if="isAdmin" class="pull-right" style="display:block;">
+      <button ng-click="displayWeekView()" ng-show="dayViewDisplay" class="btn btn-primary">Week View</button>
+      <button ng-hide="dayViewDisplay" ng-click="displayDayView()" class="btn btn-primary">Day View</button>
+      <!-- Print View button -->
+      <button ng-hide="dayViewDisplay" ng-click="printView()" class="btn btn-warning">Print</button>
     </div>
+
+    <div class="col-xs-12">
+      <div ng-show="dayViewDisplay" class="col-md-3 pull-right">
+        <p class="input-group">
+          <input ng-change="getReservationsByDate(date)" onkeydown="return false" type="text"
+                class="form-control date-input" uib-datepicker-popup="MMMM dd, yyyy" ng-model="date"
+                is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                alt-input-formats="altInputFormats" show-button-bar="false"
+                ng-click="openDatepick()"/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDatepick()">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </span>
+        </p>
+      </div>
+    </div>
+
   </div>
 
   <div class="table-responsive">
-    <table class="table table-bordered colorfield-table calendar-table">
+
+    <!-- Single Day View Table -->
+    <table ng-show="dayViewDisplay" class="table table-bordered colorfield-table calendar-table">
       <thead>
         <tr>
           <th></th>
@@ -42,7 +54,7 @@
           <!-- View if user is an not an Admin (no link) -->
           <td ng-if="!isAdmin">{{item.newItem}}</td>
           <!-- View if user is an Admin (show link) -->
-          <td ng-if="isAdmin"><a ng-click ='makePDF(item)'>{{item.newItem}}</a></td>
+          <td ng-if="isAdmin"><a ng-click="makePDF(item)">{{item.newItem}}</a></td>
           <!-- Repeat table data -->
           <td ng-if="item.period" ng-repeat="value in item.period" class="{{value.class}}">
             <div ng-if="value.class === 'disabled'" popover-title="Reservation Info:"
@@ -53,8 +65,34 @@
                 <p>{{value.teacher}}</p>
                 <p>{{value.data.display}}{{value.data.value}}</p>
               </script>
-            <div ng-if="value.class === 'enabled'"></div>
+            <div ng-if="value.class === 'enabled' "></div>
           </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Week View -->
+    <table ng-hide="dayViewDisplay" class="table table-bordered">
+      <thead>
+        <tr>
+          <th></th>
+          <th ng-repeat="date in thisWeeksDates">{{date}}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr ng-repeat="item in weekViewItemsArray">
+          <td >{{item.itemName}}</td>
+
+          <td ng-repeat="day in item.reservationsByDate track by $index">
+            <p ng-repeat="period in day track by $index">
+              <strong>{{period.display}} - </strong>
+              <span ng-show="period.reserved">{{period.teacher}}</span>
+              <!-- TODO: move inline styles to stylesheet -->
+              <span style="display: block;" ng-show="period.reserved">{{period.meta.title}} {{period.meta.data}}</span>
+            </p>
+          </td>
+
         </tr>
       </tbody>
     </table>

@@ -14,6 +14,12 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   var username = authFactory.username;
   console.log('Username-->', username);
 
+  //display the day view table as default
+  $scope.dayViewDisplay = true;
+
+  //create blank simple items array for week view
+  $scope.weekViewItemsArray = [];
+
   $scope.allItems = [];
 
   $scope.freePeriods = [
@@ -58,12 +64,156 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     }); // end .map
   }; // end addReservationsToAllItems
 
+  var calculateThisWeeksDates = function() {
+    //Calculate the start and end dates of this week
+    console.log('in getThisWeeksDates');
+    //Monday of this week
+    var weekStart = moment().startOf('week').add(1, 'days').format('YYYY-MM-DD');
+    //Friday of this week
+    var weekEnd = moment().endOf('week').subtract(1, 'days').format('YYYY-MM-DD');
+    //construct object to return
+    var startEndDates = {
+      weekStart: weekStart,
+      weekEnd: weekEnd
+    }; // end startEndDates
+    return startEndDates;
+  }; // end getThisWeeksDates
+
+  var convertDayToIndex = function(date) {
+    //convert date to index number [monday=0, etc.]
+    var weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    date = moment(date.split('T')[0]).format('dddd');
+    index = weekdays.indexOf(date);
+    return index;
+  }; // end convertDayToIndex
+
   var disabled = function(data) {
     // Disable weekend selection on daypicker
     var date = data.date,
       mode = data.mode;
     return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
   }; // end disabled
+
+  $scope.displayDayView = function() {
+    console.log('in displayDayView');
+    $scope.dayViewDisplay = true;
+  }; // end displayDayView
+
+  $scope.displayWeekView = function() {
+    console.log('in display week view');
+    $scope.dayViewDisplay = false;
+    //calculate the start and end dates of this week
+    var startEndDates = calculateThisWeeksDates();
+    //get all reservations for the current week
+    getAllWeeksReservations(startEndDates);
+    //get all days of this week, scope them for thead repeat
+    $scope.thisWeeksDates = enumerateDaysBetweenDates(startEndDates.weekStart);
+  }; // end displayWeekView
+
+  var enumerateDaysBetweenDates = function(startDate) {
+    //make an array of the dates this week, startDate is Monday
+    var dates = [];
+    //push Monday in
+    dates.push(moment(startDate).format('dddd MM/DD'));
+    var rangeArray = [1, 2, 3, 4];
+    //push Tuesday-Friday in
+    for (var i = 0; i < rangeArray.length; i++) {
+      dates.push(moment(startDate).add(rangeArray[i], 'days').format('dddd MM/DD'));
+    } // end for
+    return dates;
+  }; // end enumerateDaysBetweenDates
+
+  var getAllWeeksReservations = function(startEndDates) {
+    //construct url
+    var urlParamString = startEndDates.weekStart + '/' + startEndDates.weekEnd;
+    $http({
+      method: 'GET',
+      url: '/private/reservations/range/' + urlParamString
+    }).then(function(response) {
+      console.log('getAllWeeksReservations response-->', response.data.results);
+      //add date object to each item object in $scope.weekViewItemsArray
+      addDefaultObjectsToWeekViewItemsArray();
+      //populate $scope.weekViewItemsArray with reservations
+      addReservationsToWeekViewItems(response.data.results);
+    }).catch(function(err) {
+      //TODO: add better error handling here
+      console.log(err);
+    }); // end $http
+  }; // end getAllWeeksReservations
+
+  var addReservationsToWeekViewItems = function(reservationArray) {
+    console.log('in addReservationsToWeekViewItems');
+    //For each reservation...
+    reservationArray.map(function(reservation) {
+      //convert date to index number [monday=0, etc.]
+      var dayIndex = convertDayToIndex(reservation.dateScheduled);
+      //save item name as variable
+      var itemName = reservation.item;
+      //compare against each item name in weekViewItemsArray
+      for (var i = 0; i < $scope.weekViewItemsArray.length; i++) {
+        //store current item as variable
+        var thisItem = $scope.weekViewItemsArray[i];
+        //if the reservation item name matches the item name of this current object
+        if (thisItem.itemName === reservation.item) {
+          //split periods into array for this reservation
+          var periodsArray = reservation.period.split(',');
+          //match the day index and go into that object
+          var thisDatesAvailability = thisItem.reservationsByDate[dayIndex];
+          //For each time period for this day
+            for (var y = 0; y < thisDatesAvailability.length; y++) {
+              //If the periodsArray containts this time period,
+              if (periodsArray.indexOf(thisDatesAvailability[y].name) > -1) {
+                //Mark reserved as true
+                thisDatesAvailability[y].reserved = true;
+                //add teacher name to object
+                thisDatesAvailability[y].teacher = reservation.user;
+                //and meta data to this reservation object
+                //If the reservation has number of students, attach that data
+                if (reservation.numberOfStudents) {
+                  thisDatesAvailability[y].meta =
+                        { title : '# Students:',
+                        data : reservation.numberOfStudents };
+                //If reservation has room num, attach that data
+                } else if (reservation.roomNumber) {
+                  thisDatesAvailability[y].meta =
+                        { title : 'Room #:',
+                        data : reservation.roomNumber };
+                } // end else if
+              } // end if
+            } // end for
+        } // end if
+      } // end for
+    }); // end map
+  }; // end addReservationsToWeekViewItems
+
+  var addDefaultObjectsToWeekViewItemsArray = function() {
+    console.log('in addDefaultObjectsToWeekViewItemsArray');
+    //add date object to each item object in $scope.weekViewItemsArray
+    $scope.weekViewItemsArray.map(function(x) {
+      //set periodsArrayDefaults array
+      function PeriodsArrayDefaults() {
+        return [ {name: 'BS', display: 'BS', reserved : false},
+                                     {name: 'One', display: '1', reserved : false},
+                                     {name: 'Two', display: '2', reserved : false},
+                                     {name: 'Three', display: '3', reserved : false},
+                                     {name: 'Four', display: '4', reserved : false},
+                                     {name: 'Five', display: '5', reserved : false},
+                                     {name: 'Six', display: '6', reserved : false},
+                                     {name: 'Seven', display: '7', reserved : false},
+                                     {name: 'AS', display: 'AS', reserved : false}
+                                   ];
+      } // end function
+
+      //create reservationsByDate property with values for each item
+      x.reservationsByDate = [
+        new PeriodsArrayDefaults(), //Monday
+        new PeriodsArrayDefaults(), //Tuesday
+        new PeriodsArrayDefaults(), //Wednesday
+        new PeriodsArrayDefaults(), //Thursday
+        new PeriodsArrayDefaults() //Friday
+      ]; // end reservationsByDate property object
+    }); // end map
+  }; // end addDefaultObjectsToWeekViewItemsArray
 
   var formatPeriodsReservedArray = function(periodsArray, existingPeriodsReservedArray, teacherName, data) {
     //combine with existing periods reserved
@@ -95,14 +245,25 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     }).then(function(response) {
       //scope all items as allItems for table repeat
       $scope.allItems = response.data.results;
+      //create weekViewItems array
+      $scope.weekViewItemsArray = populateWeekViewItemsArray(response.data.results);
       //Get all reservations for today
-      //$scope.getReservationsByDate(new Date());
       $scope.getReservationsByDate($scope.today());
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
     }); // end $http
   }; // end getAllItems
+
+  var populateWeekViewItemsArray = function(array) {
+    console.log('in populateWeekViewItemsArray');
+    var newArray = [];
+    for (var i = 0; i < array.length; i++) {
+      //push the item name in to the array as an object
+      newArray.push({itemName: array[i].newItem});
+    } // end for
+    return newArray;
+  }; // end createWeekViewItemsArray
 
   $scope.getReservationsByDate = function(date) {
     console.log('in getReservationsByDate');
@@ -174,6 +335,10 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     }); // end modalInstance
   }; // end openUsernameModal
 
+  $scope.printView = function() {
+    window.print();
+  }; // end printView
+
   var resetPeriodsProperties = function(array) {
     //TODO: fix this undefined value
     console.log('in clearPeriodsProperty');
@@ -192,19 +357,12 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     } // end for
   }; //end resetPeriodsProperties
 
-  // $scope.today = function() {
-  //   //Set datepicker default day to today
-  //   $scope.date = new Date();
-  // }; // end today();
-
   $scope.today = function() {
     //Sets the default date picker date.
     //Sets it to monday if the current day is a weekend
-    console.log('in TODAY-->', moment().isoWeekday());
     var dayOfWeekToday = moment().isoWeekday();
     var datePickDefault;
     if (dayOfWeekToday > 5) {
-      console.log('WEEKEND');
       //set the default to the next monday
       var num = 8 - dayOfWeekToday;
       datePickDefault = moment().add(num, 'days');
@@ -212,7 +370,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       //set the default to the current day
       datePickDefault = moment();
     } // end else
-    console.log('DEFAULT-->',datePickDefault._d);
     $scope.date = datePickDefault._d;
     return datePickDefault._d;
   }; // end today
@@ -228,28 +385,24 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   $scope.makePDF = function (item) {
     console.log('item', item);
-    var rows = []
+    var rows = [];
     var columns = [];
-    var newItem = item.newItem
+    var newItem = item.newItem;
     var date = $scope.date.toString();
-    date = date.slice(4, -24)
+    date = date.slice(4, -24);
     console.log('date', date);
-    newItem += ' ' + '(' + date + ')'
-
+    newItem += ' ' + '(' + date + ')';
     console.log('item ->', item);
-
-    columns.push(newItem)
-
-    var item = item;
+    columns.push(newItem);
+    //var item = item;
     var oneRow = [];
 
-
-
       item.period.forEach(function(period){
+        var name;
         if (period.class === 'disabled'){
-          var teacher = period.teacher
+          var teacher = period.teacher;
           teacher += "\n";
-          var name = period.name
+          name = period.name;
           name += "\n";
           var display = period.data.display;
           display = display.replace(/#/g, "Number");
@@ -260,65 +413,65 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
           newData = newData.replace(/,/g, " ");
           oneRow.push(newData);
         } else {
-        var name = period.name
-        name += "\n";
-        var open = ['Open']
-        var newDataTwo = [name, open]
-        newDataTwo = newDataTwo.toString();
-        newDataTwo = newDataTwo.replace(/,/g, " ");
-        oneRow.push(newDataTwo);
-      };
-
+          name = period.name;
+          name += "\n";
+          var open = ['Open'];
+          var newDataTwo = [name, open];
+          newDataTwo = newDataTwo.toString();
+          newDataTwo = newDataTwo.replace(/,/g, " ");
+          oneRow.push(newDataTwo);
+        }
 
         rows.push(oneRow);
 
-
-
       oneRow = [];
 
-    })
-console.log('rows', rows);
-rows.join(' ')
-
-var doc = new jsPDF('p', 'pt');
-doc.setFont("courier");
-doc.setFontSize(16);
-        doc.autoTable(columns, rows, {
-      styles: {
-        fontSize: 18,
-        font: "tahoma",
-        halign: "center"
-      },
-      columnStyles: {
-        items: [000,000,000]
-      },
-      margin: {top: 60, left: 150, right: 150},
-      addPageContent: function(data) {
-      },
-      createdCell: function (cell, data) {
-                if (cell.raw.length < 5) {
-                    // cell.styles.fillColor = [200,0,0];
-                  }
-                    if (cell.raw === 'Open') {
-                      //  cell.styles.fillColor = [0,200,0];
-                     }
-                  },
-      drawCell: function(cell, data) {
-          if (data.column.index == 0) {
-              }
-          if (data.header) {
-              }
-            }
   });
-  newItem = newItem.replace("(", "")
-  newItem = newItem.replace(")", "")
-  newItem = newItem.replace(" ", "")
-  newItem = newItem.replace(" ", "")
-  newItem = newItem.replace(" ", "")
-  newItem = newItem.replace(" ", "")
-  newItem = newItem.replace(" ", "")
+
+  console.log('rows', rows);
+  rows.join(' ');
+
+  var doc = new jsPDF('p', 'pt');
+  doc.setFont("courier");
+
+  doc.setFontSize(16);
+    doc.autoTable(columns, rows, {
+    styles: {
+      fontSize: 18,
+      font: "tahoma",
+      halign: "center"
+    },
+    columnStyles: {
+      items: [000,000,000]
+    },
+    margin: {top: 60, left: 150, right: 150},
+    addPageContent: function(data) {},
+      createdCell: function (cell, data) {
+        if (cell.raw.length < 5) {
+          // cell.styles.fillColor = [200,0,0];
+        }
+        if (cell.raw === 'Open') {
+          //  cell.styles.fillColor = [0,200,0];
+        }
+      },
+      drawCell: function(cell, data) {
+        if (data.column.index == 0) {
+        }
+        if (data.header) {
+        }
+      }
+  });
+
+  newItem = newItem.replace("(", "");
+  newItem = newItem.replace(")", "");
+  newItem = newItem.replace(" ", "");
+  newItem = newItem.replace(" ", "");
+  newItem = newItem.replace(" ", "");
+  newItem = newItem.replace(" ", "");
+  newItem = newItem.replace(" ", "");
   newItem = newItem.toLowerCase();
   doc.save(newItem + '.pdf');
+
   };//end make pdf
 
 }]); // end HomeController
