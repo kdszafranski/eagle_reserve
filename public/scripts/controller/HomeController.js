@@ -143,9 +143,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   var addReservationsToWeekViewItems = function(reservationArray) {
     console.log('in addReservationsToWeekViewItems');
-    console.log('RESERVATION ARRAY-->', reservationArray);
-    console.log('ITEMS ARRAY-->', $scope.weekViewItemsArray);
-
     //For each reservation...
     reservationArray.map(function(reservation) {
       //convert date to index number [monday=0, etc.]
@@ -162,34 +159,28 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
           var periodsArray = reservation.period.split(',');
           //match the day index and go into that object
           var thisDatesAvailability = thisItem.reservationsByDate[dayIndex];
-
           //For each time period for this day
             for (var y = 0; y < thisDatesAvailability.length; y++) {
               //If the periodsArray containts this time period,
               if (periodsArray.indexOf(thisDatesAvailability[y].name) > -1) {
-                console.log('updating-->', thisItem.reservationsByDate);
                 //Mark reserved as true
                 thisDatesAvailability[y].reserved = true;
                 //add teacher name to object
                 thisDatesAvailability[y].teacher = reservation.user;
-
                 //and meta data to this reservation object
-                console.log('reservation-->', reservation);
-
+                //If the reservation has number of students, attach that data
                 if (reservation.numberOfStudents) {
                   thisDatesAvailability[y].meta =
                         { title : '# Students:',
                         data : reservation.numberOfStudents };
+                //If reservation has room num, attach that data
                 } else if (reservation.roomNumber) {
                   thisDatesAvailability[y].meta =
                         { title : 'Room #:',
                         data : reservation.roomNumber };
                 } // end else if
-
-
               } // end if
             } // end for
-
         } // end if
       } // end for
     }); // end map
@@ -401,15 +392,10 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     date = date.slice(4, -24);
     console.log('date', date);
     newItem += ' ' + '(' + date + ')';
-
     console.log('item ->', item);
-
     columns.push(newItem);
-
-    var item = item;
+    //var item = item;
     var oneRow = [];
-
-
 
       item.period.forEach(function(period){
         var name;
@@ -440,40 +426,42 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
       oneRow = [];
 
-    });
-console.log('rows', rows);
-rows.join(' ');
-
-var doc = new jsPDF('p', 'pt');
-doc.setFont("courier");
-doc.setFontSize(16);
-        doc.autoTable(columns, rows, {
-      styles: {
-        fontSize: 18,
-        font: "tahoma",
-        halign: "center"
-      },
-      columnStyles: {
-        items: [000,000,000]
-      },
-      margin: {top: 60, left: 150, right: 150},
-      addPageContent: function(data) {
-      },
-      createdCell: function (cell, data) {
-                if (cell.raw.length < 5) {
-                    // cell.styles.fillColor = [200,0,0];
-                  }
-                    if (cell.raw === 'Open') {
-                      //  cell.styles.fillColor = [0,200,0];
-                     }
-                  },
-      drawCell: function(cell, data) {
-          if (data.column.index == 0) {
-              }
-          if (data.header) {
-              }
-            }
   });
+
+  console.log('rows', rows);
+  rows.join(' ');
+
+  var doc = new jsPDF('p', 'pt');
+  doc.setFont("courier");
+
+  doc.setFontSize(16);
+    doc.autoTable(columns, rows, {
+    styles: {
+      fontSize: 18,
+      font: "tahoma",
+      halign: "center"
+    },
+    columnStyles: {
+      items: [000,000,000]
+    },
+    margin: {top: 60, left: 150, right: 150},
+    addPageContent: function(data) {},
+      createdCell: function (cell, data) {
+        if (cell.raw.length < 5) {
+          // cell.styles.fillColor = [200,0,0];
+        }
+        if (cell.raw === 'Open') {
+          //  cell.styles.fillColor = [0,200,0];
+        }
+      },
+      drawCell: function(cell, data) {
+        if (data.column.index == 0) {
+        }
+        if (data.header) {
+        }
+      }
+  });
+
   newItem = newItem.replace("(", "");
   newItem = newItem.replace(")", "");
   newItem = newItem.replace(" ", "");
@@ -483,6 +471,7 @@ doc.setFontSize(16);
   newItem = newItem.replace(" ", "");
   newItem = newItem.toLowerCase();
   doc.save(newItem + '.pdf');
+
   };//end make pdf
 
 }]); // end HomeController
