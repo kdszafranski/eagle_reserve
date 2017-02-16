@@ -1,13 +1,15 @@
 <!-- Login View -->
-
-<img id = 'logo' src="/images/eagleLogoColor.jpg" alt= "Eagle Reserve Logo">
-
-  <!-- Shown for users that are NOT logged in -->
-  <div ng-hide="loggedIn" class="text-center">
-    <a href="/auth/google"><img src="/images/btn_google_signin.png" alt="sign in with google button"></a>
+<div class="row">
+  <div class="col-md-6 col-xs-6">
+    <img class = 'img-responsive' id = 'logo' src="/images/eagleLogoColor.jpg" alt= "Eagle Reserve Logo">
   </div>
-
+  <!-- Shown for users that are NOT logged in -->
+  <div ng-hide="loggedIn" class="col-md-6 col-xs-6 text-center google-button">
+    <h1 class = 'welcome'>Welcome To Eagle Reserve!</h1>
+    <a href="/auth/google"><img id = 'google-button' src="/images/btn_google_signin.png" alt="sign in with google button"></a>
+  </div>
   <!-- Shown for users that are logged in -->
   <div ng-if="loggedIn">
     <p class="text-center">You are logged in!</p>
   </div>
+</div>

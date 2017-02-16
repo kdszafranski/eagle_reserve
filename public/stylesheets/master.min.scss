@@ -226,5 +226,28 @@ img#logo {
   mix-blend-mode: multiply;
 }
 
+#google-button {
+  width: 300px;
+}
+
+.google-button {
+position:absolute;
+top:30%;
+left:45%;
+padding:15px;
+}
+
+.welcome {
+  font-family: 'octin', 'tahoma';
+  font-size: 50px;
+  font-weight: bold;
+}
+
+//-- fonts -- //
+@font-face {
+  font-family: 'octin';
+  src: url('octinPrison.woff2')
+}
+
 // -- Media Queries -- //
 @import 'responsive';
