@@ -5,13 +5,13 @@
 
     <!-- Add New Reservation Form -->
     <form ng-submit="makeReservationForm.$valid && open('md', newReservation); makeReservationForm.$setPristine()"
-          class="form form-inline  filter-form reservations text-center" name="makeReservationForm" novalidate>
+          class="form-inline filter-form reservations text-center" name="makeReservationForm" novalidate>
         <div class="form-group">
             <select ng-model="newReservation.categoryIn" ng-options="p for p in categories" class="form-control" ng-change="changeDropDown()" required>
               <option value="" selected disabled>Select by Category</option>
             </select>
         </div>
-        <div class="form-group" ng-hide="dropDownDisabledItem">
+        <div class="form-group">
             <select ng-model="newReservation.itemIn"
                     ng-options="c.newItem as c.newItem for c in items | filter: {category: newReservation.categoryIn}"
                     class="form-control"
@@ -22,8 +22,15 @@
             </select>
         </div>
 
+        <div class="form-group" ng-if='isAdmin'>
+            <select ng-model="teacherName.name" class="form-control" ng-disabled="dropDownDisabledTeacher"  required>
+                <option value="" selected disabled>Select a Teacher</option>
+                <option ng-repeat='teacher in teachers' value="{{teacher.name}}">{{teacher.name}}</option>
+                </select>
+        </div>
+
         <!-- DatePicker -->
-        <p class="input-group reserve-datepick" ng-hide="dropDownDisabledDate">
+        <p class="input-group reserve-datepick">
           <input onkeydown="return false" type="text" class="form-control date-input"
                  uib-datepicker-popup="MMMM dd, yyyy" ng-model="newReservation.dateIn" is-open="popup.opened"
                  datepicker-options="dateOptions" ng-required="true" close-text="Close"
@@ -58,16 +65,15 @@
         </div>
 
         <!-- Select By Teacher -->
-        <div class="form-group col-xs-12" ng-if="isAdmin && tableIsVisible">
+        <!-- <div class="form-group col-xs-12" ng-if="isAdmin && tableIsVisible">
             <select ng-model="teacherName.name" class="form-control" ng-disabled="dropDownDisabledTeacher"  required>
               <option value="" selected disabled>Select a Teacher</option>
               <option ng-repeat="teacher in teachers" value="{{teacher.name}}">{{teacher.name}}</option>
             </select>
-        </div>
+        </div> -->
 
         <!-- Submit Button -->
-        <button ng-disabled="newReservation.periodIn.length < 1" type="submit"
-                class="btn btn-default btn-accent btn-fixed">Make Reservation</button>
+        <button ng-disabled="newReservation.periodIn.length < 1" type="submit" class="btn btn-success">Make Reservation</button>
     </form>
 
     <!-- Reservation Confirmation Alerts -->
