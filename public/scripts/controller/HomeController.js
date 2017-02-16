@@ -152,39 +152,44 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       var dayIndex = convertDayToIndex(reservation.dateScheduled);
       //save item name as variable
       var itemName = reservation.item;
-
       //compare against each item name in weekViewItemsArray
       for (var i = 0; i < $scope.weekViewItemsArray.length; i++) {
-
+        //store current item as variable
         var thisItem = $scope.weekViewItemsArray[i];
-
-        //if the reservation item name matches the item name of this object
+        //if the reservation item name matches the item name of this current object
         if (thisItem.itemName === reservation.item) {
-          /////////////////////////
-          //TODO: push this info into it's own array, update scoped array from there???
-          console.log('---------------');
-          console.log(reservation.item, 'is reserved');
-          //periods for this reservation
+          //split periods into array for this reservation
           var periodsArray = reservation.period.split(',');
-          console.log('for periods-->', periodsArray);
-          console.log('on DATE-->',dayIndex, '('+ reservation.dateScheduled.split('T')[0] +')');
-          /////////////////////////
-
           //match the day index and go into that object
           var thisDatesAvailability = thisItem.reservationsByDate[dayIndex];
-          console.log('res. data:-->', thisDatesAvailability);
 
-          // TODO: THIS ONE--> FOR thing in thisDatesAvailibility, if indexOf thisDatesAvailibility.name > -1 in periodsArray...
-          //   mark that one as reserved.
-          //   Also grab teacher/meta data
+          //For each time period for this day
             for (var y = 0; y < thisDatesAvailability.length; y++) {
-              //console.log(thisDatesAvailability[y]);
+              //If the periodsArray containts this time period,
               if (periodsArray.indexOf(thisDatesAvailability[y].name) > -1) {
                 console.log('updating-->', thisItem.reservationsByDate);
+                //Mark reserved as true
                 thisDatesAvailability[y].reserved = true;
-                
+                //add teacher name to object
+                thisDatesAvailability[y].teacher = reservation.user;
+
+                //and meta data to this reservation object
+                console.log('reservation-->', reservation);
+
+                if (reservation.numberOfStudents) {
+                  thisDatesAvailability[y].meta =
+                        { title : '# Students:',
+                        data : reservation.numberOfStudents };
+                } else if (reservation.roomNumber) {
+                  thisDatesAvailability[y].meta =
+                        { title : 'Room #:',
+                        data : reservation.roomNumber };
+                } // end else if
+
+
               } // end if
             } // end for
+
         } // end if
       } // end for
     }); // end map
