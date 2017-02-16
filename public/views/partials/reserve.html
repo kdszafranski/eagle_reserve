@@ -28,7 +28,7 @@
                  uib-datepicker-popup="MMMM dd, yyyy" ng-model="newReservation.dateIn" is-open="popup.opened"
                  datepicker-options="dateOptions" ng-required="true" close-text="Close"
                  alt-input-formats="altInputFormats" show-button-bar="false"
-                 ng-disabled="dropDownDisabledDate"
+                 ng-disabled="dropDownDisabledDate" placeholder="Choose Date"
                  ng-change="getReservations()" ng-click="openDatepick()"/>
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="openDatepick()" ng-disabled="dropDownDisabledDate">
