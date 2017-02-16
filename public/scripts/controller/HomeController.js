@@ -384,9 +384,10 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   } // end else
 
   $scope.makePDF = function (item) {
-    console.log('item', item);
+    //rows and columns are used to make PDF
     var rows = [];
     var columns = [];
+    //
     var newItem = item.newItem;
     var date = $scope.date.toString();
     date = date.slice(4, -24);
@@ -394,7 +395,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     newItem += '\n' + '(' + date + ')';
     console.log('item ->', item);
     columns.push(newItem);
-    //var item = item;
     var oneRow = [];
     var oneRowName = [];
 
