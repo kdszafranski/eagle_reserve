@@ -267,6 +267,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   $scope.getReservationsByDate = function(date) {
     console.log('in getReservationsByDate');
+    $scope.currentDate = date
     //reset period property of all items to default
     resetPeriodsProperties($scope.allItems);
     //convert date string to correct timezone using moment.js
@@ -387,9 +388,12 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     //rows and columns are used to make PDF
     var rows = [];
     var columns = [];
-    //
+
+    console.log('current date', $scope.currentDate);
+
+    //Date and Item for header of PDF
     var newItem = item.newItem;
-    var date = $scope.date.toString();
+    var date = $scope.currentDate.toString();
     date = date.slice(4, -24);
     console.log('date', date);
     newItem += '\n' + '(' + date + ')';
@@ -398,6 +402,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     var oneRow = [];
     var oneRowName = [];
 
+      //iterate through each period to check if reserved
       item.period.forEach(function(period){
         var name;
         if (period.class === 'disabled'){
@@ -432,13 +437,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   });
 
-  console.log('rows', rows);
-  rows.join(' ');
-
+  //PDF is created
   var doc = new jsPDF('p', 'pt');
   doc.setFont("courier");
-
-  doc.setFontSize(16);
+  //styling of PDF
+  doc.setFontSize(14);
     doc.autoTable(columns, rows, {
     styles: {
       fontSize: 18,
@@ -509,7 +512,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
       }
   });
-
+  //file name of created PDF
   newItem = newItem.replace("(", "");
   newItem = newItem.replace(")", "");
   newItem = newItem.replace(" ", "");
