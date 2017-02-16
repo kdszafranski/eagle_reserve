@@ -391,11 +391,12 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     var date = $scope.date.toString();
     date = date.slice(4, -24);
     console.log('date', date);
-    newItem += ' ' + '(' + date + ')';
+    newItem += '\n' + '(' + date + ')';
     console.log('item ->', item);
     columns.push(newItem);
     //var item = item;
     var oneRow = [];
+    var oneRowName = [];
 
       item.period.forEach(function(period){
         var name;
@@ -403,28 +404,31 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
           var teacher = period.teacher;
           teacher += "\n";
           name = period.name;
-          name += "\n";
           var display = period.data.display;
           display = display.replace(/#/g, "Number");
           console.log('display ->', display);
-          var newData = [name, teacher, display, period.data.value];
+          var nameArray = [name]
+          var newData = [teacher, display, period.data.value];
           newData = newData.toString();
           console.log('new Data', newData);
           newData = newData.replace(/,/g, " ");
+          oneRowName.push(nameArray);
           oneRow.push(newData);
         } else {
           name = period.name;
-          name += "\n";
-          var open = ['Open'];
-          var newDataTwo = [name, open];
+          var open = ['Available'];
+          var nameArray = [name]
+          var newDataTwo = [open];
           newDataTwo = newDataTwo.toString();
           newDataTwo = newDataTwo.replace(/,/g, " ");
+          oneRowName.push(nameArray);
           oneRow.push(newDataTwo);
         }
-
+        rows.push(oneRowName)
         rows.push(oneRow);
 
       oneRow = [];
+      oneRowName = [];
 
   });
 
@@ -438,27 +442,71 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     doc.autoTable(columns, rows, {
     styles: {
       fontSize: 18,
-      font: "tahoma",
-      halign: "center"
+      font: "arial",
+      halign: "center",
+      lineWidth: 2
     },
     columnStyles: {
-      items: [000,000,000]
     },
     margin: {top: 60, left: 150, right: 150},
     addPageContent: function(data) {},
       createdCell: function (cell, data) {
-        if (cell.raw.length < 5) {
-          // cell.styles.fillColor = [200,0,0];
-        }
-        if (cell.raw === 'Open') {
-          //  cell.styles.fillColor = [0,200,0];
+        if (cell.raw === "One") {
+           cell.styles.fillColor = [0,200,0];
         }
       },
       drawCell: function(cell, data) {
-        if (data.column.index == 0) {
+        if (data.row.index == 0) {
+          doc.setFillColor(169, 169, 169),
+          doc.setFontStyle('bold'),
+          doc.setFontSize(24)
         }
-        if (data.header) {
+        if (data.row.index == 2) {
+          doc.setFillColor(169, 169, 169),
+          doc.setFontStyle('bold'),
+          doc.setFontSize(24)
         }
+        if (data.row.index == 4) {
+          doc.setFillColor(169, 169, 169),
+          doc.setFontStyle('bold'),
+          doc.setFontSize(24)
+        }
+        if (data.row.index == 6) {
+          doc.setFillColor(169, 169, 169),
+          doc.setFontStyle('bold'),
+          doc.setFontSize(24)
+        }
+        if (data.row.index == 8) {
+          doc.setFillColor(169, 169, 169),
+          doc.setFontStyle('bold'),
+          doc.setFontSize(24)
+        }
+        if (data.row.index == 10) {
+          doc.setFillColor(169, 169, 169),
+          doc.setFontStyle('bold'),
+          doc.setFontSize(24)
+        }
+        if (data.row.index == 12) {
+          doc.setFillColor(169, 169, 169),
+          doc.setFontStyle('bold'),
+          doc.setFontSize(24)
+        }
+        if (data.row.index == 14) {
+          doc.setFillColor(169, 169, 169),
+          doc.setFontStyle('bold'),
+          doc.setFontSize(24)
+        }
+        if (data.row.index == 16) {
+          doc.setFillColor(169, 169, 169),
+          doc.setFontStyle('bold'),
+          doc.setFontSize(24)
+        }
+        if (data.row.index == 18) {
+          doc.setFillColor(169, 169, 169),
+          doc.setFontStyle('bold'),
+          doc.setFontSize(24)
+        }
+
       }
   });
 
