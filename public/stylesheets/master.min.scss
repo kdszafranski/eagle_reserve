@@ -38,7 +38,7 @@ h1 {
   background-color: transparent;
   border: 2px solid $bootstrapRed;
   border-radius: 0;
-
+  color: $bootstrapRed;
   >span.glyphicon-trash {
     color: $bootstrapRed;
   }
@@ -47,6 +47,17 @@ h1 {
     border: 2px solid $bootstrapRed !important;
     >span.glyphicon-trash {
       color: $white;
+    }
+  }
+}
+//Red buttons within modal
+.modal {
+  .btn-danger {
+    background-color: $bootstrapRed;
+    color: $white;
+    &:hover {
+      background-color: $white;
+      color: $bootstrapRed;
     }
   }
 }
