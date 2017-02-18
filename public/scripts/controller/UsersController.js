@@ -12,7 +12,16 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   console.log('UC. Admin:', $scope.isAdmin);
 
   //Filter by date set to default
-  $scope.sortType = 'name';
+  $scope.sortType = 'lastName';
+
+  var addSplitUsernames = function(userArray) {
+    console.log('addSplitUsernames');
+    userArray.map(function(user) {
+      user.firstName = user.name.split(' ')[0];
+      user.lastName = user.name.split(' ')[1];
+    }); // end map
+    return userArray;
+  }; // end addSplitUsernames
 
   var getUsers = function() {
     console.log('in getUsers');
@@ -21,7 +30,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       method: 'GET',
       url: '/private/users'
     }).then(function(response) {
-      $scope.allUsers = response.data.users;
+      console.log('THIS-->',addSplitUsernames(response.data.users));
+      $scope.allUsers = addSplitUsernames(response.data.users);
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);
