@@ -11,6 +11,9 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   $scope.isAdmin = authFactory.checkAdmin();
   console.log('UC. Admin:', $scope.isAdmin);
 
+  //Filter by date set to default
+  $scope.sortType = 'name';
+
   var getUsers = function() {
     console.log('in getUsers');
     //GET all users

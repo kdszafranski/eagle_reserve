@@ -233,12 +233,19 @@ form {
     vertical-align: middle !important;
   }
 }
+//First column values are left aligned
+.left-aligned-table {
+  tr {
+    td:first-of-type {
+      text-align: left;
+    }
+  }
+}
 .calendar-table {
   border: 3px solid $navBkgColor;
   >tbody>tr>td {
     padding: 0;
     > div {
-      //padding: 16px;
       padding: 20px;
     }
     .popover {
