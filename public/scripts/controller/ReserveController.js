@@ -297,12 +297,15 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         //push the reservation made into the $scope.reservationMade array
         $scope.reservationsMade.push(reservationMadeObject);
         $scope.resetForm();
-      } // end if
+      } else {
+        //if the table was closed via 'cancel'...
+        //the period selection table should stay visible
+        $scope.tableIsVisible = true;
+      }
     }); // end modal result
   }; // end open
 
   init();
-
 
   // getting just the teachers in the database
   $scope.getTeachers = function(){
@@ -361,8 +364,7 @@ function ($scope, $http, $uibModalInstance, newReservation, AuthFactory) {
 
   $scope.makeReservation = function (){
     console.log('In Make Reservation');
-
-
+    //if the form is validated
     if ($scope.confirmReservationForm.$valid) {
       //attach the info from inputs
       newReservation = attachInputInfo(newReservation);
