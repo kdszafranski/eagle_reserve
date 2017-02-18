@@ -304,7 +304,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       dateDisabled: disabled,
       formatYear: 'yy',
       minDate: new Date(),
-      startingDay: 1,
+      startingDay: 0,
       showWeeks: false
     }; // end dateOptions
 

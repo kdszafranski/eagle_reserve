@@ -179,14 +179,14 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     dateDisabled: disabled,
     formatYear: 'yyyy',
     minDate: new Date(),
-    startingDay: 1,
+    startingDay: 0,
     showWeeks: false
   }; // end dateOptions
 
   //Set datepicker options for Admin view
   $scope.dateOptionsAdmin = {
     formatYear: 'yyyy',
-    startingDay: 1,
+    startingDay: 0,
     showWeeks: false
   }; // end dateOptions
 

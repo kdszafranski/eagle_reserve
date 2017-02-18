@@ -125,16 +125,40 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     $scope.dateOptions = {
       dateDisabled: disabled,
       formatYear: 'yy',
-      minDate: new Date(),
-      startingDay: 1,
+      minDate: minDay(),
+      maxDate: maxDay(),
+      startingDay: 0,
       showWeeks: false
     }; // end dateOptions
+
+    console.log('DATE OPTIONS', $scope.dateOptions);
 
     $scope.reservationsMade = [];
 
     getAllItems();
 
   }; // end init
+
+  var maxDay = function() {
+    return moment().add(12, 'weeks');
+  }; // end maxDay
+
+  var minDay = function() {
+    //Sets the default date picker date.
+    //Sets it to monday if the current day is a weekend
+    var dayOfWeekToday = moment().isoWeekday();
+    var datePickDefault;
+    if (dayOfWeekToday > 5) {
+      //set the default to the next monday
+      var num = 8 - dayOfWeekToday;
+      datePickDefault = moment().add(num, 'days');
+    } else {
+      //set the default to the current day
+      datePickDefault = moment();
+    } // end else
+    $scope.date = datePickDefault._d;
+    return datePickDefault._d;
+  }; // end today
 
   var getAllItems = function() {
     //GET all items from the database
