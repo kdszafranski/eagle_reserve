@@ -5,7 +5,7 @@
 
     <!-- Add New Reservation Form -->
     <form ng-submit="makeReservationForm.$valid && open('md', newReservation); makeReservationForm.$setPristine()"
-          class="form-inline filter-form reservations text-center" name="makeReservationForm" novalidate>
+          class="form filter-form reservations reservation-form text-center" name="makeReservationForm" novalidate>
         <div class="form-group">
             <select ng-model="newReservation.categoryIn" ng-options="p for p in categories" class="form-control" ng-change="changeDropDown()" required>
               <option value="" selected disabled>Select by Category</option>
