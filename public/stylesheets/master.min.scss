@@ -21,6 +21,10 @@ h1 {
   padding-right: 0;
   margin-right: -10px;
 }
+main {
+  position: relative;
+  z-index: 1;
+}
 // -- BUTTONS -- //
 .btn:focus, .btn:active, .btn:focus:active {
   outline: none;
@@ -243,6 +247,9 @@ form {
   td.disabled {
     cursor: pointer;
   }
+  a {
+    text-decoration: underline;
+  }
 }
 .colorfield-table {
   //class for table data containing a reservation
@@ -263,6 +270,10 @@ form {
 }
 .footer, .push {
   height: 120px; // '.push' must be the same height as 'footer' + 50px
+}
+.push {
+  position: relative;
+  z-index: 0;
 }
 .footer {
   color: $footerLinkColor;
