@@ -31,6 +31,26 @@
           </p>
         </div>
       </div>
+      <!-- Filter by Date Select group (visible to teacher only) -->
+      <div ng-if="!isAdmin" class="form-group" >
+        <div class="col-sm-3">
+          <p class="input-group">
+            <input ng-change="getByUsernameDate(date)" onkeydown="return false" type="text" class="form-control date-input"
+                   uib-datepicker-popup="MM/dd/yyyy" ng-model="date" is-open="popup.opened"
+                   datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                   alt-input-formats="altInputFormats" show-button-bar="false" placeholder="Filter Date..."
+                   ng-click="openDatepick()"/>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default daypicker-btn" ng-click="openDatepick()">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+              <button ng-show="date" type="button" class="btn btn-default" ng-click="date=undefined; getByUsername();">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </span>
+          </p>
+        </div>
+      </div>
       <!-- Filter by Item select group (visible to all) -->
       <div class="form-group">
           <div class="col-sm-3">
@@ -84,26 +104,6 @@
               </span>
             </div>
           </div>
-      </div>
-      <!-- Filter by Item select group (visible to all) -->
-      <div ng-if="!isAdmin" class="form-group" >
-        <div class="col-sm-3">
-          <p class="input-group">
-            <input ng-change="getByUsernameDate(date)" onkeydown="return false" type="text" class="form-control date-input"
-                   uib-datepicker-popup="MM/dd/yyyy" ng-model="date" is-open="popup.opened"
-                   datepicker-options="dateOptions" ng-required="true" close-text="Close"
-                   alt-input-formats="altInputFormats" show-button-bar="false" placeholder="Filter Date..."
-                   ng-click="openDatepick()"/>
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default daypicker-btn" ng-click="openDatepick()">
-                <i class="glyphicon glyphicon-calendar"></i>
-              </button>
-              <button ng-show="date" type="button" class="btn btn-default" ng-click="date=undefined; getByUsername();">
-                <span class="glyphicon glyphicon-remove"></span>
-              </button>
-            </span>
-          </p>
-        </div>
       </div>
     </fieldset>
   </form>
