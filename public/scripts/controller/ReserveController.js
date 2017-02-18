@@ -291,7 +291,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         var reservationMadeObject = {
           item: reason.reservation.itemIn,
           date: reason.reservation.dateIn,
-          period: reason.reservation.periodIn
+          period: reason.reservation.periodIn,
+          teacher: reason.reservation.name
         }; // end reservationMadeObject
         //push the reservation made into the $scope.reservationMade array
         $scope.reservationsMade.push(reservationMadeObject);
