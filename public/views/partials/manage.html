@@ -117,14 +117,27 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Item</th>
+            <th>
+              <a ng-click="sortType = 'dateScheduled'; sortReverse = !sortReverse">Date
+                <i ng-show="sortType != 'dateScheduled'" class="fa fa-sort" aria-hidden="true"></i>
+                <span ng-show="sortType == 'dateScheduled' && !sortReverse" class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                <span ng-show="sortType == 'dateScheduled' && sortReverse" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+              </a>
+            </th>
+            <th>
+              <a ng-click="sortType = 'item'; sortReverse = !sortReverse">Item
+                <i ng-show="sortType != 'item'" class="fa fa-sort" aria-hidden="true"></i>
+                <span ng-show="sortType == 'item' && !sortReverse" class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                <span ng-show="sortType == 'item' && sortReverse" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+              </a>
+            </th>
             <th>Time Period</th>
             <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="reservation in userReservations | filter: ({item:itemSelected.newItem.newItem, category:categorySelected.category.category})">
+
+          <tr ng-repeat="reservation in userReservations | orderBy:sortType:sortReverse | filter: ({item:itemSelected.newItem.newItem, category:categorySelected.category.category})">
             <td>{{reservation.dateScheduled | date: 'mediumDate': 'UTC'}}</td>
             <td>{{reservation.item}}</td>
             <td>{{reservation.period}}</td>
@@ -146,16 +159,40 @@
       <table class="table table-bordered table-striped table-hover">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Item</th>
-            <th>Category</th>
+            <th>
+              <a ng-click="sortType = 'dateScheduled'; sortReverse = !sortReverse">Date
+                <i ng-show="sortType != 'dateScheduled'" class="fa fa-sort" aria-hidden="true"></i>
+                <span ng-show="sortType == 'dateScheduled' && !sortReverse" class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                <span ng-show="sortType == 'dateScheduled' && sortReverse" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+              </a>
+            </th>
+            <th>
+              <a ng-click="sortType = 'item'; sortReverse = !sortReverse">Item
+                <i ng-show="sortType != 'item'" class="fa fa-sort" aria-hidden="true"></i>
+                <span ng-show="sortType == 'item' && !sortReverse" class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                <span ng-show="sortType == 'item' && sortReverse" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+              </a>
+            </th>
+            <th>
+              <a ng-click="sortType = 'category'; sortReverse = !sortReverse">Category
+                <i ng-show="sortType != 'category'" class="fa fa-sort" aria-hidden="true"></i>
+                <span ng-show="sortType == 'category' && !sortReverse" class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                <span ng-show="sortType == 'category' && sortReverse" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+              </a>
+            </th>
             <th>Time Period</th>
-            <th>Teacher</th>
+            <th>
+              <a ng-click="sortType = 'user'; sortReverse = !sortReverse">Teacher
+                <i ng-show="sortType != 'user'" class="fa fa-sort" aria-hidden="true"></i>
+                <span ng-show="sortType == 'user' && !sortReverse" class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                <span ng-show="sortType == 'user' && sortReverse" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+              </a>
+            </th>
             <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="reservation in reservations | filter: ({user:teacherSelected.name.name, item:itemSelected.newItem.newItem, category:categorySelected.category.category})">
+          <tr ng-repeat="reservation in reservations | orderBy:sortType:sortReverse | filter: ({user:teacherSelected.name.name, item:itemSelected.newItem.newItem, category:categorySelected.category.category})">
             <td>{{reservation.dateScheduled | date: 'mediumDate': 'UTC'}}</td>
             <td>{{reservation.item}}</td>
             <td>{{reservation.category}}</td>

@@ -23,6 +23,9 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     {category: "Equipment"}
   ]; // end $scope.category
 
+  //Filter by date set to default
+  $scope.sortType = 'dateScheduled';
+
   //Set default filter scope values
   $scope.teacherSelected= {name: undefined};
   $scope.itemSelected= {newItem: undefined};
