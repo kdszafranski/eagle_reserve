@@ -71,6 +71,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     } // end else
   }; // end updating
 
+  $scope.showEditSelect = function(userId) {
+    console.log('in showEditSelect', userId);
+    $scope.isEditing = userId;
+  }; // end showEditSelect
+
   $scope.updateUserStatus = function(userId, permissions) {
     console.log('in updateUserStatus', userId, permissions);
     //assemble object to send
@@ -88,6 +93,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       //update users on the DOM
       getUsers();
       $scope.changingPermission = '';
+      $scope.isEditing = '';
     }).catch(function(err) {
       //TODO: add better error handling here
       console.log(err);

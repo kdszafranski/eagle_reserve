@@ -48,6 +48,20 @@ main {
     display: none !important;
   }
 }
+.btn-default.btn-accent.btn-accent-invert {
+  background-color: transparent;
+  span {
+    color: $secondaryAccentColor;
+  }
+  &:hover,
+  &:focus,
+  &:active:focus {
+    background-color: $secondaryAccentColor;
+    span {
+      color: $white;
+    }
+  }
+}
 .btn-danger {
   background-color: transparent;
   border: 2px solid $bootstrapRed;
