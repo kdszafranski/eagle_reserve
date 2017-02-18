@@ -19,7 +19,7 @@
           <div class="col-sm-4">
             <div class="input-group">
               <ui-select allow-clear ng-model="categorySelected.value" theme="bootstrap">
-                <ui-select-match placeholder="Filter By Category..." >{{$select.selected.value}}</ui-select-match>
+                <ui-select-match placeholder="Filter Category..." >{{$select.selected.value}}</ui-select-match>
                 <ui-select-choices repeat="status in (categoryArray | filter: $select.search) track by status.value">
                   <span ng-bind-html="status.value"></span>
                 </ui-select-choices>
@@ -35,7 +35,7 @@
       <div class="form-group">
         <!-- Search by name input -->
         <div class="col-sm-4 col-sm-offset-4">
-          <input ng-model="itemSearch" type="text" class="form-control" placeholder="Search by Name...">
+          <input ng-model="itemSearch" type="text" class="form-control" placeholder="Search Name...">
         </div>
       </div>
     </fieldset>
