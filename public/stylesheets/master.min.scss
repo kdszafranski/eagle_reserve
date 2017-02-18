@@ -254,6 +254,25 @@ padding:15px;
   font-size: 50px;
   font-weight: bold;
 }
+.navbar-brand{
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+span.text-brand {
+  position: absolute;
+  top: 30%;
+  font-family: 'octin', 'tahoma';
+  color: #f5f5f5;
+  font-size: 16px;
+}
+
+small {
+  font-family: 'octin', 'tahoma';
+  color: #f5f5f5;
+  font-size: 16px;
+}
+
 
 //-- fonts -- //
 @font-face {
