@@ -97,12 +97,38 @@
           <td >{{item.itemName}}</td>
 
           <td ng-repeat="day in item.reservationsByDate track by $index">
-            <p ng-repeat="period in day track by $index">
+            <div ng-repeat="period in day track by $index" class="row">
+              <div class="col-xs-2 col-xs-offset-1">
+                <p><strong>{{period.display}}-</strong></p>
+              </div>
+              <div class="col-xs-9">
+                <p ng-show="period.reserved">{{period.teacher}}
+                  <span ng-show="period.reserved" class="block-span">{{period.meta.title}} {{period.meta.data}}</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- <table class="table table-nested">
+              <tr ng-repeat="period in day track by $index">
+                <td><strong>{{period.display}}</strong></td>
+                <td>
+
+                  <span ng-show="period.reserved">{{period.teacher}}</span>
+                  <span ng-show="period.reserved" class="block-span">{{period.meta.title}} {{period.meta.data}}</span>
+
+
+                  <span ng-show="!period.reserved" class="bumper-span"></span>
+                </td>
+              </tr>
+            </table> -->
+
+
+            <!-- <p ng-repeat="period in day track by $index">
               <strong>{{period.display}} - </strong>
               <span ng-show="period.reserved">{{period.teacher}}</span>
-              <!-- TODO: move inline styles to stylesheet -->
-              <span style="display: block;" ng-show="period.reserved">{{period.meta.title}} {{period.meta.data}}</span>
-            </p>
+              <span class="block-span" ng-show="period.reserved">{{period.meta.title}} {{period.meta.data}}</span>
+            </p> -->
+
           </td>
 
         </tr>

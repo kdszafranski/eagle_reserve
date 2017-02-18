@@ -65,6 +65,9 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   }; // end addReservationsToAllItems
 
   var calculateThisWeeksDates = function() {
+    //TODO: view next week if today is a weekend
+    console.log('NOW-->',moment().format('L'));
+
     //Calculate the start and end dates of this week
     console.log('in getThisWeeksDates');
     //Monday of this week
@@ -267,7 +270,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   $scope.getReservationsByDate = function(date) {
     console.log('in getReservationsByDate');
-    $scope.currentDate = date
+    $scope.currentDate = date;
     //reset period property of all items to default
     resetPeriodsProperties($scope.allItems);
     //convert date string to correct timezone using moment.js
@@ -392,12 +395,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     console.log('current date', $scope.currentDate);
 
     //Date and Item for header of PDF
-    var newItem = item.newItem;
-    var date = $scope.currentDate.toString();
-    date = date.slice(4, -24);
-    console.log('date', date);
-    newItem += '\n' + '(' + date + ')';
-    console.log('item ->', item);
+    var date = $scope.currentDate;
+    var newItem =  moment(date).format('dddd MMMM DD, YYYY') + '\n' + item.newItem;
     columns.push(newItem);
     var oneRow = [];
     var oneRowName = [];
@@ -405,6 +404,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       //iterate through each period to check if reserved
       item.period.forEach(function(period){
         var name;
+        var nameArray;
         if (period.class === 'disabled'){
           var teacher = period.teacher;
           teacher += "\n";
@@ -412,7 +412,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
           var display = period.data.display;
           display = display.replace(/#/g, "Number");
           console.log('display ->', display);
-          var nameArray = [name]
+          nameArray = [name];
           var newData = [teacher, display, period.data.value];
           newData = newData.toString();
           console.log('new Data', newData);
@@ -422,20 +422,20 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
         } else {
           name = period.name;
           var open = ['Available'];
-          var nameArray = [name]
+          nameArray = [name];
           var newDataTwo = [open];
           newDataTwo = newDataTwo.toString();
           newDataTwo = newDataTwo.replace(/,/g, " ");
           oneRowName.push(nameArray);
           oneRow.push(newDataTwo);
-        }
-        rows.push(oneRowName)
+        } // end else
+        rows.push(oneRowName);
         rows.push(oneRow);
 
       oneRow = [];
       oneRowName = [];
 
-  });
+  }); // end makePDF
 
   //PDF is created
   var doc = new jsPDF('p', 'pt');
@@ -457,73 +457,24 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
         if (cell.raw === "One") {
            cell.styles.fillColor = [0,200,0];
         }
-      },
+      }, // end createdCell
       drawCell: function(cell, data) {
-        if (data.row.index == 0) {
-          doc.setFillColor(169, 169, 169),
-          doc.setFontStyle('bold'),
-          doc.setFontSize(24)
-        }
-        if (data.row.index == 2) {
-          doc.setFillColor(169, 169, 169),
-          doc.setFontStyle('bold'),
-          doc.setFontSize(24)
-        }
-        if (data.row.index == 4) {
-          doc.setFillColor(169, 169, 169),
-          doc.setFontStyle('bold'),
-          doc.setFontSize(24)
-        }
-        if (data.row.index == 6) {
-          doc.setFillColor(169, 169, 169),
-          doc.setFontStyle('bold'),
-          doc.setFontSize(24)
-        }
-        if (data.row.index == 8) {
-          doc.setFillColor(169, 169, 169),
-          doc.setFontStyle('bold'),
-          doc.setFontSize(24)
-        }
-        if (data.row.index == 10) {
-          doc.setFillColor(169, 169, 169),
-          doc.setFontStyle('bold'),
-          doc.setFontSize(24)
-        }
-        if (data.row.index == 12) {
-          doc.setFillColor(169, 169, 169),
-          doc.setFontStyle('bold'),
-          doc.setFontSize(24)
-        }
-        if (data.row.index == 14) {
-          doc.setFillColor(169, 169, 169),
-          doc.setFontStyle('bold'),
-          doc.setFontSize(24)
-        }
-        if (data.row.index == 16) {
-          doc.setFillColor(169, 169, 169),
-          doc.setFontStyle('bold'),
-          doc.setFontSize(24)
-        }
-        if (data.row.index == 18) {
-          doc.setFillColor(169, 169, 169),
-          doc.setFontStyle('bold'),
-          doc.setFontSize(24)
-        }
+        if (data.row.index % 2 === 0) {
+            doc.setFillColor(169, 169, 169);
+            doc.setFontStyle('bold');
+            doc.setFontSize(24);
+        } // end if
+      } // end drawCell
+    }); // end addPageContent
 
-      }
-  });
-  //file name of created PDF
-  newItem = newItem.replace("(", "");
-  newItem = newItem.replace(")", "");
-  newItem = newItem.replace(" ", "");
-  newItem = newItem.replace(" ", "");
-  newItem = newItem.replace(" ", "");
-  newItem = newItem.replace(" ", "");
-  newItem = newItem.replace(" ", "");
-  newItem = newItem.toLowerCase();
-  doc.save(newItem + '.pdf');
+    //file name of created PDF
+    newItem = newItem.replace("(", "");
+    newItem = newItem.replace(")", "");
+    newItem = newItem.replace(/ /g,'');
+    newItem = newItem.toLowerCase();
+    doc.save(newItem + '.pdf');
 
-  };//end make pdf
+  }; //end doc styling
 
 }]); // end HomeController
 

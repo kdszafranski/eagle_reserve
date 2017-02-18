@@ -26,6 +26,10 @@ main {
   position: relative;
   z-index: 1;
 }
+.block-span {
+  display: block;
+}
+
 // -- BUTTONS -- //
 .btn:focus, .btn:active, .btn:focus:active {
   outline: none;
@@ -300,7 +304,11 @@ form {
   td.enabled {
   }
 }
-
+.table-nested {
+  td {
+    border: none !important;
+  }
+}
 // -- FOOTER -- //
 .wrapper {
   min-height:85%;
