@@ -9,6 +9,7 @@ html, body {
 }
 a {
   color: $navBkgColor;
+  cursor: pointer;
 }
 
 .red {
@@ -249,6 +250,19 @@ form {
   }
   a {
     text-decoration: underline;
+    margin-right: 25px;
+    span {
+      margin-left: 5px;
+      display: none;
+    }
+    &:hover {
+      text-decoration: none;
+      margin-right: 0;
+      overflow: hidden;
+      span {
+        display: inline;
+      }
+    }
   }
 }
 .colorfield-table {
