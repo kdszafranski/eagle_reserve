@@ -299,8 +299,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         $scope.resetForm();
       } else {
         //if the table was closed via 'cancel'...
-        //the period selection table should stay visible
-        $scope.tableIsVisible = true;
+        //reset the form
+        $scope.resetForm();
       }
     }); // end modal result
   }; // end open
