@@ -65,15 +65,24 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   }; // end addReservationsToAllItems
 
   var calculateThisWeeksDates = function() {
-    //TODO: view next week if today is a weekend
-    console.log('NOW-->',moment().format('L'));
-
     //Calculate the start and end dates of this week
     console.log('in getThisWeeksDates');
-    //Monday of this week
-    var weekStart = moment().startOf('week').add(1, 'days').format('YYYY-MM-DD');
-    //Friday of this week
-    var weekEnd = moment().endOf('week').subtract(1, 'days').format('YYYY-MM-DD');
+
+
+
+    var todayNum = moment().day();
+    var weekStart;
+    var weekEnd;
+    if (todayNum > 5) {
+      //view next week if today is a weekend
+      weekStart = moment().add(1, 'weeks').startOf('week').add(1, 'days').format('YYYY-MM-DD');
+      weekEnd = moment().add(1, 'weeks').endOf('week').format('YYYY-MM-DD');
+    } else {
+      //Monday of this week
+      weekStart = moment().startOf('week').add(1, 'days').format('YYYY-MM-DD');
+      //Friday of this week
+      weekEnd = moment().endOf('week').subtract(1, 'days').format('YYYY-MM-DD');
+    } // end else
     //construct object to return
     var startEndDates = {
       weekStart: weekStart,

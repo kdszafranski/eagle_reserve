@@ -35,18 +35,18 @@ main {
   outline: none;
 }
 .btn-default.btn-accent {
-  border: 2px solid $secondaryAccentColor;
   border-radius: 4px;
-  background-color: $secondaryAccentColor;
-  color: $mainBkgColor;
+  border: 2px solid $secondaryAccentColor;
+  background-color: $mainBkgColor;
+  color: $secondaryAccentColor;
   font-weight: bold;
   transition: all 0.2s ease;
   &:hover,
   &:focus,
   &:active:focus {
     border: 2px solid $secondaryAccentColor;
-    background-color: $mainBkgColor;
-    color: $secondaryAccentColor;
+    background-color: $secondaryAccentColor;
+    color: $mainBkgColor;
   }
   &.ng-hide {
     display: none !important;
@@ -302,11 +302,6 @@ form {
   }
   //class for table data not containing
   td.enabled {
-  }
-}
-.table-nested {
-  td {
-    border: none !important;
   }
 }
 // -- FOOTER -- //
