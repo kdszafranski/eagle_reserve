@@ -11,7 +11,9 @@ a {
   color: $navBkgColor;
   cursor: pointer;
 }
-
+.col-sm-offset-4, .col-sm-4 {
+  padding-right: 0;
+}
 .red {
   color: $bootstrapRed;
 }
@@ -28,6 +30,9 @@ main {
 }
 .mobile-hide-btn {
   display: none;
+}
+.user-status-p {
+  margin-bottom: 0;
 }
 // -- BUTTONS -- //
 .btn:focus, .btn:active, .btn:focus:active {
@@ -51,20 +56,6 @@ main {
     display: none !important;
   }
 }
-.btn-default.btn-accent.btn-accent-invert {
-  background-color: transparent;
-  span {
-    color: $secondaryAccentColor;
-  }
-  &:hover,
-  &:focus,
-  &:active:focus {
-    background-color: $secondaryAccentColor;
-    span {
-      color: $white;
-    }
-  }
-}
 .btn-danger {
   background-color: transparent;
   border: 2px solid $bootstrapRed;
@@ -86,7 +77,9 @@ main {
     display: none !important;
   }
 }
-
+.add-btn-container {
+  margin-bottom: -20px;
+}
 //Red buttons within modal
 .modal {
   .btn-danger {
@@ -100,14 +93,23 @@ main {
 }
 .btn-success {
   border: 2px solid $bootstrapGreen;
-  &:hover {
-    background-color: $white;
-    color: $bootstrapGreen;
+  background-color: $white;
+  color: $bootstrapGreen;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  >span {
+    &.glyphicon-plus {
+      margin-right: -1px;
+    }
+  }
+  &:hover,
+  &:focus,
+  &:focus:active {
+    background-color: $bootstrapGreen;
+    color: $white;
+    border: 2px solid $bootstrapGreen;
     >span {
-      color: $bootstrapGreen;
-      &.glyphicon-plus {
-        margin-right: -1px;
-      }
+      color: $white;
     }
   }
 }
@@ -163,6 +165,7 @@ main {
 .short-inline-select {
   max-width: 50%;
   display: inline;
+  height: 24px;
 }
 .filters-form {
   margin: 30px 0 30px;

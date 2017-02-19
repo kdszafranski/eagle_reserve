@@ -91,6 +91,16 @@
       margin-top: 20px;
     }
   }
+  .user-status-p {
+    margin-bottom: 0;
+    >button {
+      float: right;
+    }
+  }
+  // -- BUTTONS -- //
+  .add-btn-container {
+    margin-bottom: -10px;
+  }
 }
 
 // Medium devices (desktops, 992px and up)
