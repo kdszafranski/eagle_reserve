@@ -59,12 +59,30 @@
   .dropdown-menu>li>a, .dropdown-menu>li>a:hover {
     text-align: left;
   }
+  // -- ALERTS --//
+  .alert {
+    width: 75%;
+  }
   // -- FORMS --//
+  form {
+    table {
+      margin-top: 20px;
+    }
+  }
   .filters-form {
     .form-group {
       &:not(:last-child) {
         margin-bottom: 0 !important;
       }
+    }
+  }
+  .reservation-form {
+    .form-group, .input-group {
+      width: 50%;
+    }
+    //Datepicker
+    .reserve-datepick {
+      margin-bottom: 15px;
     }
   }
   // -- TABLE -- //
