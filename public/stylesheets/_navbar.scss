@@ -6,6 +6,12 @@
   a {
     color: $navbarLinkColor;
   }
+  .text-brand {
+    display: none;
+  }
+  .navbar-brand {
+    padding: 10px;
+  }
   background-color: $navBkgColor;
   box-shadow: 0 3px 6px -6px $boxShadowColor;
   .navbar-toggle {
@@ -27,12 +33,26 @@
         background-color: transparent;
         &:hover,
         &:focus {
-          border-bottom: 2px solid $secondaryAccentColor;
+          color: $secondaryAccentColor;
           background-color: transparent;
-          color: $mainBkgColor;
+          border-bottom: 2px solid $navBkgColor;
         }
       }
     }
+  }
+  .dropdown-toggle {
+    margin-bottom: 0 !important;
+  }
+  //Logo Image/ Header Text
+  .navbar-brand{
+    padding: 8px 0 8px 15px;
+  }
+  span.text-brand {
+    position: absolute;
+    top: 30%;
+    font-family: 'octin', 'tahoma';
+    color: $tblBkgColor;
+    font-size: 16px;
   }
   //Collapsable nav border top
   .navbar-collapse[aria-expanded="true"] {

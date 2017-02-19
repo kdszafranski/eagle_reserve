@@ -6,7 +6,7 @@
   <!-- Filter and Buttons -->
   <div class="row">
     <!-- DatePicker -->
-    <div class="col-xs-3">
+    <div class="col-md-3 col-xs-12">
       <div ng-show="dayViewDisplay" class="pull-left">
         <p class="input-group">
           <input ng-change="getReservationsByDate(date)" onkeydown="return false" type="text"
@@ -23,7 +23,7 @@
       </div>
     </div>
     <!-- Week/Day View Toggle Button -->
-    <div class="col-xs-offset-6 col-xs-2 pull-right no-right-pad-col">
+    <div class="col-md-offset-6 col-md-2 pull-right no-right-pad-col">
       <button ng-click="displayWeekView()" ng-show="dayViewDisplay" class="btn btn-default btn-accent">Week View</button>
       <button ng-hide="dayViewDisplay" ng-click="displayDayView()" class="btn btn-default btn-accent">Day View</button>
     </div>

@@ -18,10 +18,6 @@ a {
 h1 {
   margin: 30px auto;
 }
-.no-right-pad-col {
-  padding-right: 0;
-  margin-right: -10px;
-}
 main {
   position: relative;
   z-index: 1;
@@ -363,33 +359,12 @@ top:40%;
 left:45%;
 padding:15px;
 }
-
-//--Nav Bar Logo --//
-
+// -- LOGIN -- //
 .welcome {
   font-family: 'octin', 'tahoma';
   font-size: 50px;
   font-weight: bold;
 }
-.navbar-brand{
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-
-span.text-brand {
-  position: absolute;
-  top: 30%;
-  font-family: 'octin', 'tahoma';
-  color: #f5f5f5;
-  font-size: 16px;
-}
-
-small {
-  font-family: 'octin', 'tahoma';
-  color: #f5f5f5;
-  font-size: 16px;
-}
-
 
 //-- fonts -- //
 @font-face {

@@ -1,8 +1,11 @@
 myApp.controller('NavController', ['AuthFactory', '$window', '$scope', function(AuthFactory, $window, $scope) {
   console.log('in NavController');
 
+    $scope.behaviors = {
+      isNavCollapsed: true,
+    }; // end $scope.behaviors
+
     //control ui.bootstrap.collapse
-    $scope.isNavCollapsed = true;
     $scope.isCollapsed = false;
     $scope.isCollapsedHorizontal = false;
 
@@ -14,11 +17,6 @@ myApp.controller('NavController', ['AuthFactory', '$window', '$scope', function(
       text: false,
       type: 'info'
     }; // end message
-
-    //collapse navbar when view is changed on mobile
-    $scope.collapseNav = function() {
-      $scope.isNavCollapsed = true;
-    }; // end collapseNav
 
     authFactory.isLoggedIn()
     .then(function(response) { // success

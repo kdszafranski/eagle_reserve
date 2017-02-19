@@ -2,10 +2,36 @@
 
 // Small devices (tablets, 768px and up)
 @media only screen and (min-width: 768px) {
+  // -- GLOBAL -- //
+  .no-right-pad-col {
+    padding-right: 0;
+    margin-right: -10px;
+  }
   // -- NAVBAR -- //
   .navbar {
     .navbar-nav {
       float: right !important;
+    }
+    .text-brand {
+      display: inline-block;
+    }
+    .navbar-brand {
+      padding-right: 10px;
+    }
+    .nav {
+      >li {
+        >a {
+          &:hover,
+          &:focus { //Border-bottom color on hover and focus
+            border-bottom: 2px solid $secondaryAccentColor;
+            background-color: transparent;
+            color: $mainBkgColor;
+          }
+        }
+      }
+    }
+    .dropdown-toggle {
+      margin-bottom: 15px !important;
     }
   }
   // Dropdown menu
