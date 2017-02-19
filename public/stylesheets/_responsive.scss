@@ -1,5 +1,6 @@
 // -- MEDIA QUERIES -- //
 
+// Small devices (tablets, 793px and under)
 @media screen and (max-width: 793px){
   #btn-switch-row {
     display:flex;
@@ -100,6 +101,16 @@
   // -- BUTTONS -- //
   .add-btn-container {
     margin-bottom: -10px;
+  }
+  //-- LOGIN -- //
+  .welcome {
+    display: block;
+  }
+  .google-button {
+    position:absolute;
+    top:40%;
+    left:45%;
+    padding:15px;
   }
 }
 

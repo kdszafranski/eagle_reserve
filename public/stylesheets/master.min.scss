@@ -338,21 +338,17 @@ img#logo {
   margin-top: -60px;
 }
 
-#google-button {
-  width: 300px;
-}
-
 .google-button {
-position:absolute;
-top:40%;
-left:45%;
-padding:15px;
+  position:absolute;
+  top: 120%;
+  left: 20%;
 }
 // -- LOGIN -- //
 .welcome {
   font-family: 'octin', 'tahoma';
   font-size: 50px;
   font-weight: bold;
+  display: none;
 }
 
 //-- fonts -- //
