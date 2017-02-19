@@ -67,6 +67,12 @@
       }
     }
   }
+  // -- TABLE -- //
+  .table {
+    &.week-table {
+      margin-top: 20px;
+    }
+  }
 }
 
 // Medium devices (desktops, 992px and up)
