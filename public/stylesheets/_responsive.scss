@@ -1,11 +1,32 @@
 // -- MEDIA QUERIES -- //
 
+@media screen and (max-width: 793px){
+  #btn-switch-row {
+    display:flex;
+    flex-direction:column
+  }
+    .switch-datepick {
+      order: 99;
+    }
+    .no-right-pad-col {
+      order: -1;
+      text-align: right;
+      margin-bottom: 10px;
+    }
+}
+
 // Small devices (tablets, 768px and up)
 @media only screen and (min-width: 768px) {
   // -- GLOBAL -- //
+  h1 {
+    font-size: 36px;
+  }
   .no-right-pad-col {
-    padding-right: 0;
-    margin-right: -10px;
+      padding-right: 0;
+      margin-right: -10px;
+  }
+  .mobile-hide-btn {
+    display: inline-block;
   }
   // -- NAVBAR -- //
   .navbar {

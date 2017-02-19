@@ -17,6 +17,7 @@ a {
 }
 h1 {
   margin: 30px auto;
+  font-size: 26px;
 }
 main {
   position: relative;
@@ -25,7 +26,9 @@ main {
 .block-span {
   display: block;
 }
-
+.mobile-hide-btn {
+  display: none;
+}
 // -- BUTTONS -- //
 .btn:focus, .btn:active, .btn:focus:active {
   outline: none;
