@@ -49,6 +49,8 @@ myApp.controller('NavController', ['AuthFactory', '$window', '$scope', function(
           console.log('user has been logged out.');
           authFactory.setLoggedIn(false);
           $scope.username = '';
+          // forces a page reload which updates NavController
+          $window.location.href = '/';
           //Hide logout button
           $scope.displayLogout = false;
         }, // end then
