@@ -1,7 +1,7 @@
 // -- MEDIA QUERIES -- //
 
-// Small devices (tablets, 768px and under)
-@media screen and (max-width: 768px){
+// Small devices (tablets, 992px and under)
+@media screen and (max-width: 992px){
   #btn-switch-row {
     display:flex;
     flex-direction:column
@@ -112,13 +112,26 @@
     left:45%;
     padding:15px;
   }
+  .switch-button {
+    margin-right: 25px;
+  }
 }
 
 // Medium devices (desktops, 992px and up)
-@media only screen and (min-width: 992px) {}
+@media only screen and (min-width: 992px) {
+  // -- BUTTONS --//
+  .switch-button {
+    margin-right: 15px;
+  }
+}
 
 // Large devices (large desktops, 1200px and up)
-@media only screen and (min-width: 1200px) {}
+@media only screen and (min-width: 1200px) {
+  // -- BUTTONS --//
+  .switch-button {
+    margin-right: -20px;
+  }
+}
 
 // Xtra Large devices (Xlarge desktops, 1500px and up)
 @media only screen and (min-width: 1500px) {}
