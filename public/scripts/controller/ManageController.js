@@ -36,12 +36,23 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     opened: false
   }; // end popup
 
+  //Initialize date filter to an undefined child scope
+  $scope.dateInfo = {
+    date: undefined
+  }; // end dateInfo
+
   // delete a reservation (admin view)
   var deleteReservation = function( userId ){
     $http.delete( '/private/reservations/' + userId )
     .then(function( response ){
       console.log( 'delete hit', response );
-      $scope.displayReservation();
+      //If the date filter is not on, get all reservations
+      if (!$scope.dateInfo.date) {
+        $scope.displayReservation();
+      } else {
+      //If it is on, get reservations by date
+        $scope.getByDate($scope.dateInfo.date);
+      } // end else
     });// end then
   };// end deleteReservation
 
@@ -50,7 +61,13 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     $http.delete( '/private/reservations/' + userId )
     .then(function( response ){
       console.log( 'delete hit', response );
-      $scope.getByUsername();
+      //If the date filter is not on, get all reservations
+      if (!$scope.dateInfo.date) {
+        $scope.getByUsername();
+      } else {
+      //If it is on, get reservations by date
+        $scope.getByUsernameDate($scope.dateInfo.date);
+      } // end else
     });// end then
   };// end deleteReservation
 
@@ -111,8 +128,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       console.log(err);
     }); // end $http
   }; // end getTeachers
-
-
 
   $scope.getByDate = function(date){
     console.log('In getByDate');

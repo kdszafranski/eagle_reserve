@@ -15,8 +15,8 @@
       <div ng-if="isAdmin" class="form-group">
         <div class="col-sm-3">
           <p class="input-group">
-            <input ng-change="getByDate(date)" onkeydown="return false" type="text" class="form-control date-input"
-                   uib-datepicker-popup="MM/dd/yyyy" ng-model="date" is-open="popup.opened"
+            <input ng-change="getByDate(dateInfo.date)" onkeydown="return false" type="text" class="form-control date-input"
+                   uib-datepicker-popup="MM/dd/yyyy" ng-model="dateInfo.date" is-open="popup.opened"
                    ng-required="true" close-text="Close" datepicker-options="dateOptionsAdmin"
                    alt-input-formats="altInputFormats" show-button-bar="false" placeholder="Filter Date..."
                    ng-click="openDatepick()"/>
@@ -24,7 +24,7 @@
               <button type="button" class="btn btn-default daypicker-btn" ng-click="openDatepick()">
                 <i class="glyphicon glyphicon-calendar"></i>
               </button>
-              <button ng-show="date" type="button" class="btn btn-default" ng-click="date = undefined; displayReservation();">
+              <button ng-show="dateInfo.date" type="button" class="btn btn-default" ng-click="dateInfo.date = undefined; displayReservation();">
                 <span class="glyphicon glyphicon-remove"></span>
               </button>
             </span>
@@ -35,8 +35,8 @@
       <div ng-if="!isAdmin" class="form-group" >
         <div class="col-sm-3">
           <p class="input-group">
-            <input ng-change="getByUsernameDate(date)" onkeydown="return false" type="text" class="form-control date-input"
-                   uib-datepicker-popup="MM/dd/yyyy" ng-model="date" is-open="popup.opened"
+            <input ng-change="getByUsernameDate(dateInfo.date)" onkeydown="return false" type="text" class="form-control date-input"
+                   uib-datepicker-popup="MM/dd/yyyy" ng-model="dateInfo.date" is-open="popup.opened"
                    datepicker-options="dateOptions" ng-required="true" close-text="Close"
                    alt-input-formats="altInputFormats" show-button-bar="false" placeholder="Filter Date..."
                    ng-click="openDatepick()"/>
@@ -44,7 +44,7 @@
               <button type="button" class="btn btn-default daypicker-btn" ng-click="openDatepick()">
                 <i class="glyphicon glyphicon-calendar"></i>
               </button>
-              <button ng-show="date" type="button" class="btn btn-default" ng-click="date=undefined; getByUsername();">
+              <button ng-show="dateInfo.date" type="button" class="btn btn-default" ng-click="dateInfo.date =undefined; getByUsername();">
                 <span class="glyphicon glyphicon-remove"></span>
               </button>
             </span>
