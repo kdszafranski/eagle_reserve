@@ -139,8 +139,7 @@
             <td>{{reservation.item}}</td>
             <td>{{reservation.period}}</td>
             <td>
-              <!-- <button ng-click="deleteReservationUser( $index )" class="btn btn-sm btn-danger"> -->
-              <button ng-click="openConfirmationModal('md', $index)" class="btn btn-xs btn-danger">
+              <button ng-click="openConfirmationModal('md', reservation._id)" class="btn btn-xs btn-danger">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
               </button>
             </td>
@@ -196,7 +195,7 @@
             <td>{{reservation.period}}</td>
             <td>{{reservation.user}}</td>
             <td>
-              <button ng-click="openConfirmationModal('md', $index)" class="btn btn-xs btn-danger">
+              <button ng-click="openConfirmationModal('md', reservation._id)" class="btn btn-xs btn-danger">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
               </button>
             </td>

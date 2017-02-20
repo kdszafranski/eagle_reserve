@@ -37,8 +37,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   }; // end popup
 
   // delete a reservation (admin view)
-  var deleteReservation = function( indexIn ){
-    $http.delete( '/private/reservations/' + $scope.reservations[ indexIn ]._id )
+  var deleteReservation = function( userId ){
+    $http.delete( '/private/reservations/' + userId )
     .then(function( response ){
       console.log( 'delete hit', response );
       $scope.displayReservation();
@@ -46,8 +46,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   };// end deleteReservation
 
   // delete a reservation (teacher view)
-  var deleteReservationUser = function( indexIn ){
-    $http.delete( '/private/reservations/' + $scope.userReservations[ indexIn ]._id )
+  var deleteReservationUser = function( userId ){
+    $http.delete( '/private/reservations/' + userId )
     .then(function( response ){
       console.log( 'delete hit', response );
       $scope.getByUsername();
@@ -140,8 +140,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   }; // end openDatepick
 
   //open the modal (returns a modal instance)
-  $scope.openConfirmationModal = function (size, reservationIndex) {
-    console.log('Open confirm delete modal', reservationIndex);
+  $scope.openConfirmationModal = function (size, userId) {
+    console.log('Open confirm delete modal', userId);
     //set the modalInstance
     var modalInstance = $uibModal.open({
       templateUrl: "deleteReservationConfirmModal.html",
@@ -155,10 +155,10 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       if (reason.value === 'confirm') {
         //if the user is an admin, run this function:
         if ($scope.isAdmin) {
-          deleteReservation( reservationIndex );
+          deleteReservation( userId );
         } else {
           //if the user is a teacher, run this function:
-          deleteReservationUser(reservationIndex);
+          deleteReservationUser(userId);
         } // end else
       } // end if
     }); // end modal result
