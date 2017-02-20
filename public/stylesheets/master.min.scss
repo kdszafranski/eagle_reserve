@@ -93,8 +93,8 @@ main {
 }
 .btn-success {
   border: 2px solid $bootstrapGreen;
-  background-color: $white;
-  color: $bootstrapGreen;
+  background-color: $bootstrapGreen;
+  color: $white;
   font-weight: bold;
   transition: all 0.2s ease;
   >span {
@@ -105,8 +105,8 @@ main {
   &:hover,
   &:focus,
   &:focus:active {
-    background-color: $bootstrapGreen;
-    color: $white;
+    background-color: transparent;
+    color: $bootstrapGreen;
     border: 2px solid $bootstrapGreen;
     >span {
       color: $white;
