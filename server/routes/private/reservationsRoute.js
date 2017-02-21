@@ -15,12 +15,13 @@ router.post('/', function(req, res){
     category: req.body.categoryIn,
     item: req.body.itemIn,
     period: req.body.periodIn,
+    periodArray:req.body.periodIn,
     user: req.body.username,
     roomNumber: req.body.roomNumberIn,
     numberOfStudents: req.body.numberOfStudentsIn
   });
 
-Reservation.find({'dateScheduled':req.body.dateIn}, {'item':req.body.itemIn}, {'period':req.body.periodIn}, function( err, results){
+Reservation.find({'dateScheduled':dateIn, 'item':req.body.itemIn, 'periodArray':{$in:[req.body.periodIn]}}, function( err, results){
     console.log('The Results', results);
     if( results.length === 0 ){
       newReservation.save(function(err){
