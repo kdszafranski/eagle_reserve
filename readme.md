@@ -6,12 +6,14 @@ To run Eagle Reserve locally:
 
 * Ensure that [Node.js](https://nodejs.org/en/) is installed
 * `npm install` dependencies
-* Eagle Reserve requires a MongoDB DBMS, and a database URI at `DATABASE_URL`. Eagle Reserve was developed using [MongoDB](https://www.mongodb.com/) and [Mongoose](http://mongoosejs.com/).
+* Eagle Reserve requires a MongoDB DBMS, and a database URL at `DATABASE_URL`. Eagle Reserve was developed using [MongoDB](https://www.mongodb.com/) and [Mongoose](http://mongoosejs.com/).
 * In order to generate and send emails from within the app, the follow environmental variables are required:
   * `GOOGLE_AUTH_CLIENT_ID`
   * `GOOGLE_AUTH_CLIENT_SECRET`
   * `GOOGLE_AUTH_CALLBACK_URL`
   * `DM_SESSION_SECRET`
+  * `ER_MYEMAIL` (email from which comfirmation emails will be sent)
+  * `ER_MYPASSWORD` (password for the email above)
 
   ## Demos
 
