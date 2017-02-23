@@ -7,8 +7,9 @@ var ReservationSchema = mongoose.Schema({
   item: String,
   user: String,
   period: String,
+  periodArray: [String],
   roomNumber: String,
-  numberOfStudents: Number
+  numberOfStudents: Number,
 
 });
 

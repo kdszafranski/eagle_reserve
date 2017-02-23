@@ -57,8 +57,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         url: '/private/reservations/multiple/' + currentDateSelected + '/' + itemSelected,
       }).then(function(response) {
         console.log('getReservations response-->', response.data);
-        var unavailablePeriodsArray = makeUnavailablePeriodsArray(response.data.results);
-        updatePeriodArrayValues(unavailablePeriodsArray);
+         var unavailablePeriodsArray = makeUnavailablePeriodsArray(response.data.results);
+         updatePeriodArrayValues(unavailablePeriodsArray);
         //TODO: show the table
         $scope.tableIsVisible = true;
       }).catch(function(err) {

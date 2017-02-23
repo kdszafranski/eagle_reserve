@@ -15,18 +15,37 @@ router.post('/', function(req, res){
     category: req.body.categoryIn,
     item: req.body.itemIn,
     period: req.body.periodIn,
+    periodArray:req.body.periodIn,
     user: req.body.username,
     roomNumber: req.body.roomNumberIn,
     numberOfStudents: req.body.numberOfStudentsIn
   });
-  newReservation.save(function(err){
-    if(err){
-      console.log(err);
-      res.sendStatus(500);
+
+Reservation.find({'dateScheduled':dateIn, 'item':req.body.itemIn, 'periodArray':{$in:[req.body.periodIn]}}, function( err, results){
+    console.log('The Results', results);
+    if( results.length === 0 ){
+      newReservation.save(function(err){
+        if(err){
+          console.log(err);
+          res.sendStatus(500);
+        } else {
+          res.sendStatus(201);
+        }//end else
+      });//end save
     } else {
-      res.sendStatus(201);
-    }//end else
-  });//end save
+      res.sendStatus(400);
+    } // end else
+  });
+
+
+  // newReservation.save(function(err){
+  //   if(err){
+  //     console.log(err);
+  //     res.sendStatus(500);
+  //   } else {
+  //     res.sendStatus(201);
+  //   }//end else
+  // });//end save
 });//end post
 
 //GET all reservations
