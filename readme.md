@@ -32,6 +32,7 @@ To run Eagle Reserve locally:
 </p>
 
   ## Technologies Used:
+  
   * Node.js
   * Express.js
   * AngularJS
