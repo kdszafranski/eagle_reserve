@@ -1,18 +1,18 @@
 myApp.controller( 'HomeController', [ '$scope', '$http', '$location', 'AuthFactory', '$uibModal',
 function( $scope, $http, $location, AuthFactory, $uibModal){
-  console.log( 'in HomeController' );
+  if (verbose) console.log( 'in HomeController' );
 
   //Declare authFactory
   var authFactory = AuthFactory;
   //On view load, check if the user is logged in
   $scope.loggedIn = authFactory.checkLoggedIn();
-  console.log('HC. Logged in:', $scope.loggedIn);
+  if (verbose) console.log('HC. Logged in:', $scope.loggedIn);
   //check permissions
   $scope.isAdmin = authFactory.checkAdmin();
-  console.log('HC. Admin:', $scope.isAdmin);
+  if (verbose) console.log('HC. Admin:', $scope.isAdmin);
 
   var username = authFactory.username;
-  console.log('Username-->', username);
+  if (verbose) console.log('Username-->', username);
 
   //display the day view table as default
   $scope.dayViewDisplay = true;
@@ -35,7 +35,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   ]; // end periodsArray
 
   var addReservationsToAllItems = function(reservationArray) {
-    console.log('in addReservationsToAllItems');
+    if (verbose) console.log('in addReservationsToAllItems');
     //For each reservation in reservationArray...
     reservationArray.map(function(reservationObject) {
       // loop through each item in allItems array
@@ -66,7 +66,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   var calculateThisWeeksDates = function() {
     //Calculate the start and end dates of this week
-    console.log('in getThisWeeksDates');
+    if (verbose) console.log('in getThisWeeksDates');
 
 
 
@@ -107,12 +107,12 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   }; // end disabled
 
   $scope.displayDayView = function() {
-    console.log('in displayDayView');
+    if (verbose) console.log('in displayDayView');
     $scope.dayViewDisplay = true;
   }; // end displayDayView
 
   $scope.displayWeekView = function() {
-    console.log('in display week view');
+    if (verbose) console.log('in display week view');
     $scope.dayViewDisplay = false;
     //calculate the start and end dates of this week
     var startEndDates = calculateThisWeeksDates();
@@ -142,19 +142,19 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       method: 'GET',
       url: '/private/reservations/range/' + urlParamString
     }).then(function(response) {
-      console.log('getAllWeeksReservations response-->', response.data.results);
+      if (verbose) console.log('getAllWeeksReservations response-->', response.data.results);
       //add date object to each item object in $scope.weekViewItemsArray
       addDefaultObjectsToWeekViewItemsArray();
       //populate $scope.weekViewItemsArray with reservations
       addReservationsToWeekViewItems(response.data.results);
     }).catch(function(err) {
       //TODO: add better error handling here
-      console.log(err);
+      if (verbose) console.log(err);
     }); // end $http
   }; // end getAllWeeksReservations
 
   var addReservationsToWeekViewItems = function(reservationArray) {
-    console.log('in addReservationsToWeekViewItems');
+    if (verbose) console.log('in addReservationsToWeekViewItems');
     //For each reservation...
     reservationArray.map(function(reservation) {
       //convert date to index number [monday=0, etc.]
@@ -199,7 +199,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   }; // end addReservationsToWeekViewItems
 
   var addDefaultObjectsToWeekViewItemsArray = function() {
-    console.log('in addDefaultObjectsToWeekViewItemsArray');
+    if (verbose) console.log('in addDefaultObjectsToWeekViewItemsArray');
     //add date object to each item object in $scope.weekViewItemsArray
     $scope.weekViewItemsArray.map(function(x) {
       //set periodsArrayDefaults array
@@ -263,12 +263,12 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       $scope.getReservationsByDate($scope.today());
     }).catch(function(err) {
       //TODO: add better error handling here
-      console.log(err);
+      if (verbose) console.log(err);
     }); // end $http
   }; // end getAllItems
 
   var populateWeekViewItemsArray = function(array) {
-    console.log('in populateWeekViewItemsArray');
+    if (verbose) console.log('in populateWeekViewItemsArray');
     var newArray = [];
     for (var i = 0; i < array.length; i++) {
       //push the item name in to the array as an object
@@ -278,7 +278,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   }; // end createWeekViewItemsArray
 
   $scope.getReservationsByDate = function(date) {
-    console.log('in getReservationsByDate');
+    if (verbose) console.log('in getReservationsByDate');
     $scope.currentDate = date;
     //reset period property of all items to default
     resetPeriodsProperties($scope.allItems);
@@ -289,18 +289,18 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
       method: 'GET',
       url: 'private/reservations/date/' + date,
     }).then(function(response) {
-      console.log('getReservationsByDate response-->',response.data);
+      if (verbose) console.log('getReservationsByDate response-->',response.data);
       var reservationArray = response.data.results;
       //consolidate allItems with this
       addReservationsToAllItems(reservationArray);
     }).catch(function(err) {
       //TODO: add better error handling here
-      console.log(err);
+      if (verbose) console.log(err);
     }); // end $http
   }; // end getAll
 
   var init = function() {
-    console.log('in init');
+    if (verbose) console.log('in init');
 
     getAllItems();
 
@@ -339,7 +339,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
   //open username modal (returns a modal instance)
   openUsernameModal = function (size) {
     //open the modal
-    console.log('Open Username Modal');
+    if (verbose) console.log('Open Username Modal');
     //set the modalInstance
     var modalInstance = $uibModal.open({
       templateUrl: 'updateUsernameModal.html',
@@ -354,7 +354,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 
   var resetPeriodsProperties = function(array) {
     //TODO: fix this undefined value
-    console.log('in clearPeriodsProperty');
+    if (verbose) console.log('in clearPeriodsProperty');
     for (var i = 0; i < array.length; i++) {
       array[i].period = [
         { name: 'BS', reserved: false, class: 'enabled' },
@@ -401,7 +401,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
     var rows = [];
     var columns = [];
 
-    console.log('current date', $scope.currentDate);
+    if (verbose) console.log('current date', $scope.currentDate);
 
     //Date and Item for header of PDF
     var date = $scope.currentDate;
@@ -420,11 +420,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
           name = period.name;
           var display = period.data.display;
           display = display.replace(/#/g, "Number");
-          console.log('display ->', display);
+          if (verbose) console.log('display ->', display);
           nameArray = [name];
           var newData = [teacher, display, period.data.value];
           newData = newData.toString();
-          console.log('new Data', newData);
+          if (verbose) console.log('new Data', newData);
           newData = newData.replace(/,/g, " ");
           oneRowName.push(nameArray);
           oneRow.push(newData);
@@ -490,7 +490,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal){
 //UpdateUsernameModalController
 myApp.controller('UpdateUsernameModalController', ['$scope', '$http', '$uibModalInstance', 'AuthFactory',
 function ($scope, $http, $uibModalInstance, AuthFactory) {
-    console.log('in UpdateUsernameModalController');
+    if (verbose) console.log('in UpdateUsernameModalController');
 
     //Declare auth factory
     var authFactory = AuthFactory;
@@ -511,7 +511,7 @@ function ($scope, $http, $uibModalInstance, AuthFactory) {
         firstName = firstName.trim();
         lastName = lastName.trim();
         var fullName = firstName + ' ' + lastName;
-        console.log('full name-->', fullName);
+        if (verbose) console.log('full name-->', fullName);
         //assemble object to send
         var userInfoToSend = {
           name: fullName,
@@ -523,17 +523,17 @@ function ($scope, $http, $uibModalInstance, AuthFactory) {
           url: '/private/users/name',
           data: userInfoToSend
         }).then(function(response) {
-          console.log(response);
+          if (verbose) console.log(response);
           //Close the modal
           close();
         }).catch(function(err) {
           //TODO: add better error handling here
-          console.log(err);
+          if (verbose) console.log(err);
         }); // end $http
       //If they entered blank names
       } else {
         //TODO: add better error handling here
-        console.warn('name is required');
+        if (verbose) console.warn('name is required');
       } // end else
 
     }; // end saveUsername

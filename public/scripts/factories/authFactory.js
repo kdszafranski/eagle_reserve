@@ -1,5 +1,5 @@
 myApp.factory('AuthFactory', function ($http) {
-  console.log('in auth factory');
+  if (verbose) console.log('in auth factory');
 
   var Status = {
     loggedIn: false,
@@ -36,9 +36,9 @@ myApp.factory('AuthFactory', function ($http) {
   };
 
   var factory = {};
-    factory.username;
-    factory.currentUserId = undefined;
+  factory.username = undefined;
+  factory.currentUserId = undefined;
 
-  return factory
+  return factory;
 
 });

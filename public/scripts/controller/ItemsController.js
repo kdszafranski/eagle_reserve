@@ -1,15 +1,15 @@
 myApp.controller( 'ItemsController', [ '$scope', '$http', '$location', 'AuthFactory', '$uibModal',
 function( $scope, $http, $location, AuthFactory, $uibModal ){
-  console.log( 'in ItemsController' );
+  if (verbose) console.log( 'in ItemsController' );
 
   //Declare authFactory
   var authFactory = AuthFactory;
   //On view load, check if the user is logged in
   $scope.loggedIn = authFactory.checkLoggedIn();
-  console.log('IC. Logged in:', $scope.loggedIn);
+  if (verbose) console.log('IC. Logged in:', $scope.loggedIn);
   //check permissions
   $scope.isAdmin = authFactory.checkAdmin();
-  console.log('IC. Admin:', $scope.isAdmin);
+  if (verbose) console.log('IC. Admin:', $scope.isAdmin);
   //If user is not logged in
   if(!$scope.loggedIn) {
     //Reroute them to the login page
@@ -39,7 +39,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   // GET all items to display on DOM
   $scope.displayItems = function(){
-    console.log( 'in displayItem' );
+    if (verbose) console.log( 'in displayItem' );
     $http.get( '/private/items' )
     .then(function( response ){
       $scope.allItems = response.data.results;
@@ -49,7 +49,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   //open the add new item modal (returns a modal instance)
   $scope.openAddItemModal = function (size) {
     //open the modal
-    console.log('Open User delete Confirm modal');
+    if (verbose) console.log('Open User delete Confirm modal');
     //set the modalInstance
     var modalInstance = $uibModal.open({
       templateUrl: 'addNewItemModal.html',
@@ -76,7 +76,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   // //open the delete item confirmation modal (returns a modal instance)
   $scope.openDeleteItemConfirmationModal = function (size, itemObject) {
     //open the modal
-    console.log('in openDeleteItemConfirmationModal');
+    if (verbose) console.log('in openDeleteItemConfirmationModal');
     //set the modalInstance
     var modalInstance = $uibModal.open({
       templateUrl: 'deleteItemConfirmModal.html',
@@ -109,7 +109,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 //AddNewItemModalController
 myApp.controller('AddNewItemModalController', ['$scope', '$http', '$uibModalInstance', 'allItems',
 function ($scope, $http, $uibModalInstance, allItems) {
-    console.log('in AddNewItemModalController');
+    if (verbose) console.log('in AddNewItemModalController');
 
     $scope.duplicateItem = false;
 
@@ -119,7 +119,7 @@ function ($scope, $http, $uibModalInstance, allItems) {
     }; // end close
 
     var checkForDuplicateItems = function(itemToAdd) {
-      console.log('in checkForDuplicateItems', allItems, itemToAdd);
+      if (verbose) console.log('in checkForDuplicateItems', allItems, itemToAdd);
       for (var i = 0; i < allItems.length; i++) {
         if (allItems[i].category === itemToAdd.category && allItems[i].newItem === itemToAdd.newItem) {
           $scope.duplicateItem = true;
@@ -144,12 +144,12 @@ function ($scope, $http, $uibModalInstance, allItems) {
           url: '/private/items',
           data: itemToSend
         }).then(function successCallback( response ){
-          console.log( 'response in newItem', response );
+          if (verbose) console.log( 'response in newItem', response );
           $scope.duplicateItem = false;
           //close the modal
           $scope.close();
         }, function errorCallback( error ){
-          console.log( 'error occured' );
+          if (verbose) console.log( 'error occured' );
         }); // end errorCallback
 			} //end if
 
@@ -162,7 +162,7 @@ function ($scope, $http, $uibModalInstance, allItems) {
 //DeleteItemConfirmationModalController
 myApp.controller('DeleteItemConfirmationModalController', ['$scope', '$http', '$uibModalInstance', 'itemObject',
 function ($scope, $http, $uibModalInstance, itemObject) {
-    console.log('in DeleteItemConfirmationModalController');
+    if (verbose) console.log('in DeleteItemConfirmationModalController');
 
     //scope the item name for display within the modal
     $scope.itemName = itemObject.newItem;
@@ -176,7 +176,7 @@ function ($scope, $http, $uibModalInstance, itemObject) {
     $scope.deleteItem = function(){
       $http.delete( '/private/items/' + itemObject._id )
       .then(function( response ){
-        console.log( 'delete hit', response );
+        if (verbose) console.log( 'delete hit', response );
         //close the modal
         $scope.close();
       }); // end $http

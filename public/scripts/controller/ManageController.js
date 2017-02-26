@@ -1,15 +1,15 @@
 myApp.controller( 'ManageController', [ '$scope', '$http', '$location', 'AuthFactory', '$uibModal',
 function( $scope, $http, $location, AuthFactory, $uibModal ){
-  console.log( 'in ManageController' );
+  if (verbose) console.log( 'in ManageController' );
 
   //Declare authFactory
   var authFactory = AuthFactory;
   //On view load, check if the user is logged in
   $scope.loggedIn = authFactory.checkLoggedIn();
-  console.log('MC. Logged in:', $scope.loggedIn);
+  if (verbose) console.log('MC. Logged in:', $scope.loggedIn);
   //check permissions
   $scope.isAdmin = authFactory.checkAdmin();
-  console.log('MC. Admin:', $scope.isAdmin);
+  if (verbose) console.log('MC. Admin:', $scope.isAdmin);
   //If user is not logged in
   if(!$scope.loggedIn) {
     //Reroute them to the login page
@@ -45,7 +45,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   var deleteReservation = function( userId ){
     $http.delete( '/private/reservations/' + userId )
     .then(function( response ){
-      console.log( 'delete hit', response );
+      if (verbose) console.log( 'delete hit', response );
       //If the date filter is not on, get all reservations
       if (!$scope.dateInfo.date) {
         $scope.displayReservation();
@@ -60,7 +60,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   var deleteReservationUser = function( userId ){
     $http.delete( '/private/reservations/' + userId )
     .then(function( response ){
-      console.log( 'delete hit', response );
+      if (verbose) console.log( 'delete hit', response );
       //If the date filter is not on, get all reservations
       if (!$scope.dateInfo.date) {
         $scope.getByUsername();
@@ -73,71 +73,71 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   // GET all reservations to display on DOM
   $scope.displayReservation = function(){
-    console.log( 'in displayReservation' );
+    if (verbose) console.log( 'in displayReservation' );
     //convert today's date with moment.js
     var today = moment(new Date()).format('YYYY-MM-DD');
     $http.get( '/private/reservations/all/' + today )
     .then(function( response ){
-      console.log('reservations', response.data);
+      if (verbose) console.log('reservations', response.data);
       $scope.reservations = response.data.results;
     });// end then
   };// end displayReservation
 
   // Getting all Items that are currently in database to choose from
   $scope.getItems = function(){
-    console.log("In getItems");
+    if (verbose) console.log("In getItems");
     $http.get( '/private/items' )
     .then(function( response ){
-      console.log('Items', response.data.results);
+      if (verbose) console.log('Items', response.data.results);
       $scope.items = response.data.results;
     });// end then
   };// end getItems
 
   // getting only reservations for the teacher logged in
   $scope.getByUsername = function (){
-    console.log('User is', AuthFactory.username);
+    if (verbose) console.log('User is', AuthFactory.username);
     var today = moment(new Date()).format('YYYY-MM-DD');
     $http.get( '/private/reservations/user/' + AuthFactory.username + '/' + today)
     .then(function( response ){
-      console.log('User Reservations', response);
+      if (verbose) console.log('User Reservations', response);
       $scope.userReservations = response.data.results;
     });// end then
   };// end getByUsername
 
   $scope.getByUsernameDate = function (date){
-    console.log('User is', AuthFactory.username);
+    if (verbose) console.log('User is', AuthFactory.username);
     date = moment(date).format('YYYY-MM-DD');
     $http.get( '/private/reservations/user/date/' + AuthFactory.username + '/' + date)
     .then(function( response ){
-      console.log('User Reservations', response);
+      if (verbose) console.log('User Reservations', response);
       $scope.userReservations = response.data.results;
     });// end then
   };// end getByUsername
 
   // getting just the teachers in the database
   $scope.getTeachers = function(){
-    console.log('In get teachers');
+    if (verbose) console.log('In get teachers');
     $http({
       method: 'GET',
       url: '/private/users'
     }).then(function(response) {
-      console.log('Teachers ', response);
+      if (verbose) console.log('Teachers ', response);
       $scope.teachers = response.data.users;
     }).catch(function(err) {
       //TODO: add better error handling here
-      console.log(err);
+      if (verbose) console.log(err);
     }); // end $http
   }; // end getTeachers
 
   $scope.getByDate = function(date){
-    console.log('In getByDate');
+    if (verbose) console.log('In getByDate');
     //use moment.js to format date chosen
     date = moment(date).format('YYYY-MM-DD');
     $http({
       method: 'GET',
       url: '/private/reservations/' + date
     }).then(function(response){
-      console.log('getByDate response:', response.data.results);
+      if (verbose) console.log('getByDate response:', response.data.results);
       $scope.reservations = response.data.results;
     });
   };
@@ -156,7 +156,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   //open the modal (returns a modal instance)
   $scope.openConfirmationModal = function (size, userId) {
-    console.log('Open confirm delete modal', userId);
+    if (verbose) console.log('Open confirm delete modal', userId);
     //set the modalInstance
     var modalInstance = $uibModal.open({
       templateUrl: "deleteReservationConfirmModal.html",
@@ -165,7 +165,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     }); // end modalInstance
     //Actions to take once the modal is has been closed:
     modalInstance.result.then(function (reason) {
-      console.log('reason-->', reason.value);
+      if (verbose) console.log('reason-->', reason.value);
       //if the modal was closed via 'confirm' btn, delete the reservation
       if (reason.value === 'confirm') {
         //if the user is an admin, run this function:
@@ -210,7 +210,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 // DeleteReservationConfirmModalController
 myApp.controller('DeleteReservationConfirmModalController', ['$scope', '$uibModalInstance',
  function ($scope, $uibModalInstance) {
-  console.log('in DeleteReservationConfirmModalController');
+  if (verbose) console.log('in DeleteReservationConfirmModalController');
 
   //close the  modal
   $scope.close = function (reason) {

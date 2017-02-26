@@ -1,21 +1,21 @@
 myApp.controller( 'UsersController', [ '$scope', '$http', '$location', 'AuthFactory', '$uibModal',
 function( $scope, $http, $location, AuthFactory, $uibModal ){
-  console.log( 'in UsersController' );
+  if (verbose) console.log( 'in UsersController' );
 
   //Declare authFactory
   var authFactory = AuthFactory;
   //On view load, check if the user is logged in
   $scope.loggedIn = authFactory.checkLoggedIn();
-  console.log('UC. Logged in:', $scope.loggedIn);
+  if (verbose) console.log('UC. Logged in:', $scope.loggedIn);
   //check permissions
   $scope.isAdmin = authFactory.checkAdmin();
-  console.log('UC. Admin:', $scope.isAdmin);
+  if (verbose) console.log('UC. Admin:', $scope.isAdmin);
 
   //Filter by date set to default
   $scope.sortType = 'lastName';
 
   var addSplitUsernames = function(userArray) {
-    console.log('addSplitUsernames');
+    if (verbose) console.log('addSplitUsernames');
     userArray.map(function(user) {
       user.firstName = user.name.split(' ')[0];
       user.lastName = user.name.split(' ')[1];
@@ -24,17 +24,17 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   }; // end addSplitUsernames
 
   var getUsers = function() {
-    console.log('in getUsers');
+    if (verbose) console.log('in getUsers');
     //GET all users
     $http({
       method: 'GET',
       url: '/private/users'
     }).then(function(response) {
-      console.log('THIS-->',addSplitUsernames(response.data.users));
+      if (verbose) console.log('THIS-->',addSplitUsernames(response.data.users));
       $scope.allUsers = addSplitUsernames(response.data.users);
     }).catch(function(err) {
       //TODO: add better error handling here
-      console.log(err);
+      if (verbose) console.log(err);
     }); // end $http
   }; // end getUsers
 
@@ -68,11 +68,11 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   }; // end initializeSelects
 
   $scope.controlSaveButtonDisplay = function(userId, permissions) {
-    console.log('in controlSaveButtonDisplay. Changed to:', permissions);
+    if (verbose) console.log('in controlSaveButtonDisplay. Changed to:', permissions);
     //If select value was changed to Teacher or Amin
     if (permissions !== '') {
       //Shows the save button
-      console.log('permissions not equal to blank');
+      if (verbose) console.log('permissions not equal to blank');
       $scope.changingPermission = userId;
     //If clear value selected
     } else {
@@ -82,12 +82,12 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   }; // end updating
 
   $scope.showEditSelect = function(userId) {
-    console.log('in showEditSelect', userId);
+    if (verbose) console.log('in showEditSelect', userId);
     $scope.isEditing = userId;
   }; // end showEditSelect
 
   $scope.updateUserStatus = function(userId, permissions) {
-    console.log('in updateUserStatus', userId, permissions);
+    if (verbose) console.log('in updateUserStatus', userId, permissions);
     //assemble object to send
     var objectToSend = {
       id: userId,
@@ -99,21 +99,21 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       url: '/private/users',
       data: objectToSend
     }).then(function(response) {
-      console.log(response);
+      if (verbose) console.log(response);
       //update users on the DOM
       getUsers();
       $scope.changingPermission = '';
       $scope.isEditing = '';
     }).catch(function(err) {
       //TODO: add better error handling here
-      console.log(err);
+      if (verbose) console.log(err);
     }); // end $http
   }; // end updateUserStatus
 
   //open the modal (returns a modal instance)
   $scope.open = function (size, userId) {
     //open the modal
-    console.log('Open User delete Confirm modal');
+    if (verbose) console.log('Open User delete Confirm modal');
     //set the modalInstance
     var modalInstance = $uibModal.open({
       templateUrl: 'deleteConfirmModal.html',
@@ -146,7 +146,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 //DeleteUserModalController
 myApp.controller('DeleteUserModalController', ['$scope', '$http', '$uibModalInstance', 'deleteId',
 function ($scope, $http, $uibModalInstance, deleteId) {
-    console.log('in DeleteUserModalController');
+    if (verbose) console.log('in DeleteUserModalController');
 
     //close the  modal
     $scope.close = function () {
@@ -154,18 +154,18 @@ function ($scope, $http, $uibModalInstance, deleteId) {
     }; // end close
 
     $scope.deleteUser = function(userId) {
-      console.log('in deleteUser', deleteId);
+      if (verbose) console.log('in deleteUser', deleteId);
       //Delete user with this ID
       $http({
         method: 'DELETE',
         url: '/private/users/' + deleteId
       }).then(function(response) {
-        console.log(response);
+        if (verbose) console.log(response);
         //close the modal
         $uibModalInstance.close();
       }).catch(function(err) {
         //TODO: add better error handling here
-        console.log(err);
+        if (verbose) console.log(err);
       }); // end $http
     }; // end deleteUser
 

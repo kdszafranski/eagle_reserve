@@ -1,15 +1,15 @@
 myApp.controller( 'ReserveController', [ '$scope', '$http', '$location', 'AuthFactory', "$uibModal",
 function( $scope, $http, $location, AuthFactory, $uibModal ){
-  console.log( 'in ReserveController' );
+  if (verbose) console.log( 'in ReserveController' );
 
   //Declare authFactory
   var authFactory = AuthFactory;
   //On view load, check if the user is logged in
   $scope.loggedIn = authFactory.checkLoggedIn();
-  console.log('RC. Logged in:', $scope.loggedIn);
+  if (verbose) console.log('RC. Logged in:', $scope.loggedIn);
   //check permissions
   $scope.isAdmin = authFactory.checkAdmin();
-  console.log('RC. Admin:', $scope.isAdmin);
+  if (verbose) console.log('RC. Admin:', $scope.isAdmin);
   //If user is not logged in
   if(!$scope.loggedIn) {
     //Reroute them to the login page
@@ -39,7 +39,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   }; // end disabled
 
   $scope.getReservations= function() {
-    console.log('in getReservations');
+    if (verbose) console.log('in getReservations');
     //Hide the table
     //$scope.tableIsVisible = false;
     //reset periods array to defaults
@@ -47,7 +47,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     //set date and item variables for get call
     var currentDateSelected = moment($scope.newReservation.dateIn).format('YYYY-MM-DD');
     var itemSelected = $scope.newReservation.itemIn;
-    console.log('getting all reservations for:', currentDateSelected, itemSelected);
+    if (verbose) console.log('getting all reservations for:', currentDateSelected, itemSelected);
     //run the get call if the date has a valid value
     //TODO: prevent get call from running when em value is undefined
     if (currentDateSelected !== "Invalid date" && itemSelected !== undefined) {
@@ -56,14 +56,14 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         method: 'GET',
         url: '/private/reservations/multiple/' + currentDateSelected + '/' + itemSelected,
       }).then(function(response) {
-        console.log('getReservations response-->', response.data);
+        if (verbose) console.log('getReservations response-->', response.data);
          var unavailablePeriodsArray = makeUnavailablePeriodsArray(response.data.results);
          updatePeriodArrayValues(unavailablePeriodsArray);
         //TODO: show the table
         $scope.tableIsVisible = true;
       }).catch(function(err) {
         //TODO: add better error handling here
-        console.log(err);
+        if (verbose) console.log(err);
       }); // end $http
     } else {
       //If either the item or date values are not selected
@@ -131,7 +131,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       showWeeks: false
     }; // end dateOptions
 
-    console.log('DATE OPTIONS', $scope.dateOptions);
+    if (verbose) console.log('DATE OPTIONS', $scope.dateOptions);
 
     $scope.reservationsMade = [];
 
@@ -166,7 +166,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       method: 'GET',
       url: '/private/items'
     }).then(function(response) {
-      console.log('response for items ->', response);
+      if (verbose) console.log('response for items ->', response);
       $scope.items = response.data.results;
       //set categories array for select values
       setCategorySelectOptions(response.data.results);
@@ -205,7 +205,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   }; // end resetPeriodArray
 
   var setCategorySelectOptions = function(resultsArray) {
-    console.log('in setCategorySelectOptions');
+    if (verbose) console.log('in setCategorySelectOptions');
     //for each item in resultsArray
     for (var i = 0; i < resultsArray.length; i++) {
       var category = resultsArray[i].category;
@@ -218,7 +218,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   }; // end setCategorySelectOptions
 
   $scope.toggleSelection = function toggleSelection(periodName) {
-    console.log('in toggleSelection');
+    if (verbose) console.log('in toggleSelection');
     var idx = $scope.selection.indexOf(periodName.name);
     // Is currently selected
     if (idx > -1) {
@@ -246,12 +246,12 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   //open the modal (returns a modal instance)
   $scope.open = function (size, newReservation) {
-    console.log('TeacherName: ', $scope.teacherName);
+    if (verbose) console.log('TeacherName: ', $scope.teacherName);
     if($scope.isAdmin === true){
       $scope.newReservation.username = $scope.teacherName.name;
     }// end if
     //open the modal
-    console.log('Open confirm reservation modal');
+    if (verbose) console.log('Open confirm reservation modal');
     //set the modalInstance
     var modalInstance = $uibModal.open({
       templateUrl: "confirmReservationModal.html",
@@ -265,7 +265,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       } // end resolve
     }); // end modalInstance
     modalInstance.result.then(function (reason) {
-      console.log('reason-->', reason.value, reason.reservation);
+      if (verbose) console.log('reason-->', reason.value, reason.reservation);
 
       //Clear/reset the make a reservation form after modal closed
       $scope.resetForm = function () {
@@ -315,16 +315,16 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   // getting just the teachers in the database
   $scope.getTeachers = function(){
-    console.log('In get teachers');
+    if (verbose) console.log('In get teachers');
     $http({
       method: 'GET',
       url: '/private/users'
     }).then(function(response) {
-      console.log('Teachers ', response);
+      if (verbose) console.log('Teachers ', response);
       $scope.teachers = response.data.users;
     }).catch(function(err) {
       //TODO: add better error handling here
-      console.log(err);
+      if (verbose) console.log(err);
     }); // end $http
   }; // end getTeachers
   $scope.getTeachers();
@@ -338,7 +338,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 // confirmation modal
 myApp.controller('ConfirmReservationModalController', ['$scope', '$http', '$uibModalInstance', 'newReservation','AuthFactory',
 function ($scope, $http, $uibModalInstance, newReservation, AuthFactory) {
-  console.log('in ConfirmReservationModalController', newReservation);
+  if (verbose) console.log('in ConfirmReservationModalController', newReservation);
 
   $scope.newReservation = newReservation;
 
@@ -357,7 +357,7 @@ function ($scope, $http, $uibModalInstance, newReservation, AuthFactory) {
   }; // end userInput
 
   var attachInputInfo = function(reservationObject) {
-    console.log('in attachInputInfo', reservationObject);
+    if (verbose) console.log('in attachInputInfo', reservationObject);
     //If the category is Cart, attach room Number information
     if (reservationObject.categoryIn === 'Cart') {
       reservationObject.roomNumberIn = $scope.userInput.roomNumberIn;
@@ -369,7 +369,7 @@ function ($scope, $http, $uibModalInstance, newReservation, AuthFactory) {
   }; // end attachInputInfo
 
   $scope.makeReservation = function (){
-    console.log('In Make Reservation');
+    if (verbose) console.log('In Make Reservation');
     //if the form is validated
     if ($scope.confirmReservationForm.$valid) {
       //attach the info from inputs
@@ -380,13 +380,13 @@ function ($scope, $http, $uibModalInstance, newReservation, AuthFactory) {
         url: '/private/reservations',
         data: newReservation,
       }).then(function(response) {
-        console.log('makeReservation response ->', response);
+        if (verbose) console.log('makeReservation response ->', response);
         //Send Confirmation email
         $scope.sendEmail(newReservation);
         //Close newReservation Modal
         $scope.close('confirm', newReservation );
       }).catch(function(err) {
-        console.log('MAKE RESERVATION ERROR-->',err);
+        if (verbose) console.log('MAKE RESERVATION ERROR-->',err);
         //Close modal, reset form
         $scope.close('error', newReservation );
         //Open modal alerting user that there was an error
@@ -402,10 +402,10 @@ function ($scope, $http, $uibModalInstance, newReservation, AuthFactory) {
       url: '/private/email',
       data: reservation
     }).then(function(response) {
-      console.log('sendEmail response-->', response);
+      if (verbose) console.log('sendEmail response-->', response);
     }).catch(function(err) {
       //if there was an error, log it
-      console.log(err);
+      if (verbose) console.log(err);
     }); // end $http
 
   }; // end sendEmails

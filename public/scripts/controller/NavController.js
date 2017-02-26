@@ -1,5 +1,5 @@
 myApp.controller('NavController', ['AuthFactory', '$window', '$scope', function(AuthFactory, $window, $scope) {
-  console.log('in NavController');
+  if (verbose) console.log('in NavController');
 
     $scope.behaviors = {
       isNavCollapsed: true,
@@ -46,7 +46,7 @@ myApp.controller('NavController', ['AuthFactory', '$window', '$scope', function(
     $scope.logout = function() {
       authFactory.logout()
         .then(function(response) { // success
-          console.log('user has been logged out.');
+          if (verbose) console.log('user has been logged out.');
           authFactory.setLoggedIn(false);
           $scope.username = '';
           // forces a page reload which updates NavController
