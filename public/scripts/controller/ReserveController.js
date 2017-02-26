@@ -375,9 +375,12 @@ function ($scope, $http, $uibModalInstance, newReservation, AuthFactory) {
         data: newReservation,
       }).then(function(response) {
         console.log('makeReservation response ->', response);
-        $scope.sendEmail(newReservation);
+        //TODO: UNCOMMENT THE FOLLOWING TO SEND EMAILS
+        //$scope.sendEmail(newReservation);
         $scope.close('confirm', newReservation );
 
+      }).catch(function(err) {
+        console.log('MAKE RESERVATION ERROR-->',err);
       }); // end $http
     } // end if
   };//end make Reservation

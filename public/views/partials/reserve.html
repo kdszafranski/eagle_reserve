@@ -56,7 +56,8 @@
               <tr>
                 <td ng-repeat="period in periodArray" class="{{period.class}}">
                     <!-- only show input checkbox if period is available -->
-                    <input ng-if="!period.reserved" type="checkbox" name="selectedPeriods[]"
+                    <!-- ng-if="!period.reserved" -->
+                    <input  type="checkbox" name="selectedPeriods[]"
                            value="period" ng-checked="selection.indexOf(period) > -1"
                            ng-click="toggleSelection(period)" required>
                 </td>
