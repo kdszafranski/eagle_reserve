@@ -79,6 +79,8 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   //Disabled drop down until categories and items are selected
   $scope.changeDropDown = function () {
+    //Hide the error alert if showing
+    $scope.isError = false;
     if($scope.newReservation.categoryIn === '') {
       $scope.dropDownDisabledItem = true;
       $scope.dropDownDisabledDate = true;
@@ -91,7 +93,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       $scope.dropDownDisabledItem = false;
       $scope.dropDownDisabledDate = false;
       $scope.dropDownDisabledTeacher = false;
-    }
+    } // end else
   };//end change drop down
 
   var init = function() {
@@ -113,8 +115,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
       periodIn: '',
       username: username
     }; // end newReservation
-
-
 
     //Initialize datepicker popup to closed
     $scope.popup = {
@@ -297,11 +297,17 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         //push the reservation made into the $scope.reservationMade array
         $scope.reservationsMade.push(reservationMadeObject);
         $scope.resetForm();
-      } else {
-        //if the table was closed via 'cancel'...
+      } else if (reason.value === 'cancel') {
+        //if the modal was closed via 'cancel'...
         //reset the form
         $scope.resetForm();
-      }
+      } else if (reason.value === 'error') {
+        //If the modal was closed via 'error'
+        //reset the form
+        $scope.resetForm();
+        //Show error alert
+        $scope.isError = true;
+      } // end if
     }); // end modal result
   }; // end open
 
@@ -382,7 +388,7 @@ function ($scope, $http, $uibModalInstance, newReservation, AuthFactory) {
       }).catch(function(err) {
         console.log('MAKE RESERVATION ERROR-->',err);
         //Close modal, reset form
-        $scope.close('cancel', newReservation );
+        $scope.close('error', newReservation );
         //Open modal alerting user that there was an error
       }); // end $http
     } // end if

@@ -56,8 +56,7 @@
               <tr>
                 <td ng-repeat="period in periodArray" class="{{period.class}}">
                     <!-- only show input checkbox if period is available -->
-                    <!-- ng-if="!period.reserved" -->
-                    <input  type="checkbox" name="selectedPeriods[]"
+                    <input ng-if="!period.reserved" type="checkbox" name="selectedPeriods[]"
                            value="period" ng-checked="selection.indexOf(period) > -1"
                            ng-click="toggleSelection(period)" required>
                 </td>
@@ -71,7 +70,8 @@
         </button>
     </form>
     <!-- Reservation Confirmation Alerts -->
-    <div ng-if='isAdmin'>
+    <!-- Alert for Admin -->
+    <div ng-if="isAdmin">
         <div ng-repeat="reservation in reservationsMade" class="alert alert-success" role="alert">
            You have added a reservation for {{newReservation.username}} for {{reservation.item}} on {{reservation.date | date}} for period(s): {{}}
            <span ng-repeat="period in reservation.period">
@@ -80,8 +80,8 @@
            </span>
         </div>
     </div>
-
-    <div ng-if='!isAdmin'>
+    <!-- Alert for Teacher -->
+    <div ng-if="!isAdmin">
         <div ng-repeat="reservation in reservationsMade" class="alert alert-success" role="alert">
            You have added a reservation on {{reservation.date | date}} for period(s): {{}}
            <span ng-repeat="period in reservation.period">
@@ -89,6 +89,11 @@
                <span ng-if="!$first">, </span>{{period}}
            </span>
         </div>
+    </div>
+
+    <!-- Reservation Error Alert -->
+    <div ng-show="isError" class="alert alert-danger">
+      <p class="text-center"><strong>Oops!</strong> There was an error creating your reservation. Please Try again.</p>
     </div>
 
     <!-- Confirm Reservation Modal -->
