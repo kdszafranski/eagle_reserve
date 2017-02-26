@@ -1,0 +1,35 @@
+// -- GLOBAL STYLES --//
+
+html, body {
+  margin-top: 35px;
+  height: 100%;
+  background-color: $mainBkgColor;
+  font-family: $primaryFont;
+}
+a {
+  color: $navBkgColor;
+  cursor: pointer;
+}
+.col-sm-offset-4, .col-sm-4 {
+  padding-right: 0;
+}
+.red {
+  color: $bootstrapRed;
+}
+h1 {
+  margin: 30px auto;
+  font-size: 26px;
+}
+main {
+  position: relative;
+  z-index: 1;
+}
+.block-span {
+  display: block;
+}
+.mobile-hide-btn {
+  display: none;
+}
+.user-status-p {
+  margin-bottom: 0;
+}

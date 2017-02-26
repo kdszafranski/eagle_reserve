@@ -1,0 +1,79 @@
+// -- BUTTON STYLES -- //
+.btn:focus, .btn:active, .btn:focus:active {
+  outline: none;
+}
+.btn-default.btn-accent {
+  border-radius: 4px;
+  border: 2px solid $secondaryAccentColor;
+  background-color: $mainBkgColor;
+  color: $secondaryAccentColor;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  &:hover,
+  &:focus,
+  &:active:focus {
+    border: 2px solid $secondaryAccentColor;
+    background-color: $secondaryAccentColor;
+    color: $mainBkgColor;
+  }
+  &.ng-hide {
+    display: none !important;
+  }
+}
+.btn-danger {
+  background-color: transparent;
+  border: 2px solid $bootstrapRed;
+  border-radius: 4px;
+  color: $bootstrapRed;
+  transition: all 0.2s ease;
+  >span.glyphicon-trash {
+    color: $bootstrapRed;
+  }
+  &:hover,
+  &:focus {
+    background-color: $bootstrapRed;
+    border: 2px solid $bootstrapRed !important;
+    >span.glyphicon-trash {
+      color: $white;
+    }
+  }
+  &.ng-hide {
+    display: none !important;
+  }
+}
+.add-btn-container {
+  margin-bottom: -20px;
+}
+//Red buttons within modal
+.modal {
+  .btn-danger {
+    background-color: $bootstrapRed;
+    color: $white;
+    &:hover {
+      background-color: $white;
+      color: $bootstrapRed;
+    }
+  }
+}
+.btn-success {
+  border: 2px solid $bootstrapGreen;
+  background-color: $bootstrapGreen;
+  color: $white;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  >span {
+    &.glyphicon-plus {
+      margin-right: -1px;
+    }
+  }
+  &:hover,
+  &:focus,
+  &:focus:active {
+    background-color: transparent;
+    color: $bootstrapGreen;
+    border: 2px solid $bootstrapGreen;
+    >span {
+      color: $bootstrapGreen;
+    }
+  }
+}

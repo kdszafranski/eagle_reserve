@@ -1,0 +1,61 @@
+// -- FORM STYLES -- //
+.short-inline-select {
+  max-width: 50%;
+  display: inline;
+  height: 24px;
+}
+.filters-form {
+  margin: 30px 0 30px;
+  .form-group {
+    margin-bottom: 0;
+    &:not(:last-child) {
+      margin-bottom: 10px !important;
+    }
+  }
+  .col-sm-4 {
+    padding-left: 0;
+  }
+  //Filter Select styles
+  .ui-select-placeholder {
+    margin-right: 15px;
+  }
+  span.glyphicon-remove {
+    color: $white;
+  }
+  .input-group {
+    min-width: 100%;
+  }
+  //Clear filter button styles
+  .input-group-btn {
+    >button {
+      background-color: $bootstrapRed;
+    }
+    >button.daypicker-btn {
+      background-color: $white;
+    }
+  }
+}
+form {
+  .modal-footer {
+    padding: 5px 0 0;
+  }
+  button[type=submit] {
+    margin: 10px 0;
+  }
+}
+.reservation-form {
+  margin: 0 auto;
+  .form-group, .input-group {
+    width: 80%;
+    margin: 10px auto;
+  }
+  .reserve-datepick {
+    margin-bottom: 20px;
+  }
+}
+.modal {
+  //bottom-margin for forms within modals
+  .form-group {
+    margin-bottom: 10px;
+  }
+}

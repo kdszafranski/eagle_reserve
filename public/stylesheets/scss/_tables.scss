@@ -1,0 +1,67 @@
+// -- TABLE STYLES -- //
+//Changes border color for invalid inputs after form is submitted
+.ng-submitted {
+  .ng-invalid {
+    border-color: $bootstrapRed;
+}
+  .ng-valid {
+      border-color:lightgreen;
+  }
+}
+.table {
+  th {
+    text-align: center;
+  }
+  td {
+    text-align: center;
+    vertical-align: middle !important;
+  }
+}
+//First column values are left aligned
+.left-aligned-table {
+  tr {
+    td:first-of-type {
+      text-align: left;
+    }
+  }
+}
+.calendar-table {
+  border: 3px solid $navBkgColor;
+  >tbody>tr>td {
+    padding: 0;
+    > div {
+      padding: 20px;
+    }
+    .popover {
+      padding: 0;
+    }
+  }
+  td.disabled {
+    cursor: pointer;
+  }
+  a {
+    text-decoration: underline;
+    margin-right: 25px;
+    span {
+      margin-left: 5px;
+      display: none;
+    }
+    &:hover {
+      text-decoration: none;
+      margin-right: 0;
+      overflow: hidden;
+      span {
+        display: inline;
+      }
+    }
+  }
+}
+.colorfield-table {
+  //class for table data containing a reservation
+  td.disabled {
+    background-color: $primaryAccentColor;
+  }
+  //class for table data not containing
+  td.enabled {
+  }
+}

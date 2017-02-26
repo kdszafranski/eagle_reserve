@@ -1,118 +1,8 @@
 @import 'settings';
 
 // -- Globals -- //
-html, body {
-  margin-top: 35px;
-  height: 100%;
-  background-color: $mainBkgColor;
-  font-family: $primaryFont;
-}
-a {
-  color: $navBkgColor;
-  cursor: pointer;
-}
-.col-sm-offset-4, .col-sm-4 {
-  padding-right: 0;
-}
-.red {
-  color: $bootstrapRed;
-}
-h1 {
-  margin: 30px auto;
-  font-size: 26px;
-}
-main {
-  position: relative;
-  z-index: 1;
-}
-.block-span {
-  display: block;
-}
-.mobile-hide-btn {
-  display: none;
-}
-.user-status-p {
-  margin-bottom: 0;
-}
-// -- BUTTONS -- //
-.btn:focus, .btn:active, .btn:focus:active {
-  outline: none;
-}
-.btn-default.btn-accent {
-  border-radius: 4px;
-  border: 2px solid $secondaryAccentColor;
-  background-color: $mainBkgColor;
-  color: $secondaryAccentColor;
-  font-weight: bold;
-  transition: all 0.2s ease;
-  &:hover,
-  &:focus,
-  &:active:focus {
-    border: 2px solid $secondaryAccentColor;
-    background-color: $secondaryAccentColor;
-    color: $mainBkgColor;
-  }
-  &.ng-hide {
-    display: none !important;
-  }
-}
-.btn-danger {
-  background-color: transparent;
-  border: 2px solid $bootstrapRed;
-  border-radius: 4px;
-  color: $bootstrapRed;
-  transition: all 0.2s ease;
-  >span.glyphicon-trash {
-    color: $bootstrapRed;
-  }
-  &:hover,
-  &:focus {
-    background-color: $bootstrapRed;
-    border: 2px solid $bootstrapRed !important;
-    >span.glyphicon-trash {
-      color: $white;
-    }
-  }
-  &.ng-hide {
-    display: none !important;
-  }
-}
-.add-btn-container {
-  margin-bottom: -20px;
-}
-//Red buttons within modal
-.modal {
-  .btn-danger {
-    background-color: $bootstrapRed;
-    color: $white;
-    &:hover {
-      background-color: $white;
-      color: $bootstrapRed;
-    }
-  }
-}
-.btn-success {
-  border: 2px solid $bootstrapGreen;
-  background-color: $bootstrapGreen;
-  color: $white;
-  font-weight: bold;
-  transition: all 0.2s ease;
-  >span {
-    &.glyphicon-plus {
-      margin-right: -1px;
-    }
-  }
-  &:hover,
-  &:focus,
-  &:focus:active {
-    background-color: transparent;
-    color: $bootstrapGreen;
-    border: 2px solid $bootstrapGreen;
-    >span {
-      color: $bootstrapGreen;
-    }
-  }
-}
+@import 'globals';
+
 // -- ALERTS -- //
 .alert {
   margin: 10px auto;
@@ -158,178 +48,7 @@ main {
   }
 }
 
-// -- NavBar -- //
-@import 'navbar';
-
-// -- FORMS -- //
-.short-inline-select {
-  max-width: 50%;
-  display: inline;
-  height: 24px;
-}
-.filters-form {
-  margin: 30px 0 30px;
-  .form-group {
-    margin-bottom: 0;
-    &:not(:last-child) {
-      margin-bottom: 10px !important;
-    }
-  }
-  .col-sm-4 {
-    padding-left: 0;
-  }
-  //Filter Select styles
-  .ui-select-placeholder {
-    margin-right: 15px;
-  }
-  span.glyphicon-remove {
-    color: $white;
-  }
-  .input-group {
-    min-width: 100%;
-  }
-  //Clear filter button styles
-  .input-group-btn {
-    >button {
-      background-color: $bootstrapRed;
-    }
-    >button.daypicker-btn {
-      background-color: $white;
-    }
-  }
-}
-form {
-  .modal-footer {
-    padding: 5px 0 0;
-  }
-  button[type=submit] {
-    margin: 10px 0;
-  }
-}
-.reservation-form {
-  margin: 0 auto;
-  .form-group, .input-group {
-    width: 80%;
-    margin: 10px auto;
-  }
-  .reserve-datepick {
-    margin-bottom: 20px;
-  }
-}
-.modal {
-  //bottom-margin for forms within modals
-  .form-group {
-    margin-bottom: 10px;
-  }
-}
-// -- TABLE -- //
-//Changes border color for invalid inputs after form is submitted
-.ng-submitted {
-  .ng-invalid {
-    border-color: $bootstrapRed;
-}
-  .ng-valid {
-      border-color:lightgreen;
-  }
-}
-.table {
-  th {
-    text-align: center;
-  }
-  td {
-    text-align: center;
-    vertical-align: middle !important;
-  }
-}
-//First column values are left aligned
-.left-aligned-table {
-  tr {
-    td:first-of-type {
-      text-align: left;
-    }
-  }
-}
-.calendar-table {
-  border: 3px solid $navBkgColor;
-  >tbody>tr>td {
-    padding: 0;
-    > div {
-      padding: 20px;
-    }
-    .popover {
-      padding: 0;
-    }
-  }
-  td.disabled {
-    cursor: pointer;
-  }
-  a {
-    text-decoration: underline;
-    margin-right: 25px;
-    span {
-      margin-left: 5px;
-      display: none;
-    }
-    &:hover {
-      text-decoration: none;
-      margin-right: 0;
-      overflow: hidden;
-      span {
-        display: inline;
-      }
-    }
-  }
-}
-.colorfield-table {
-  //class for table data containing a reservation
-  td.disabled {
-    background-color: $primaryAccentColor;
-  }
-  //class for table data not containing
-  td.enabled {
-  }
-}
-// -- FOOTER -- //
-.wrapper {
-  min-height:86%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -60px; // the bottom margin is the negative value of the footer's height
-}
-.footer, .push {
-  height: 120px; // '.push' must be the same height as 'footer' + 50px
-}
-.push {
-  position: relative;
-  z-index: 0;
-}
-.footer {
-  color: $footerLinkColor;
-  background-color: $footerBkgColor;
-  position: relative;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  a {
-    color: $footerLinkColor;
-  }
-}
-.footer-list {
-  list-style: none;
-  padding-left: 0;
-  padding: 20px 0 0 0;
-  text-align: center;
-  li {
-    display: inline;
-    &:not(:first-child):before {
-      content: ' | ';
-      padding: 20px;
-      color: $footerLinkColor;
-    }
-  }
-}
-
-// -- Images -- //
+// -- IMAGES -- //
 img#logo {
   display: block;
   margin-left: auto;
@@ -345,17 +64,26 @@ img#logo {
 }
 // -- LOGIN -- //
 .welcome {
-  font-family: 'octin', 'tahoma';
+  font-family: $secondaryFont;
   font-size: 50px;
   font-weight: bold;
   display: none;
 }
 
-//-- fonts -- //
-@font-face {
-  font-family: 'octin';
-  src: url('../octinPrison.woff2')
-}
+// -- BUTTONS -- //
+@import 'buttons';
+
+// -- NavBar -- //
+@import 'navbar';
+
+// -- FORMS -- //
+@import 'forms';
+
+// -- TABLE -- //
+@import 'tables';
+
+// -- FOOTER -- //
+@import 'footer';
 
 // -- Media Queries -- //
 @import 'responsive';

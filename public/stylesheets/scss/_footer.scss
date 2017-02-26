@@ -1,0 +1,39 @@
+// -- FOOTER STYLES -- //
+.wrapper {
+  min-height:86%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -60px; // the bottom margin is the negative value of the footer's height
+}
+.footer, .push {
+  height: 120px; // '.push' must be the same height as 'footer' + 50px
+}
+.push {
+  position: relative;
+  z-index: 0;
+}
+.footer {
+  color: $footerLinkColor;
+  background-color: $footerBkgColor;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  a {
+    color: $footerLinkColor;
+  }
+}
+.footer-list {
+  list-style: none;
+  padding-left: 0;
+  padding: 20px 0 0 0;
+  text-align: center;
+  li {
+    display: inline;
+    &:not(:first-child):before {
+      content: ' | ';
+      padding: 20px;
+      color: $footerLinkColor;
+    }
+  }
+}
