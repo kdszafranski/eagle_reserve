@@ -7,7 +7,6 @@ router.post('/', function(req, res){
   console.log('in reservation route');
   //Format date to not store time
   var dateIn = req.body.dateIn.split('T')[0];
-
   //Construct newReservation object
   var newReservation = new Reservation ({
     dateScheduled: dateIn,
@@ -19,13 +18,10 @@ router.post('/', function(req, res){
     roomNumber: req.body.roomNumberIn,
     numberOfStudents: req.body.numberOfStudentsIn
   }); // end newReservation
-
   //Marshall Variables
   var periodsIn = req.body.periodIn;
-
-  //Define conflicts array
-  var conflicts = [];
-
+  //Initialize conflicts to false
+  var conflicts = false;
   //For each period requested for reservation
   periodsIn.map(function(period, index) {
     console.log('PERIOD-->', period, ', INDEX-->', index);
@@ -37,23 +33,17 @@ router.post('/', function(req, res){
         console.log(err);
         res.sendStatus(500);
       } else {
-
-        console.log('RESULTS-->', results);
-
         //If there were results, push them into array
-        if (results.length > 1) {
-          console.log('PUSHING RESULTS-->', results);
-          //push the results into the conflicts array
-          conflicts.push(results);
+        if (results.length > 0) {
+          console.log('CONFLICT RESULTS-->', results);
+          //set conflicts variable to true
+          conflicts = true;
         } // end if
-
         //If this is the last period in periodsIn
         if (index === (periodsIn.length-1) ) {
-          console.log('last one in the array');
-          console.log('CONFLICTS-->', conflicts);
-
+          console.log('LAST ONE. CONFLICTS-->', conflicts);
           //If there were no conflicts
-          if (conflicts.length < 1) {
+          if (!conflicts) {
             //Save the reservation
             newReservation.save(function(err){
               if(err){
@@ -64,33 +54,15 @@ router.post('/', function(req, res){
               }//end else
             });//end save
           } else {
+            //If there were conflicts, send error status
             console.log('CONFLICTS EXISTED');
             res.sendStatus(500);
           } // end else
-
         } // end if
-
       } // end else
     }); // end find
-
-
   }); // end map
-
 });//end post
-
-// console.log('CONFLICTS', results);
-// if( results.length === 0 ){
-//   newReservation.save(function(err){
-//     if(err){
-//       console.log(err);
-//       res.sendStatus(500);
-//     } else {
-//       res.sendStatus(201);
-//     }//end else
-//   });//end save
-// } else {
-//   res.sendStatus(400);
-// } // end else
 
 //GET all reservations
 router.get( '/', function( req, res ){
