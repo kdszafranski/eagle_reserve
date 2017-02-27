@@ -48,26 +48,9 @@
   }
 }
 
-// -- IMAGES -- //
+// -- LOGIN IMAGE -- //
 img#logo {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  mix-blend-mode: multiply;
-  margin-top: -60px;
-}
-
-.google-button {
-  position:absolute;
-  top: 120%;
-  left: 20%;
-}
-// -- LOGIN -- //
-.welcome {
-  font-family: $secondaryFont;
-  font-size: 50px;
-  font-weight: bold;
-  display: none;
+  margin: 60px auto 20px;
 }
 
 // -- BUTTONS -- //
