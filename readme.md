@@ -31,8 +31,8 @@ To run Eagle Reserve locally:
   <img src="public/images/demo.gif?raw=true" alt="ERD"/>
 </p>
 
-  ## Technologies Used:
-  
+## Technologies Used:
+
   * Node.js
   * Express.js
   * AngularJS
