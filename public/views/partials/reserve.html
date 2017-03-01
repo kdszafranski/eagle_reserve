@@ -73,7 +73,7 @@
     <!-- Alert for Admin -->
     <div ng-if="isAdmin">
         <div ng-repeat="reservation in reservationsMade" class="alert alert-success" role="alert">
-           You have added a reservation for {{newReservation.username}} for {{reservation.item}} on {{reservation.date | date}} for period(s): {{}}
+           You have added a reservation for {{reservation.teacher}} for {{reservation.item}} on {{reservation.date | date}} for period(s): {{}}
            <span ng-repeat="period in reservation.period">
                <!-- display a comma before item if it is not first in array -->
                <span ng-if="!$first">, </span>{{period}}

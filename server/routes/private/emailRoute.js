@@ -7,12 +7,19 @@ var moment = require('moment');
 
 // SEND confirmation email
 router.post('/', function( req, res ){
-
-  /*TODO: Attach email to req.body if it exits.
-          If the email field exists on the object, send it there.
-          Otherwise, send it to the req.user.email address */
-
     console.log( 'in email post' );
+
+    let recieverEmail;
+    //If the email field exists on the object, send it there.
+    if (req.body.email) {
+        console.log('SEND TO THIS USER-->', req.body.email);
+        recieverEmail = req.body.email;
+    } else {
+    //Otherwise, send it to the req.user.email address
+        console.log('SEND TO DEFAULT USER');
+        recieverEmail = req.user.email;
+    } // end else
+
     console.log('req.body ->', req.body );
     console.log( "email receiver-->", req.user.email );
     console.log( "item-->", req.body.itemIn );
@@ -21,7 +28,6 @@ router.post('/', function( req, res ){
 
     var item = req.body.itemIn;
     var date = moment(req.body.dateIn).format('MMMM Do YYYY');
-
     var period = req.body.periodIn;
 
     // create reusable transporter object using the default SMTP transport
@@ -36,7 +42,7 @@ router.post('/', function( req, res ){
     // setup email data with unicode symbols
     var mailOptions = {
         from: '"Test1" <avhs.test1@apps.district196.org>', // sender address
-        to: '<'+req.user.email+'>', // list of receivers
+        to: '<'+ recieverEmail +'>', // list of receivers
         subject: 'Reservation Confirmation', // Subject line
         text: 'You reserved ' + item + ' on ' + date + ' during period(s): ' + period  // plain text body
         // html: '<b>Hello world ?</b>' // html body

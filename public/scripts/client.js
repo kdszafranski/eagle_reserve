@@ -1,5 +1,5 @@
 //Set Log Status
-var verbose = true;
+var verbose = false;
 
 //Declare app
 var myApp = angular.module('myApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.select','ngSanitize']);

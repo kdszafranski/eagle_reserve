@@ -248,9 +248,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   $scope.open = function (size, newReservation) {
     if (verbose) console.log('TeacherInfo: ', $scope.teacherInfo);
     if($scope.isAdmin === true){
-      console.log('hiiiiiiii-->', JSON.parse($scope.teacherInfo.meta));
       let userObject = JSON.parse($scope.teacherInfo.meta);
-      console.log('SEE THESE-->', userObject);
       $scope.newReservation.username = userObject.name;
       $scope.newReservation.email = userObject.email;
     }// end if
@@ -270,7 +268,6 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
     }); // end modalInstance
     modalInstance.result.then(function (reason) {
       if (verbose) console.log('reason-->', reason.value, reason.reservation);
-
       //Clear/reset the make a reservation form after modal closed
       $scope.resetForm = function () {
         $scope.selection = [];
@@ -296,7 +293,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
           item: reason.reservation.itemIn,
           date: reason.reservation.dateIn,
           period: reason.reservation.periodIn,
-          teacher: reason.reservation.name
+          teacher: reason.reservation.username
         }; // end reservationMadeObject
         //push the reservation made into the $scope.reservationMade array
         $scope.reservationsMade.push(reservationMadeObject);
