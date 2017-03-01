@@ -25,9 +25,9 @@
         </div>
         <!-- Select By Teacher -->
         <div class="form-group" ng-if="isAdmin">
-            <select ng-model="teacherName.name" class="form-control" ng-disabled="dropDownDisabledTeacher"  required>
+            <select ng-model="teacherInfo.meta" class="form-control" ng-disabled="dropDownDisabledTeacher"  required>
                 <option value="" selected disabled>Select a Teacher</option>
-                <option ng-repeat="teacher in teachers" value="{{teacher.name}}">{{teacher.name}}</option>
+                <option ng-repeat="teacher in teachers" value="{{teacher}}">{{teacher.name}}</option>
             </select>
         </div>
         <!-- DatePicker -->

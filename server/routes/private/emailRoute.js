@@ -8,6 +8,10 @@ var moment = require('moment');
 // SEND confirmation email
 router.post('/', function( req, res ){
 
+  /*TODO: Attach email to req.body if it exits.
+          If the email field exists on the object, send it there.
+          Otherwise, send it to the req.user.email address */
+
     console.log( 'in email post' );
     console.log('req.body ->', req.body );
     console.log( "email receiver-->", req.user.email );

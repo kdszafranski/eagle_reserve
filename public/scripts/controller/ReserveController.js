@@ -246,9 +246,13 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
 
   //open the modal (returns a modal instance)
   $scope.open = function (size, newReservation) {
-    if (verbose) console.log('TeacherName: ', $scope.teacherName);
+    if (verbose) console.log('TeacherInfo: ', $scope.teacherInfo);
     if($scope.isAdmin === true){
-      $scope.newReservation.username = $scope.teacherName.name;
+      console.log('hiiiiiiii-->', JSON.parse($scope.teacherInfo.meta));
+      let userObject = JSON.parse($scope.teacherInfo.meta);
+      console.log('SEE THESE-->', userObject);
+      $scope.newReservation.username = userObject.name;
+      $scope.newReservation.email = userObject.email;
     }// end if
     //open the modal
     if (verbose) console.log('Open confirm reservation modal');
@@ -279,7 +283,7 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
         $scope.dropDownDisabledItem = true;
         $scope.dropDownDisabledDate = true;
         $scope.dropDownDisabledTeacher = true;
-        $scope.teacherName.name = '';
+        $scope.teacherInfo.meta = '';
       };
       //Hide the table
       $scope.tableIsVisible = false;
@@ -329,9 +333,9 @@ function( $scope, $http, $location, AuthFactory, $uibModal ){
   }; // end getTeachers
   $scope.getTeachers();
 
-  $scope.teacherName= {
-    name:''
-  };
+  $scope.teacherInfo= {
+    meta:''
+  }; // end teacherInfo
 
 }]); // end ReserveController
 
@@ -396,6 +400,7 @@ function ($scope, $http, $uibModalInstance, newReservation, AuthFactory) {
 
   // send email
   $scope.sendEmail = function( reservation ) {
+    if (verbose) console.log('RESERVATION-->', reservation);
     //post info to the server
     $http({
       method: 'POST',
