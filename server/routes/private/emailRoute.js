@@ -1,3 +1,4 @@
+var verbose = false;
 var express = require('express');
 var router = express.Router();
 var Reservation = require('../../models/reservation');
@@ -7,24 +8,24 @@ var moment = require('moment');
 
 // SEND confirmation email
 router.post('/', function( req, res ){
-    console.log( 'in email post' );
+    if (verbose) console.log( 'in email post' );
 
     let recieverEmail;
     //If the email field exists on the object, send it there.
     if (req.body.email) {
-        console.log('SEND TO THIS USER-->', req.body.email);
+        if (verbose) console.log('SEND TO THIS USER-->', req.body.email);
         recieverEmail = req.body.email;
     } else {
     //Otherwise, send it to the req.user.email address
-        console.log('SEND TO DEFAULT USER');
+        if (verbose) console.log('SEND TO DEFAULT USER');
         recieverEmail = req.user.email;
     } // end else
 
-    console.log('req.body ->', req.body );
-    console.log( "email receiver-->", req.user.email );
-    console.log( "item-->", req.body.itemIn );
-    console.log( "date-->", req.body.dateIn );
-    console.log( "period -->", req.body.periodIn );
+    if (verbose) console.log('req.body ->', req.body );
+    if (verbose) console.log( "email receiver-->", req.user.email );
+    if (verbose) console.log( "item-->", req.body.itemIn );
+    if (verbose) console.log( "date-->", req.body.dateIn );
+    if (verbose) console.log( "period -->", req.body.periodIn );
 
     var item = req.body.itemIn;
     var date = moment(req.body.dateIn).format('MMMM Do YYYY');
@@ -53,7 +54,7 @@ router.post('/', function( req, res ){
         if (error) {
             return console.log(error);
         }
-        console.log('Message %s sent: %s', info.messageId, info.response);
+        if (verbose) console.log('Message %s sent: %s', info.messageId, info.response);
     });
 
 });

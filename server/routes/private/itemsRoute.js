@@ -1,9 +1,10 @@
+var verbose = false;
 var express = require('express');
 var router = express.Router();
 var Item = require('../../models/newItem');
 
 router.post('/', function(req, res, next){
-  console.log( 'in newItem POST', req.body );
+  if (verbose) console.log( 'in newItem POST', req.body );
   var newItem = {
     newItem: req.body.newItem,
     category: req.body.category
@@ -18,10 +19,10 @@ router.post('/', function(req, res, next){
 });// end post call
 
 router.get( '/', function( req, res ){
-  console.log( 'in router.get' );
+  if (verbose) console.log( 'in router.get' );
   Item.find({}, function( err, results){
     if( err ){
-      console.log( err );
+      if (verbose) console.log( err );
       res.sendStatus(500);
     } else {
       res.send({ results });
@@ -32,7 +33,7 @@ router.get( '/', function( req, res ){
 // delete item
 router.delete( '/:id', function( req, res ){
   Item.findByIdAndRemove(req.params.id).then(function( err ){
-    console.log( 'err:', err );
+    if (verbose) console.log( 'err:', err );
   });
   res.send( 200 );
 });

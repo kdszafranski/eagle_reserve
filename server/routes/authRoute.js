@@ -1,3 +1,4 @@
+var verbose = false;
 /**
  * Handles all authentication requests including login and logout
  * @module routes/authRoute
@@ -22,11 +23,11 @@ router.get('/google/callback', passport.authenticate('google', {
 
 router.get('/', function(req,res) {
   if (req.isAuthenticated()) {
-    console.log('authRoute Admin Status:-->', req.user.admin);
+    if (verbose) console.log('authRoute Admin Status:-->', req.user.admin);
     //Send logged in status, user name, user ID, and admin status
     res.json({ status: true, name:req.user.name, admin: req.user.admin, id: req.user._id });
   } else {
-    console.log('AuthRoute: User is not logged in');
+    if (verbose) console.log('AuthRoute: User is not logged in');
     res.json({ status: false });
   } // end else
 }); // end get

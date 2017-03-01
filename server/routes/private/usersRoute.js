@@ -1,3 +1,4 @@
+var verbose = false;
 var express = require('express');
 var router = express.Router();
 var User = require('../../models/user');
@@ -6,7 +7,7 @@ var User = require('../../models/user');
 router.get('/', function(req,res) {
   User.find({}, function(err, results) {
     if (err) {
-      console.log(err);
+      if (verbose) console.log(err);
       res.sendStatus(500);
     } else {
       res.send({ users: results });
@@ -21,10 +22,10 @@ router.put('/', function(req,res) {
   var newAdminStatus = req.body.permissions;
   User.update({'_id': userId },{ $set:{ 'admin' : newAdminStatus } }, function(err, results) {
     if (err) {
-      console.log(err);
+      if (verbose) console.log(err);
       res.sendStatus(500);
     } else {
-      console.log('updated-->', userId, results);
+      if (verbose) console.log('updated-->', userId, results);
       res.sendStatus(201);
     } // end else
   }); // end update
@@ -37,7 +38,7 @@ router.put('/name', function(req,res) {
   var newName = req.body.name;
   User.update({'_id': userId },{ $set:{ 'name' : newName } }, function( err, results ) {
     if (err) {
-      console.log(err);
+      if (verbose) console.log(err);
       res.sendStatus(500);
     } else {
       res.sendStatus(200);
@@ -50,7 +51,7 @@ router.delete('/:id', function(req, res) {
   var userId = req.params.id;
   User.remove( { '_id': userId }, function(err) {
     if (err) {
-      console.log(err);
+      if (verbose) console.log(err);
       res.sendStatus(500);
     } else {
       res.sendStatus(204);
