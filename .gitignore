@@ -3,3 +3,4 @@ node_modules
 *.log
 keys.sh
 *.sass-cache/
+.env

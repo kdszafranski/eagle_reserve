@@ -3,6 +3,7 @@
   * Google Cloud API credentials that allows the application to
   * make calls to a Google API.
 */
+
 var authConfigs = {
   googleAuth: {
     clientId: process.env.ER_GOOGLE_AUTH_CLIENT_ID,

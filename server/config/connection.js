@@ -10,7 +10,7 @@ if(process.env.DATABASE_URL !== undefined) {
     connStr = process.env.DATABASE_URL;
     mongoose.defaults.ssl = true;
 } else {
-    connStr = 'mongodb://localhost:27017/eagleReserveDatabase';
+    connStr = 'mongodb://localhost:27017/eagle-reserve';
 } // end else
 
 console.log("connStr set to: ", connStr);
