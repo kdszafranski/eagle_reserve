@@ -29,9 +29,7 @@
     "passport-google": "^0.3.0",
     "passport-google-oauth": "^1.0.0",
     "passport-google-oauth2": "^0.1.6",
-    "ui-select": "^0.19.6"
-  },
-  "devDependencies": {
+    "ui-select": "^0.19.6",
     "dotenv": "^4.0.0"
   }
 }
