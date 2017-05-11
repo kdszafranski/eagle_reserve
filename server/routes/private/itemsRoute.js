@@ -13,7 +13,7 @@ router.post('/', function(req, res, next){
     if(err){
       res.sendStatus(404);
     } else {
-      res.send(200);
+      res.sendStaus(200);
     }
   });// end Item.create
 });// end post call
@@ -35,7 +35,7 @@ router.delete( '/:id', function( req, res ){
   Item.findByIdAndRemove(req.params.id).then(function( err ){
     if (verbose) console.log( 'err:', err );
   });
-  res.send( 200 );
+  res.sendStaus( 200 );
 });
 
 module.exports = router;
